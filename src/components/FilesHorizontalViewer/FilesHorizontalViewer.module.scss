@@ -1,0 +1,9 @@
+.FilesContainer {
+  display: flex;
+  overflow-x: auto;
+  max-width: calc(100vw - 45px);
+
+  & > :not(:last-child) {
+    margin-right: 16px;
+  }
+}

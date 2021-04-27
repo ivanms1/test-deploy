@@ -1,0 +1,101 @@
+.FileUpload {
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 40px 40px 0 40px;
+  height: calc(596px - 40px);
+  position: relative;
+
+  & .BackButton {
+    top: 20px;
+    left: 20px;
+    position: absolute;
+
+    & .Icon {
+      width: 12px;
+    }
+  }
+
+  & .Title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  & .Form {
+    display: flex;
+    flex-direction: column;
+
+    & .InputsBox {
+      display: flex;
+      padding: 0 50px;
+      margin-bottom: 35px;
+
+      & .UploadSection {
+        width: 50%;
+
+        & .AddFileInput {
+          margin-bottom: 21px;
+          position: relative;
+        }
+
+        & .AddThumbnailInput {
+          position: relative;
+        }
+      }
+
+      & .ContentInfoSection {
+        width: 50%;
+
+        & > :not(:last-child) {
+          margin-bottom: 15px;
+        }
+
+        & .TextArea {
+          height: 70px;
+          resize: none;
+        }
+      }
+    }
+
+    .UploadButton {
+      width: 205px;
+      font-size: 14px;
+      align-self: center;
+    }
+  }
+}
+
+.DropzoneFile {
+  height: 120px;
+  width: 280px;
+}
+
+.DropzoneThumbnail {
+  height: 145px;
+  width: 280px;
+}
+
+.InputLabel {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.SelectContainer {
+  position: relative;
+}
+
+.Error {
+  position: absolute;
+  color: var(--ui-red);
+  font-size: 11px;
+  bottom: -15px;
+  right: 0;
+}
+
+.FileError {
+  position: absolute;
+  color: var(--ui-red);
+  font-size: 11px;
+  bottom: -15px;
+  left: 0;
+}

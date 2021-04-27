@@ -1,0 +1,23 @@
+.Search {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 580px;
+
+  & .Title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  & .ResultsContainer {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  & .NoResults {
+    color: var(--grey-button-color);
+    font-size: 16px;
+    text-align: center;
+    margin-top: 50px;
+  }
+}

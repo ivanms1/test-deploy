@@ -1,0 +1,22 @@
+.TagsBox {
+  border-top: 1px solid #e9ebef;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.Tag {
+  background-color: #2f8bdf;
+  border-radius: 20px;
+  color: white;
+  font-size: 10pt;
+  padding: 3px 6px;
+  margin: 3px;
+}
+
+.NoTag {
+  color: #cbcbcb;
+  font-size: 10px;
+}

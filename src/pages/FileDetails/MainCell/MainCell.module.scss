@@ -1,0 +1,43 @@
+.Cell {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.ItemTitle {
+  box-sizing: border-box;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.MainImage {
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: 195px;
+  object-fit: cover;
+  width: 348px;
+}
+
+.NoImage {
+  align-items: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  height: 195px;
+  width: 348px;
+  background-color: #eee;
+}
+
+.PurchaseButton {
+  width: 86px;
+}
+
+.PurchaseControls {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+}

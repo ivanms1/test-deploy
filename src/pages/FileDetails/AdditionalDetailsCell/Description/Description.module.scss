@@ -1,0 +1,23 @@
+.ItemDescription {
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  margin: 22px;
+}
+
+.BoxTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.DescriptionText {
+  padding: 0 0 20px 0;
+  color: var(--grey-button-color);
+  font-size: 14px;
+  line-height: 18px;
+  max-height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+}

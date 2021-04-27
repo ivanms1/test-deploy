@@ -1,0 +1,64 @@
+.TopSection {
+  display: flex;
+  justify-content: space-between;
+
+  .UserAndSearchBar {
+    display: flex;
+    width: 100%;
+    margin-right: 20px;
+
+    & .UserPicture {
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
+      margin-right: 10px;
+      & .Picture {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  & .ActionsBar {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 220px;
+
+    & :not(:last-child) {
+      margin-right: 7px;
+    }
+
+    & .ActionButtonAdd {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      width: 32px;
+      background-color: var(--bg);
+      border: 0.5px solid var(--grey-button-color);
+      color: var(--grey-button-color);
+      box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.05),
+        inset 0px 4px 4px #ffffff;
+      height: 32px;
+
+      & .Icon {
+        height: 15px;
+        fill: var(--grey-button-color);
+      }
+    }
+
+    & .ActionButton {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      height: 32px;
+      width: fit-content;
+
+      & .Icon {
+        height: 18px;
+        fill: var(--grey-button-color);
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.Home {
+  & .TrendingAndInterests {
+    display: flex;
+
+    & .Trending {
+      width: 50%;
+
+      & .Title {
+        color: var(--dark-grey);
+        font-size: 12px;
+      }
+    }
+
+    & .Interests {
+      width: 50%;
+
+      & .Title {
+        color: var(--dark-grey);
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+.Cell {
+  border-top: 1px solid #d8d8d8;
+  box-sizing: border-box;
+  display: grid;
+  gap: 31px;
+  grid-template-columns: 102px 356px 1fr;
+  height: 76px;
+  padding: 7px 14px;
+  width: 100%;
+
+  & .Thumb {
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 62px;
+    width: 102px;
+  }
+
+  & .Text {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+
+    & .Title {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 3px 0;
+    }
+    & .Date {
+      font-size: 14px;
+    }
+  }
+}
+
+.Controls {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ControlGrid {
+  display: grid;
+  grid-template-columns: 50px 12px;
+  grid-template-rows: 12px 12px;
+  column-gap: 10px;
+  row-gap: 8px;
+  & .Count {
+    align-items: center;
+    color: var(--grey-button-color);
+    display: flex;
+    height: 12px;
+    font-size: 14px;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  & .Icon {
+    height: 12px;
+    width: 12px;
+  }
+}

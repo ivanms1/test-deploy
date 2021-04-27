@@ -1,0 +1,25 @@
+.LikeBar {
+  box-sizing: border-box;
+  display: flex;
+  height: 32px;
+
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+}
+
+.Icon {
+  width: 10px;
+  height: 10px;
+}
+
+.LikeNumber {
+  color: var(--grey-button-color);
+  margin-left: 7px;
+}
+
+.Uploaded {
+  font-size: 11px;
+  color: var(--grey-button-color);
+}

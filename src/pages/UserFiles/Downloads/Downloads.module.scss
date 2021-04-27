@@ -1,0 +1,54 @@
+.Background {
+  background-color: white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  height: calc(596px - 30px);
+  justify-content: center;
+  padding: 30px;
+  position: relative;
+}
+
+.BackButton {
+  position: absolute;
+  top: 21px;
+  left: 21px;
+}
+
+.Icon {
+  width: 13px;
+  height: 11px;
+  fill: var(--grey-button-color);
+}
+
+.Layout {
+  height: calc(596px - 30px);
+  display: flex;
+  flex-direction: column;
+
+  width: 700px;
+
+  & .Title {
+    font-size: 20px;
+  }
+
+  & .ResultsTable {
+    display: flex;
+    height: calc(76px * 6);
+    overflow-y: auto;
+    flex-direction: column;
+    margin: 29px;
+  }
+}
+
+.NoResults {
+  color: var(--grey-button-color);
+  font-size: 16px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.Spinner {
+  align-self: center;
+  position: absolute;
+}

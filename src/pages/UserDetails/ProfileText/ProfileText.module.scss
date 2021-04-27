@@ -1,0 +1,36 @@
+.ProfileText {
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+
+  font-size: 16px;
+}
+
+.About {
+  font-weight: lighter;
+  font-size: 14px;
+}
+
+.CopyBtn {
+  height: 18px;
+  width: 15px;
+}
+.CopyIcon {
+  height: 18px;
+  width: 15px;
+}
+
+.IDPart {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.Label {
+  font-weight: bold;
+}
+
+.Hash {
+  font-weight: lighter;
+  margin: 0 5px 14px 5px;
+}

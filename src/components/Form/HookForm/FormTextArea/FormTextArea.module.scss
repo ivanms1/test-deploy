@@ -1,0 +1,49 @@
+.InputWrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  &.round {
+    border-radius: 20px;
+  }
+
+  & .Input {
+    background: var(--bg);
+    border: none;
+    box-sizing: border-box;
+
+    padding: 3px 10px;
+    display: block;
+    line-height: 1.5em;
+    width: 100%;
+    min-height: 25px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  & .Label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}
+
+.hasError {
+  border: solid 1px var(--ui-red);
+}
+
+.Error {
+  position: absolute;
+  color: var(--ui-red);
+  font-size: 11px;
+  bottom: -15px;
+  right: 0;
+}

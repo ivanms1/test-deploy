@@ -1,0 +1,31 @@
+.FileBoxMini {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: currentColor;
+
+  & .FileImage {
+    width: 106px;
+    height: 60px;
+    margin-bottom: 7px;
+    border-radius: 4px;
+  }
+
+  & .NoImage {
+    align-items: center;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+  }
+
+  & .FileName {
+    max-width: 90px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

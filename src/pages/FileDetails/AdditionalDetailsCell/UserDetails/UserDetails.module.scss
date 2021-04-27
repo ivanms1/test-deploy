@@ -1,0 +1,69 @@
+.UserDetails {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: 50px;
+  padding: 5px;
+  width: 100%;
+}
+
+.CopyBtn {
+  height: 18px;
+  margin-left: 10px;
+  width: 15px;
+}
+.CopyIcon {
+  height: 18px;
+  width: 15px;
+}
+.CopyIcon:hover {
+  filter: opacity(50%);
+}
+.CopyIcon:active {
+  filter: opacity(100%);
+}
+
+.FollowBtn {
+  background-color: var(--grey-button-color);
+  border-radius: 20px;
+  box-sizing: border-box;
+  color: white;
+  font-size: 7pt;
+  height: 11px;
+  padding: 3px;
+  width: 27px;
+}
+.IDBits {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  font-size: 14px;
+  width: 100%;
+}
+
+.IDHash {
+  font-weight: 300;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.Label {
+  font-weight: 300;
+  margin-right: 10px;
+}
+
+.Avatar {
+  border-radius: 50%;
+  height: 28px;
+  width: 28px;
+}
+
+.Text {
+  align-self: flex-start;
+  align-items: center;
+  margin: 10px 0 0 10px;
+  display: flex;
+}

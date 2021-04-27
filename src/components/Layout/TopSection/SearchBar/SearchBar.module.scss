@@ -1,0 +1,94 @@
+.SearchBarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 21px;
+  width: 100%;
+
+  & .Form {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+
+    & .Glass {
+      width: 25px;
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      fill: #64c2d1;
+      z-index: 1;
+    }
+
+    & .SearchBar {
+      background-color: #fff;
+      border-radius: 30px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+      height: 45px;
+      width: 100%;
+      border: none;
+      margin-bottom: 10px;
+      outline: none;
+      padding-left: 50px;
+      display: flex;
+      align-items: center;
+
+      & > div {
+        width: 90%;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    & .SettingsIcon {
+      height: 16px;
+      position: absolute;
+      width: 18px;
+      top: 15px;
+      right: 20px;
+    }
+
+    .FiltersPopper {
+      background-color: #fff;
+      padding: 20px 35px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 3px;
+      box-shadow: var(--box-shadow-1);
+
+      & .Title {
+        margin-bottom: 12px;
+      }
+
+      & .FiltersContainer {
+        & > :not(:last-child) {
+          margin-bottom: 16px;
+        }
+      }
+
+      & .ApplyButton {
+        font-size: 14px;
+        max-width: 70px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  & .SaveButton {
+    background-color: #fff;
+    border-radius: 10px;
+    max-width: 150px;
+    color: var(--dark-grey);
+    font-size: 11px;
+    padding: 3px 15px;
+  }
+}
+
+.Label {
+  display: flex;
+  width: fit-content;
+  & .Icon {
+    width: 15px;
+    margin-right: 5px;
+  }
+}

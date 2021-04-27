@@ -1,0 +1,88 @@
+.FileBox {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  height: 164px;
+  width: 223px;
+  border-radius: 3px;
+  text-decoration: none;
+  color: #000;
+
+  & .Link {
+    height: 105px;
+    width: 223px;
+
+    & .FileImage {
+      height: 100%;
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      object-fit: cover;
+    }
+    & .NoImage {
+      align-items: center;
+      border-radius: 10px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background-color: #eee;
+    }
+  }
+
+  & .InfoSection {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 15px;
+    height: calc(60px - 13px);
+    width: calc(100% - 30px);
+
+    & .Top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--grey-button-color);
+      font-size: 10px;
+      margin-bottom: 6px;
+      font-size: 14px;
+
+      & .Likes {
+        display: flex;
+        font-size: 16px;
+        align-items: center;
+
+        & .Heart {
+          height: 13px;
+          margin-right: 3px;
+        }
+      }
+
+      & .Downloads {
+        font-size: 15px;
+
+        & .Flame {
+          height: 12px;
+          margin-right: 10px;
+        }
+
+        & .DownloadIcon {
+          height: 12px;
+          margin-right: 3px;
+          fill: #5ed3be;
+        }
+      }
+    }
+
+    & .FileName {
+      font-size: 14px;
+      max-width: 185px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+
+.Link {
+  text-decoration: none;
+  color: currentColor;
+}

@@ -1,0 +1,62 @@
+.Background {
+  background-color: white;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  height: calc(596px - 30px);
+  justify-content: center;
+  padding: 30px;
+  position: relative;
+  // width: 740px;
+}
+
+.BackButton {
+  position: absolute;
+  top: 21px;
+  left: 21px;
+}
+
+.FileBox {
+  height: 210px;
+  margin-top: 10px;
+  width: 900px;
+
+  & .Header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    & .Title {
+      font-size: 18px;
+    }
+
+    & .SeeMore {
+      font-size: 12px;
+    }
+  }
+}
+
+.Icon {
+  width: 13px;
+  height: 11px;
+  fill: var(--grey-button-color);
+}
+
+.Layout {
+  height: calc(596px - 30px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.UserInfo {
+  display: grid;
+  gap: 27px;
+  grid-template-columns: 103px 1fr;
+  width: 100%;
+}
+
+.SeeMore a {
+  color: black;
+  text-decoration: none;
+}
