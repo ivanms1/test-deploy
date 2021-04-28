@@ -21,7 +21,7 @@ export let node;
 export let mainWindow: BrowserWindow | null = null;
 
 const BOOTSTRAP_ADDRESSS =
-  "/ip4/15.164.229.6/tcp/4001/ipfs/12D3KooWNubmXubMPzPY9B69HLAEpoRBS41MchdGCa9SgJtd5LnT";
+  "/ip4/15.164.229.6/tcp/4001/ipfs/12D3KooWHMcYHHDvCnM75BBxQBXDAYg4T37DJAoKAVX1fnx51yro";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -59,6 +59,13 @@ const createWindow = async (): Promise<void> => {
         Bootstrap: [BOOTSTRAP_ADDRESSS],
       },
     });
+
+    const id = await node.id();
+    const peers = await node.swarm.peers();
+
+    console.log(`id`, id);
+
+    console.log(`peers`, peers);
 
     await prepareDb();
 
