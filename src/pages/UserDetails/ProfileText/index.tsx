@@ -1,10 +1,12 @@
 import React from "react";
 
-import styles from "./ProfileText.module.scss";
+import Button from "../../../components/Button";
+
 import CopyIcon from "../../../assets/icons/copy.svg";
 
+import styles from "./ProfileText.module.scss";
+
 export default function ProfileText({
-  authorID,
   walletHash,
 }: {
   authorID: string;
@@ -15,9 +17,15 @@ export default function ProfileText({
       <div className={styles.IDPart}>
         <div className={styles.Label}>ID</div>
         <div className={styles.Hash}>{walletHash}</div>
-        <div className={styles.CopyBtn}>
+        <Button
+          className={styles.CopyBtn}
+          noStyle
+          onClick={() => {
+            navigator.clipboard.writeText(walletHash);
+          }}
+        >
           <CopyIcon className={styles.CopyIcon} />
-        </div>
+        </Button>
       </div>
       {/* About Me text will go here when implemented */}
       <div className={styles.About}></div>

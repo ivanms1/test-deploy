@@ -1,6 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import { useMutation } from "react-query";
+
+import Modal from "../../../components/Modal";
+import ThumbnailEditor from "../../../components/ThumbnailEditor";
+import ProPic from "./ProPic";
 
 import useGetImage from "../../../hooks/useGetImage";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -12,53 +16,6 @@ import NoAvatar from "../../../assets/icons/no-avatar.svg";
 import styles from "./ProfilePicture.module.scss";
 
 const { api } = window;
-
-type ProPicProps = {
-  avatarImgSrc: string;
-  handleEditPic: () => void;
-  msgShow: boolean;
-  setMsgShow: (boolean) => void;
-};
-
-function ProPic({
-  avatarImgSrc,
-  handleEditPic,
-  msgShow,
-  setMsgShow,
-}: ProPicProps) {
-  if (avatarImgSrc) {
-    return (
-      <img
-        className={classNames(styles.ProPic, {
-          [styles.show]: msgShow,
-        })}
-        src={avatarImgSrc}
-        onClick={() => handleEditPic()}
-        onMouseEnter={() => {
-          setMsgShow(true);
-        }}
-        onMouseLeave={() => {
-          setMsgShow(false);
-        }}
-      />
-    );
-  }
-
-  return (
-    <NoAvatar
-      className={classNames(styles.ProPic, {
-        [styles.show]: msgShow,
-      })}
-      onClick={() => handleEditPic()}
-      onMouseEnter={() => {
-        setMsgShow(true);
-      }}
-      onMouseLeave={() => {
-        setMsgShow(false);
-      }}
-    />
-  );
-}
 
 function ProfilePicture({
   avatar,
@@ -73,6 +30,7 @@ function ProfilePicture({
   );
 
   const [msgShow, setMsgShow] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const { mutateAsync: uploadAvatar } = useMutation(async (hash: string) => {
     const formData = new FormData();
@@ -81,54 +39,56 @@ function ProfilePicture({
     return data;
   });
 
-  const inputRef = useRef(null);
-
-  const handleEditPic = () => {
-    inputRef.current.click();
-  };
-
-  const handleAvatarUpload = async (e) => {
-    const avatarToUpload = e.target.files[0];
-    const data = await api.uploadAvatar(avatarToUpload?.path);
-    await uploadAvatar(data?.hash);
-    await refetch();
+  const onClickSave = async (editorRef) => {
+    if (editorRef) {
+      const scaledImage = editorRef.current
+        .getImageScaledToCanvas()
+        .toDataURL();
+      const data = await api.uploadAvatar(scaledImage);
+      await uploadAvatar(data?.hash);
+      await refetch();
+    }
+    setShowModal(false);
   };
 
   if (isSelf) {
     return (
-      <div className={styles.MyPicBox}>
-        <ProPic
-          avatarImgSrc={avatarImgSrc}
-          handleEditPic={handleEditPic}
-          msgShow={msgShow}
-          setMsgShow={setMsgShow}
-        />
-        <input
-          type="file"
-          onChange={handleAvatarUpload}
-          className={styles.HiddenInput}
-          ref={inputRef}
-          accept="image/x-png,image/gif,image/jpeg"
-        />
-        <span
-          className={classNames(styles.EditMessage, {
-            [styles.show]: msgShow,
-          })}
-          onMouseEnter={() => {
-            setMsgShow(true);
-          }}
-          onMouseLeave={() => {
-            setMsgShow(false);
-          }}
-        >
-          edit
-        </span>
-      </div>
+      <>
+        <div className={styles.MyPicBox} onClick={() => setShowModal(true)}>
+          <ProPic
+            avatarImgSrc={avatarImgSrc}
+            msgShow={msgShow}
+            setMsgShow={setMsgShow}
+          />
+          <span
+            className={classNames(styles.EditMessage, {
+              [styles.show]: msgShow,
+            })}
+            onMouseEnter={() => {
+              setMsgShow(true);
+            }}
+            onMouseLeave={() => {
+              setMsgShow(false);
+            }}
+          >
+            edit
+          </span>
+        </div>
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <ThumbnailEditor
+            origImage={avatarImgSrc}
+            boxHeight={220}
+            boxWidth={220}
+            boxRadius={110}
+            handleUploadProcess={onClickSave}
+          />
+        </Modal>
+      </>
     );
   }
   return (
     <div className={styles.PicBox}>
-      {avatarImgSrc && avatarImgSrc !== "" ? (
+      {avatarImgSrc ? (
         <img className={styles.ProPic} src={avatarImgSrc} />
       ) : (
         <NoAvatar className={styles.ProPic} />
