@@ -21,7 +21,7 @@ export let node;
 export let mainWindow: BrowserWindow | null = null;
 
 const BOOTSTRAP_ADDRESSS =
-  "/ip4/15.164.229.6/tcp/4001/ipfs/12D3KooWHMcYHHDvCnM75BBxQBXDAYg4T37DJAoKAVX1fnx51yro";
+  "/ip4/52.79.200.55/tcp/4001/ipfs/12D3KooWFyYb19Xki7pj4PyQ1jnZsEx4MfExyng2MZCAtpPXoCxb";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
