@@ -5,8 +5,9 @@ import all from "it-all";
 import { concat } from "uint8arrays";
 import Jimp from "jimp";
 
-import { client, mainWindow, node } from "../";
+import { mainWindow, node } from "../";
 import db from "../store/db";
+import connectToWS, { client } from "../socket";
 
 import { DRIVE_SERVER } from "../const";
 
@@ -183,3 +184,5 @@ ipcMain.handle("upload-avatar", async (_, path) => {
     };
   }
 });
+
+ipcMain.handle("connect-to-manager", () => connectToWS());

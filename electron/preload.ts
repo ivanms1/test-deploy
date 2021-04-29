@@ -13,4 +13,8 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("is-registering-file", (e, ...args) => fn(...args));
   },
   uploadAvatar: (path: string) => ipcRenderer.invoke("upload-avatar", path),
+  listenToIsManagerConnected: (fn: any) => {
+    ipcRenderer.on("is-manager-connected", (e, ...args) => fn(...args));
+  },
+  connectToManager: () => ipcRenderer.invoke("connect-to-manager"),
 });

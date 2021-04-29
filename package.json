@@ -28,7 +28,7 @@
     "directories": {
       "output": "./out"
     },
-    "appId": "conun.app",
+    "appId": "conun.drive.app",
     "mac": {
       "category": "public.app-category.productivity"
     },
@@ -41,7 +41,7 @@
     },
     "linux": {
       "category": "Utility",
-      "target": "AppImage"
+      "target": "deb"
     },
     "nsis": {
       "oneClick": false,

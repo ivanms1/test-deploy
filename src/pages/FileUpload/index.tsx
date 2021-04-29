@@ -138,8 +138,8 @@ function FileUpload() {
                     <Modal isOpen={!!thumbImg} onClose={() => setThumbImg("")}>
                       <ThumbnailEditor
                         origImage={thumbImg}
-                        boxHeight={105}
-                        boxWidth={190}
+                        boxHeight={315}
+                        boxWidth={570}
                         boxRadius={5}
                         handleUploadProcess={(scaledImage) => {
                           onChange(scaledImage);
