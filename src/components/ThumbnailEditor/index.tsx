@@ -12,7 +12,7 @@ interface EditorProps {
   boxHeight: number;
   boxWidth: number;
   boxRadius: number;
-  handleUploadProcess: (ref: React.MutableRefObject<any>) => void;
+  handleUploadProcess: (imgData: string) => void;
 }
 
 function ThumbnailEditor({
@@ -28,10 +28,22 @@ function ThumbnailEditor({
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [imgScale, setImgScale] = useState<number>(1);
 
+  function getScaledImage(editorRef) {
+    if (editorRef) {
+      const scaledImage = editorRef.current
+        .getImageScaledToCanvas()
+        .toDataURL();
+
+      return scaledImage;
+    }
+  }
+
   return (
     <div className={styles.ThumbnailEditor}>
       <div className={styles.Button}>
-        <Button onClick={() => inputRef.current.click()}>Upload File</Button>
+        <Button onClick={() => inputRef.current.click()}>
+          Upload New File
+        </Button>
       </div>
       <AvatarEditor
         ref={editorRef}
@@ -62,7 +74,14 @@ function ThumbnailEditor({
         accept="image/x-png,image/gif,image/jpeg"
       />
       <div className={styles.Button}>
-        <Button onClick={() => handleUploadProcess(editorRef)}>Submit</Button>
+        <Button
+          onClick={() => {
+            const scaledImgData = getScaledImage(editorRef);
+            handleUploadProcess(scaledImgData);
+          }}
+        >
+          Submit
+        </Button>
       </div>
     </div>
   );

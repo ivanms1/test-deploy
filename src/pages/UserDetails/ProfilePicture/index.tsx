@@ -39,12 +39,9 @@ function ProfilePicture({
     return data;
   });
 
-  const onClickSave = async (editorRef) => {
-    if (editorRef) {
-      const scaledImage = editorRef.current
-        .getImageScaledToCanvas()
-        .toDataURL();
-      const data = await api.uploadAvatar(scaledImage);
+  const onClickSave = async (scaledImgData) => {
+    if (scaledImgData) {
+      const data = await api.uploadAvatar(scaledImgData);
       await uploadAvatar(data?.hash);
       await refetch();
     }

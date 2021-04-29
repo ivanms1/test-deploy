@@ -34,10 +34,10 @@ function Dropzone({
       {...getRootProps()}
     >
       <input {...getInputProps()} />
-      {currentFile?.name ? (
+      {currentFile ? (
         withPreview ? (
           <img
-            src={URL.createObjectURL(currentFile)}
+            src={currentFile}
             className={styles.Preview}
             alt={currentFile?.name}
           />

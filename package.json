@@ -1,15 +1,15 @@
 {
   "name": "conun-drive",
   "productName": "Conun Drive",
-  "version": "1.0.0",
-  "description": "Conun Driver App",
+  "version": "0.1.0-beta",
+  "description": "Conun Drive App",
   "main": "dist/index.js",
   "scripts": {
-    "start": "parcel src/index.html --out-dir parcel-dist",
+    "start": "parcel src/index.html --out-dir parcel-dist --port 1235",
     "build": "parcel build src/index.html --out-dir dist/parcel-build --public-url ./",
     "dev": "concurrently -k \"yarn start\" \"yarn:electron\"",
     "copy-assets": "copyfiles -f \"electron/assets/**/*\" \"dist/assets\"",
-    "electron": "wait-on tcp:1234 && tsc && yarn copy-assets && electron .",
+    "electron": "wait-on tcp:1235 && tsc && yarn copy-assets && electron .",
     "make": "yarn build && tsc && yarn copy-assets && electron-builder",
     "release": "yarn build && electron-builder --publish=always",
     "lint": "eslint --ext .ts ."
@@ -35,7 +35,7 @@
     "win": {
       "target": [
         {
-          "target": "portable"
+          "target": "nsis"
         }
       ]
     },
@@ -60,6 +60,7 @@
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
     "@types/react-select": "^4.0.15",
+    "@types/websocket": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "autoprefixer": "9.8.6",
@@ -92,9 +93,9 @@
     "jimp": "^0.16.1",
     "libp2p": "^0.30.12",
     "pouchdb": "^7.2.2",
-    "react": ">=0.14.0",
+    "react": "^17.0.1",
     "react-avatar-editor": "^11.1.0",
-    "react-dom": ">=0.14.0",
+    "react-dom": ">=16.0.0",
     "react-dropzone": "^11.3.2",
     "react-hook-form": "^7.2.1",
     "react-indiana-drag-scroll": "^2.0.1",
@@ -106,6 +107,7 @@
     "react-select": "^4.3.0",
     "react-tooltip": "^4.2.17",
     "react-waypoint": "^9.0.3",
-    "uint8arrays": "^2.1.4"
+    "uint8arrays": "^2.1.4",
+    "websocket": "^1.0.34"
   }
 }

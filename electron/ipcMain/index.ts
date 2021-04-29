@@ -5,7 +5,7 @@ import all from "it-all";
 import { concat } from "uint8arrays";
 import Jimp from "jimp";
 
-import { mainWindow, node } from "../";
+import { client, mainWindow, node } from "../";
 import db from "../store/db";
 
 import { DRIVE_SERVER } from "../const";
@@ -57,12 +57,14 @@ ipcMain.handle("download-file", async (_, args) => {
       }
 
       try {
-        process.send({
-          type: "download-content",
-          ccid: args?.publicHash,
-          user_id: args?.userId,
-          content_id: args?.contentId,
-        });
+        client.send(
+          JSON.stringify({
+            type: "download-content",
+            ccid: args?.publicHash,
+            user_id: args?.userId,
+            content_id: args?.contentId,
+          })
+        );
       } catch (error) {
         //
       }
@@ -93,7 +95,9 @@ ipcMain.handle("upload-file", async (_, info) => {
       content: fileContent,
     });
 
-    process.send({ type: "upload-file", fileHash, price: 0, data: info });
+    client.send(
+      JSON.stringify({ type: "upload-file", fileHash, price: 0, data: info })
+    );
 
     return {
       success: true,
@@ -109,12 +113,14 @@ ipcMain.handle("upload-file", async (_, info) => {
 
 ipcMain.handle("like-content", (_, args) => {
   try {
-    process.send({
-      type: "like-content",
-      ccid: args?.publicHash,
-      user_id: args?.userId,
-      content_id: args?.contentId,
-    });
+    client.send(
+      JSON.stringify({
+        type: "like-content",
+        ccid: args?.publicHash,
+        user_id: args?.userId,
+        content_id: args?.contentId,
+      })
+    );
   } catch (error) {
     console.log(`error`, error);
   }

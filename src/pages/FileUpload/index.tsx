@@ -3,13 +3,15 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router";
 
-import FormInput from "../../components/Form/HookForm/FormInput";
-import Dropzone from "../../components/Dropzone";
-import FormTextArea from "../../components/Form/HookForm/FormTextArea";
-import TagsSelect from "../../components/Select/TagsSelect";
-import CategorySelect from "../../components/Select/CategorySelect";
-import TypeSelect from "../../components/Select/TypeSelect";
 import Button from "../../components/Button";
+import CategorySelect from "../../components/Select/CategorySelect";
+import Dropzone from "../../components/Dropzone";
+import FormInput from "../../components/Form/HookForm/FormInput";
+import FormTextArea from "../../components/Form/HookForm/FormTextArea";
+import Modal from "../../components/Modal";
+import TagsSelect from "../../components/Select/TagsSelect";
+import ThumbnailEditor from "../../components/ThumbnailEditor";
+import TypeSelect from "../../components/Select/TypeSelect";
 
 import getFileExtension from "../../helpers/getFileExtension";
 
@@ -42,6 +44,8 @@ interface UploadFormData {
 function FileUpload() {
   const [isRegistering, setIsRegistering] = useState(false);
 
+  const [thumbImg, setThumbImg] = useState("");
+
   const history = useHistory();
 
   const { mutateAsync: uploadFile, isLoading } = useMutation((data: any) =>
@@ -52,7 +56,7 @@ function FileUpload() {
       description: data?.description,
       tags: data?.tags?.map((t) => t.value),
       filePath: data?.file?.path,
-      previewPath: data?.thumbnail?.path,
+      previewPath: data?.thumbnail,
       fileName: data?.file?.name,
       ext: getFileExtension(data?.file?.name),
     })
@@ -122,14 +126,28 @@ function FileUpload() {
                 control={control}
                 name="thumbnail"
                 render={({ field: { onChange, value } }) => (
-                  <Dropzone
-                    currentFile={value}
-                    className={styles.DropzoneThumbnail}
-                    onDrop={(files) => onChange(files[0])}
-                    label="Drop your thumbnail"
-                    withPreview
-                    accept=".png, .jpg, .jpeg"
-                  />
+                  <>
+                    <Dropzone
+                      currentFile={value}
+                      className={styles.DropzoneThumbnail}
+                      onDrop={(files) => setThumbImg(files[0])}
+                      label="Drop your thumbnail"
+                      withPreview
+                      accept=".png, .jpg, .jpeg"
+                    />
+                    <Modal isOpen={!!thumbImg} onClose={() => setThumbImg("")}>
+                      <ThumbnailEditor
+                        origImage={thumbImg}
+                        boxHeight={105}
+                        boxWidth={190}
+                        boxRadius={5}
+                        handleUploadProcess={(scaledImage) => {
+                          onChange(scaledImage);
+                          setThumbImg("");
+                        }}
+                      />
+                    </Modal>
+                  </>
                 )}
                 rules={{
                   required: { value: true, message: "A thumbnail is required" },
