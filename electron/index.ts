@@ -21,7 +21,7 @@ export let node;
 
 export let mainWindow: BrowserWindow | null = null;
 
-const MANAGER_PORT = 174012;
+const MANAGER_PORT = 17401;
 
 export const client = new W3CWebSocket(`ws://127.0.0.1:${MANAGER_PORT}`);
 
