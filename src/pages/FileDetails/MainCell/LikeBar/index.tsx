@@ -52,7 +52,7 @@ function LikeControls({ file }: LikeProps) {
           </Button>
         </Tooltip>
       )}
-      <span className={styles.LikeNumber}>{localLikeCount}</span>
+      <p className={styles.LikeNumber}>{localLikeCount}</p>
     </div>
   );
 }

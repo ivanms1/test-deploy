@@ -60,13 +60,6 @@ const createWindow = async (): Promise<void> => {
       },
     });
 
-    const id = await node.id();
-    const peers = await node.swarm.peers();
-
-    console.log(`id`, id);
-
-    console.log(`peers`, peers);
-
     await prepareDb();
 
     if (isDev) {

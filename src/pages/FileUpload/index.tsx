@@ -128,6 +128,7 @@ function FileUpload() {
                     onDrop={(files) => onChange(files[0])}
                     label="Drop your thumbnail"
                     withPreview
+                    accept=".png, .jpg, .jpeg"
                   />
                 )}
                 rules={{

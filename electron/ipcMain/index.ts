@@ -158,8 +158,9 @@ ipcMain.handle("get-current-user", async () => {
 
 ipcMain.handle("upload-avatar", async (_, path) => {
   try {
-    const preview = await Jimp.read(path);
-    await preview.resize(720, 404).quality(95);
+    const bufferizedPath = Buffer.from(path.split(",")[1], "base64");
+    const preview = await Jimp.read(bufferizedPath);
+    await preview.resize(Jimp.AUTO, 500).quality(95);
     const previewContent = await preview.getBufferAsync(preview.getMIME());
     const previewHash = await node.add({
       content: previewContent,

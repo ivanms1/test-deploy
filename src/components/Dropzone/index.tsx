@@ -1,10 +1,10 @@
 import React from "react";
 import classNames from "classnames";
-import { useDropzone } from "react-dropzone";
+import { DropzoneOptions, useDropzone } from "react-dropzone";
 
 import styles from "./Dropzone.module.scss";
 
-interface DropzoneProps {
+interface DropzoneProps extends DropzoneOptions {
   currentFile?: any;
   onDrop: (file: any) => void;
   className?: string;
@@ -18,10 +18,12 @@ function Dropzone({
   label = "Drop your file ",
   currentFile,
   withPreview,
+  accept,
 }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     multiple: false,
+    accept,
   });
 
   return (
