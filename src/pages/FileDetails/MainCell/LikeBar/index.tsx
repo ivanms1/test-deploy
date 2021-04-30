@@ -5,11 +5,14 @@ import Tooltip from "../../../../components/Tooltip";
 
 import useLikeContent from "../../../../hooks/useLikeContent";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
+import { useAppContext } from "../../../../components/AppContext";
 
 import HeartFull from "../../../../assets/icons/heart-full.svg";
 import HeartEmpty from "../../../../assets/icons/heart-empty.svg";
-import styles from "./LikeBar.module.scss";
+
 import { FileProps } from "../../../../types";
+
+import styles from "./LikeBar.module.scss";
 
 interface LikeProps {
   file: FileProps;
@@ -20,6 +23,8 @@ function LikeControls({ file }: LikeProps) {
   const [localLikeCount, setLocalLikeCount] = useState(
     file?.content_stats.likes_cnt || 0
   );
+
+  const { isManagerConnected } = useAppContext();
 
   const { currentUser } = useCurrentUser();
   const { likeContent } = useLikeContent();
@@ -44,9 +49,13 @@ function LikeControls({ file }: LikeProps) {
           <Button
             noStyle
             type="button"
-            onClick={handleLike}
+            onClick={isManagerConnected ? handleLike : null}
             data-for="like"
-            data-tip="Liking is permanent."
+            data-tip={
+              isManagerConnected
+                ? "Liking is permanent."
+                : "Connect to Conun manager to like this file"
+            }
           >
             <HeartEmpty className={styles.Icon} />
           </Button>

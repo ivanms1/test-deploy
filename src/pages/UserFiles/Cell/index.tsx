@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../../../components/Button";
 import Tooltip from "../../../components/Tooltip";
@@ -6,6 +7,7 @@ import Tooltip from "../../../components/Tooltip";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import useGetImage from "../../../hooks/useGetImage";
 import useLikeContent from "../../../hooks/useLikeContent";
+import { useAppContext } from "../../../components/AppContext";
 
 import trunc from "../../../helpers/trunc";
 
@@ -16,7 +18,6 @@ import HeartEmpty from "../../../assets/icons/heart-empty.svg";
 import HeartFull from "../../../assets/icons/heart-full.svg";
 
 import styles from "./Cell.module.scss";
-import { Link } from "react-router-dom";
 
 interface CellProps {
   file: FileProps;
@@ -25,6 +26,8 @@ interface CellProps {
 function Controls({ file }: CellProps) {
   const { currentUser } = useCurrentUser();
   const { likeContent } = useLikeContent();
+
+  const { isManagerConnected } = useAppContext();
 
   const [localLikeStatus, setLocalLikeStatus] = useState(file?.is_liked);
   const [localLikeCount, setLocalLikeCount] = useState(
@@ -54,9 +57,13 @@ function Controls({ file }: CellProps) {
               <Button
                 noStyle
                 type="button"
-                onClick={handleLike}
+                onClick={isManagerConnected ? handleLike : null}
                 data-for="like"
-                data-tip="Liking is permanent."
+                data-tip={
+                  isManagerConnected
+                    ? "Liking is permanent"
+                    : "Connect to Conun manager to like this file"
+                }
               >
                 <HeartEmpty className={styles.Icon} />
               </Button>

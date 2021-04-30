@@ -12,6 +12,9 @@ import Modal from "../../components/Modal";
 import TagsSelect from "../../components/Select/TagsSelect";
 import ThumbnailEditor from "../../components/ThumbnailEditor";
 import TypeSelect from "../../components/Select/TypeSelect";
+import Tooltip from "../../components/Tooltip";
+
+import { useAppContext } from "../../components/AppContext";
 
 import getFileExtension from "../../helpers/getFileExtension";
 
@@ -42,6 +45,7 @@ interface UploadFormData {
 }
 
 function FileUpload() {
+  const { isManagerConnected } = useAppContext();
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [thumbImg, setThumbImg] = useState("");
@@ -244,13 +248,26 @@ function FileUpload() {
             </div>
           </div>
         </div>
-        <Button
-          type="submit"
-          loading={isLoading || isRegistering}
-          className={styles.UploadButton}
-        >
-          Upload Content
-        </Button>
+        {isManagerConnected ? (
+          <Button
+            type="submit"
+            loading={isLoading || isRegistering}
+            className={styles.UploadButton}
+          >
+            Upload Content
+          </Button>
+        ) : (
+          <Tooltip id="upload-button">
+            <Button
+              type="button"
+              className={styles.UploadButton}
+              data-for="upload-button"
+              data-tip="Connect to Conun manager in order to upload"
+            >
+              Upload Content
+            </Button>
+          </Tooltip>
+        )}
       </form>
     </div>
   );

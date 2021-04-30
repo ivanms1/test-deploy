@@ -7,6 +7,7 @@ import Tooltip from "../Tooltip";
 import useLikeContent from "../../hooks/useLikeContent";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import useGetImage from "../../hooks/useGetImage";
+import { useAppContext } from "../AppContext";
 
 import isHot from "../../helpers/isHot";
 
@@ -19,8 +20,6 @@ import { FileProps } from "../../types";
 
 import styles from "./FileBox.module.scss";
 
-const { api } = window;
-
 export interface FileBoxProps {
   file: FileProps;
 }
@@ -30,6 +29,8 @@ function FileBox({ file }: FileBoxProps) {
   const [localLikeCount, setLocalLikeCount] = useState(
     file?.content_stats.likes_cnt
   );
+
+  const { isManagerConnected } = useAppContext();
 
   const { likeContent } = useLikeContent();
 
@@ -67,9 +68,13 @@ function FileBox({ file }: FileBoxProps) {
                 <Button
                   noStyle
                   type="button"
-                  onClick={handleLike}
+                  onClick={isManagerConnected ? handleLike : null}
                   data-for="like"
-                  data-tip="Liking is permanent."
+                  data-tip={
+                    isManagerConnected
+                      ? "Liking is permanent."
+                      : "Connect to Conun manager to like this file"
+                  }
                 >
                   <HeartEmpty className={styles.Heart} />
                 </Button>

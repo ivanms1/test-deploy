@@ -15,21 +15,25 @@ import SaveSearchIcon from "../../../assets/icons/save-search.svg";
 import NoAvatar from "../../../assets/icons/no-avatar.svg";
 import HomeIcon from "../../../assets/icons/home.svg";
 import DotIcon from "../../../assets/icons/dot.svg";
+import ConunIcon from "../../../assets/icons/conun-logo-letter.svg";
 
 import styles from "./TopSection.module.scss";
 
 const { api } = window;
 
 function TopSection() {
-  const [isManagerConnected, setisManagerConnected] = useState(false);
-
-  const { handleSavedSearchBar, isSavedSearchOpen } = useAppContext();
+  const {
+    handleSavedSearchBar,
+    isSavedSearchOpen,
+    handleIsManagerConnected,
+    isManagerConnected,
+  } = useAppContext();
   const { currentUser } = useCurrentUser();
   const { data: avatarImgSrc } = useGetImage(currentUser?.avatar);
 
   useEffect(() => {
     api.listenToIsManagerConnected((isConnected) => {
-      setisManagerConnected(isConnected);
+      handleIsManagerConnected(isConnected);
     });
     if (!isManagerConnected) {
       api.connectToManager();
@@ -39,6 +43,7 @@ function TopSection() {
   return (
     <div className={styles.TopSection}>
       <div className={styles.LogoSection}>
+        <ConunIcon className={styles.ConunLogo} />
         <Tooltip id="manager-check">
           <Button
             type="button"

@@ -13,7 +13,9 @@ function useCurrentUser() {
     },
     {
       onSuccess(data) {
-        setAuthHeader(data?.id);
+        if (data?.id) {
+          setAuthHeader(data?.id);
+        }
       },
     }
   );
