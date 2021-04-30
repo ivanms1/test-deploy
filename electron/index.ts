@@ -5,6 +5,7 @@ import IPFS from "ipfs-core";
 import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
+import { autoUpdater } from "electron-updater";
 
 import { prepareDb } from "./store/db";
 import connectToWS from "./socket";
@@ -17,15 +18,12 @@ export let node;
 
 export let mainWindow: BrowserWindow | null = null;
 
+autoUpdater.checkForUpdatesAndNotify();
+
 connectToWS();
 
 const BOOTSTRAP_ADDRESSS =
   "/ip4/52.79.200.55/tcp/4001/ipfs/12D3KooWFyYb19Xki7pj4PyQ1jnZsEx4MfExyng2MZCAtpPXoCxb";
-
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) {
-  app.quit();
-}
 
 const createWindow = async (): Promise<void> => {
   // Create the browser window.

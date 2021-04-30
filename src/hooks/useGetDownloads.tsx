@@ -12,7 +12,7 @@ function useGetDownloads({ enabled, limit }) {
       );
       return data.data;
     },
-    { enabled, refetchOnMount: true }
+    { enabled, refetchOnMount: "always" }
   );
   return { data, isLoading };
 }

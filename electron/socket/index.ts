@@ -29,11 +29,15 @@ function connectToWS() {
   };
 
   client.onclose = () => {
-    mainWindow.webContents.send("is-manager-connected", false);
+    if (mainWindow) {
+      mainWindow.webContents.send("is-manager-connected", false);
+    }
   };
 
   client.onerror = () => {
-    mainWindow.webContents.send("is-manager-connected", false);
+    if (mainWindow) {
+      mainWindow.webContents.send("is-manager-connected", false);
+    }
   };
 
   client.onmessage = async (message) => {

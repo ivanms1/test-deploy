@@ -1,7 +1,7 @@
 {
   "name": "conun-drive",
   "productName": "Conun Drive",
-  "version": "0.1.1-beta",
+  "version": "0.1.0-beta",
   "description": "Conun Drive App",
   "main": "dist/index.js",
   "scripts": {
@@ -14,12 +14,19 @@
     "release": "yarn build && electron-builder --publish=always",
     "lint": "eslint --ext .ts ."
   },
-  "keywords": [],
+  "keywords": [
+    "conun",
+    "file sharing",
+    "p2p",
+    "drive"
+  ],
+  "repository": "https://github.com/CONUN-Global/conun-drive",
   "author": {
     "name": "Ivan Saldano",
-    "email": "ivanms1@gmail.com"
+    "email": "ivanms1@conun.co.kr"
   },
   "license": "MIT",
+  "copyright": "Copyright 2020 by CONUN GROUP",
   "build": {
     "files": [
       "dist/**/*",
@@ -29,15 +36,26 @@
       "output": "./out"
     },
     "appId": "conun.drive.app",
+    "publish": {
+      "provider": "github"
+    },
     "mac": {
       "category": "public.app-category.productivity"
     },
     "win": {
       "target": [
         {
-          "target": "nsis"
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
         }
-      ]
+      ],
+      "certificateFile": "private/conun.io.certificate.p12",
+      "certificatePassword": "",
+      "verifyUpdateCodeSignature": "false",
+      "publisherName": "conun.io.certificate"
     },
     "linux": {
       "category": "Utility",
@@ -85,7 +103,7 @@
     "electron-fetch": "^1.7.3",
     "electron-is-dev": "^2.0.0",
     "electron-serve": "^1.1.0",
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^4.3.8",
     "file-saver": "^2.0.5",
     "framer-motion": "^4.1.8",
     "ipfs-core": "^0.5.4",
