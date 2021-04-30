@@ -20,7 +20,11 @@ function FileDetails() {
   const { data, isLoading } = useGetFile(id);
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className={styles.Background}>
+        <Spinner />
+      </div>
+    );
   }
 
   return (

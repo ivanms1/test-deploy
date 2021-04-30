@@ -63,12 +63,12 @@ function SavedSearchSidebar() {
         <div className={styles.SavedSearchesContainer}>
           {savedSearches.map((search) => (
             <div
-              key={search.search.keyword + search.search.filter}
+              key={search?.search?.keyword + search?.search?.filter}
               className={styles.Search}
             >
               <div className={styles.SearchHeader}>
                 <GlassIcon className={styles.GlassIcon} />
-                <p className={styles.SearchTitle}>{search.title}</p>
+                <p className={styles.SearchTitle}>{search?.title}</p>
                 <Button
                   type="button"
                   className={styles.RemoveButton}

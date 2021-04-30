@@ -1,4 +1,4 @@
-export const serverUrl = "http://192.168.100.54:8000/api";
+export const SERVER_URL = "https://drivecontentserver.conun.io/api";
 
 export const AUTH_TOKEN = "conun-drive-auth-token";
 

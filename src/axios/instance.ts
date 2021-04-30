@@ -2,10 +2,10 @@ import axios from "axios";
 
 import getAuthHeader from "../helpers/getAuthHeader";
 
-import { serverUrl } from "../const";
+import { SERVER_URL } from "../const";
 
 const instance = axios.create({
-  baseURL: serverUrl,
+  baseURL: SERVER_URL,
   headers: {
     ["current-user"]: "67",
   },

@@ -53,8 +53,8 @@ function SearchBar() {
     const values = getValues();
     if (values.searchString) {
       setSearchToSave({
-        keyword: values.searchString,
-        filter: values.filterBy,
+        keyword: values.searchString.trim(),
+        filter: values.filterBy.trim(),
       });
     }
   };
