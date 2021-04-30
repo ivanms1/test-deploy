@@ -5,7 +5,7 @@ import { Waypoint } from "react-waypoint";
 
 import Button from "../../../components/Button";
 import Cell from "../Cell";
-import Spinner from "../../Spinner";
+import Spinner from "../../../components/Spinner";
 
 import instance from "../../../axios/instance";
 

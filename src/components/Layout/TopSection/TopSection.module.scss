@@ -15,13 +15,13 @@
       width: 150px;
       justify-content: center;
       align-items: center;
-      font-size: 13px;
+      font-size: 14px;
       border-radius: 4px;
       height: 30px;
 
       & .DotIcon {
         width: 10px;
-        margin-left: 5px;
+        margin-right: 5px;
         fill: var(--ui-red);
 
         &.online {

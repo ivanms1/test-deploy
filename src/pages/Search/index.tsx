@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { Waypoint } from "react-waypoint";
 
 import FileBox from "../../components/FileBox";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 
 import useUrlQuery from "../../hooks/useUrlQuery";
 

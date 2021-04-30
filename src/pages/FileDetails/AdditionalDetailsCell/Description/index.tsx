@@ -9,7 +9,7 @@ function Description({ descriptionHash }: { descriptionHash: string }) {
   return (
     <div className={styles.ItemDescription}>
       <div className={styles.BoxTitle}>Description</div>
-      <div className={styles.DescriptionText}>{data && data}</div>
+      <div className={styles.DescriptionText}>{data}</div>
     </div>
   );
 }

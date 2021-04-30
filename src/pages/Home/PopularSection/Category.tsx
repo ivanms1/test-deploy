@@ -1,6 +1,8 @@
 import React from "react";
 
 import FilesHorizontalViewer from "../../../components/FilesHorizontalViewer";
+import Spinner from "../../../components/Spinner";
+
 import useGetContentBy from "../../../hooks/useGetContentBy";
 
 interface CategoryProps {
@@ -12,7 +14,14 @@ function Category({ categoryId }: CategoryProps) {
   formData.append("category_id", categoryId);
   formData.append("order_by", "rate");
 
-  const { files } = useGetContentBy({ formData, id: ["files", categoryId] });
+  const { files, isLoading } = useGetContentBy({
+    formData,
+    id: ["files", categoryId],
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return <FilesHorizontalViewer files={files} />;
 }

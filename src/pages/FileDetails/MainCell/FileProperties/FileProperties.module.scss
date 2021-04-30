@@ -5,4 +5,17 @@
   font-size: 14px;
   margin-top: 10px;
   width: 100%;
+
+  & > :not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  & .Property {
+    font-size: 14px;
+
+    & span {
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
 }

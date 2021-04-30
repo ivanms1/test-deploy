@@ -57,12 +57,12 @@ function TopSection() {
             onClick={() => (isManagerConnected ? {} : api.connectToManager())}
             variant="grey"
           >
-            Manager {isManagerConnected ? "Online" : "Offline"}{" "}
             <DotIcon
               className={classNames(styles.DotIcon, {
                 [styles.online]: isManagerConnected,
               })}
             />
+            Manager {isManagerConnected ? "Online" : "Offline"}{" "}
           </Button>
         </Tooltip>
       </div>

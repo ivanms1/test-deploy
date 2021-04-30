@@ -5,6 +5,7 @@ import AdditionalDetailsCell from "./AdditionalDetailsCell";
 import Button from "../../components/Button";
 import MainCell from "./MainCell";
 import SimilarProducts from "./SimilarProducts";
+import Spinner from "../../components/Spinner";
 
 import useGetFile from "../../hooks/useGetFile";
 
@@ -16,7 +17,11 @@ function FileDetails() {
   const { id } = useParams();
   const history = useHistory();
 
-  const { data } = useGetFile(id);
+  const { data, isLoading } = useGetFile(id);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className={styles.Background}>

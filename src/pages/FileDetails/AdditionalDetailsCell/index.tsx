@@ -5,6 +5,7 @@ import Description from "./Description";
 import TagsBox from "./TagsBox";
 
 import { FileProps } from "../../../types";
+
 import styles from "./AdditionalDetailsCell.module.scss";
 
 interface DetailsProps {

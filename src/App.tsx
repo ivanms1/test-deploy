@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router";
-import Spinner from "./pages/Spinner";
+
+import Spinner from "./components/Spinner";
 
 const FileDetails = lazy(() => import("./pages/FileDetails"));
 const Home = lazy(() => import("./pages/Home"));
