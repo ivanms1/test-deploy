@@ -1,4 +1,9 @@
-export const SERVER_URL = "https://drivecontentserver.conun.io/api";
+export const PROD_MANAGER_SERVER =
+  "https://blockchainmiddleware.conun.io/api/v1";
+export const DEV_MANAGER_SERVER = "http://192.168.100.54:4000/api/v1/";
+export const DEV_DRIVE_SERVER = "http://192.168.100.54:8000/api";
+export const PROD_DRIVE_SERVER = "https://drivecontentserver.conun.io/api";
+export const LOG_SERVER = "http://192.168.100.54:9600/api/v1/log";
 
 export const AUTH_TOKEN = "conun-drive-auth-token";
 

@@ -17,6 +17,7 @@ function useGetUploads({ authorID, limit }) {
     },
     {
       refetchOnMount: "always",
+      enabled: !!authorID,
     }
   );
   return { data, isLoading };

@@ -58,6 +58,7 @@ function Uploads() {
 
         return undefined;
       },
+      enabled: !!authorID,
     }
   );
 

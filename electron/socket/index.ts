@@ -1,3 +1,4 @@
+import { app } from "electron";
 import Jimp from "jimp";
 import fetch from "electron-fetch";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -5,8 +6,10 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { mainWindow, node } from "../";
 import db from "../store/db";
 
-import { DRIVE_SERVER } from "../const";
-import { app } from "electron";
+import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
+
+const SERVER_URL =
+  process.env.NODE_ENV === "development" ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 const MANAGER_PORT = 17401;
 
@@ -92,7 +95,7 @@ function connectToWS() {
         };
 
         // upload to server
-        await fetch(`${DRIVE_SERVER}/content/create`, {
+        await fetch(`${SERVER_URL}/content/create`, {
           method: "POST",
           body: JSON.stringify(body),
           headers: { "Content-Type": "application/json" },

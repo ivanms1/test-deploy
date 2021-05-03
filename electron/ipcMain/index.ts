@@ -9,7 +9,10 @@ import { mainWindow, node } from "../";
 import db from "../store/db";
 import connectToWS, { client } from "../socket";
 
-import { DRIVE_SERVER } from "../const";
+import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
+
+const SERVER_URL =
+  process.env.NODE_ENV === "development" ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
   try {
@@ -131,7 +134,7 @@ ipcMain.handle("get-current-user", async () => {
   try {
     const userDetails = await db.get("userDetailsDrive");
 
-    const res = await fetch(`${DRIVE_SERVER}/user/auth`, {
+    const res = await fetch(`${SERVER_URL}/user/auth`, {
       method: "POST",
       body: JSON.stringify({
         wallet_id:

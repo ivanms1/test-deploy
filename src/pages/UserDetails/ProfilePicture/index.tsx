@@ -74,9 +74,9 @@ function ProfilePicture({
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <ThumbnailEditor
             origImage={avatarImgSrc}
-            boxHeight={220}
-            boxWidth={220}
-            boxRadius={110}
+            boxHeight={330}
+            boxWidth={330}
+            boxRadius={165}
             handleUploadProcess={onClickSave}
           />
         </Modal>

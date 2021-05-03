@@ -67,20 +67,22 @@ function TopSection() {
         </Tooltip>
       </div>
       <div className={styles.UserAndSearchBar}>
-        <Link
-          className={styles.UserPicture}
-          to={`/user-details?user=${currentUser?.id}&walletHash=${currentUser?.wallet_id}&avatar=${currentUser?.avatar}`}
-        >
-          {avatarImgSrc ? (
-            <img
-              className={styles.Picture}
-              src={avatarImgSrc}
-              alt="user profile"
-            />
-          ) : (
-            <NoAvatar className={styles.Picture} />
-          )}
-        </Link>
+        {currentUser && (
+          <Link
+            className={styles.UserPicture}
+            to={`/user-details?user=${currentUser?.id}&walletHash=${currentUser?.wallet_id}&avatar=${currentUser?.avatar}`}
+          >
+            {avatarImgSrc ? (
+              <img
+                className={styles.Picture}
+                src={avatarImgSrc}
+                alt="user profile"
+              />
+            ) : (
+              <NoAvatar className={styles.Picture} />
+            )}
+          </Link>
+        )}
         <SearchBar />
       </div>
       <div className={styles.ActionsBar}>

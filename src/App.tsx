@@ -10,6 +10,7 @@ const FileUpload = lazy(() => import("./pages/FileUpload"));
 const UserDetails = lazy(() => import("./pages/UserDetails"));
 const Uploads = lazy(() => import("./pages/UserFiles/Uploads"));
 const Downloads = lazy(() => import("./pages/UserFiles/Downloads"));
+const Category = lazy(() => import("./pages/Category"));
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route path="/search">
           <Search />
+        </Route>
+        <Route path="/category/:id">
+          <Category />
         </Route>
         <Route path="/" exact>
           <Home />

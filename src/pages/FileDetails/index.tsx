@@ -19,28 +19,26 @@ function FileDetails() {
 
   const { data, isLoading } = useGetFile(id);
 
-  if (isLoading) {
-    return (
-      <div className={styles.Background}>
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <div className={styles.Background}>
-      <Button
-        noStyle
-        onClick={() => history.goBack()}
-        className={styles.BackButton}
-      >
-        <BackIcon className={styles.Icon} />
-      </Button>
-      <div className={styles.Layout}>
-        <MainCell file={data?.data} />
-        <AdditionalDetailsCell file={data?.data} />
-        <SimilarProducts file={data?.data} />
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Button
+            noStyle
+            onClick={() => history.goBack()}
+            className={styles.BackButton}
+          >
+            <BackIcon className={styles.Icon} />
+          </Button>
+          <div className={styles.Layout}>
+            <MainCell file={data?.data} />
+            <AdditionalDetailsCell file={data?.data} />
+            <SimilarProducts file={data?.data} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

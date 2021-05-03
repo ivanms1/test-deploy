@@ -2,7 +2,10 @@ import axios from "axios";
 
 import getAuthHeader from "../helpers/getAuthHeader";
 
-import { SERVER_URL } from "../const";
+import { PROD_DRIVE_SERVER, DEV_DRIVE_SERVER } from "../const";
+
+const SERVER_URL =
+  process.env.NODE_ENV === "development" ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 const instance = axios.create({
   baseURL: SERVER_URL,
