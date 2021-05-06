@@ -4,15 +4,16 @@ import fetch from "electron-fetch";
 import all from "it-all";
 import { concat } from "uint8arrays";
 import Jimp from "jimp";
+import isDev from "electron-is-dev";
 
 import { mainWindow, node } from "../";
 import db from "../store/db";
 import connectToWS, { client } from "../socket";
+import logger from "../logger";
 
 import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 
-const SERVER_URL =
-  process.env.NODE_ENV === "development" ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
+const SERVER_URL = DEV_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
   try {
@@ -23,6 +24,7 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
       preview,
     };
   } catch (error) {
+    logger("get-file-preview", error);
     return {
       success: false,
       error: String(error),
@@ -39,6 +41,7 @@ ipcMain.handle("get-file-description", async (_, hash) => {
       description,
     };
   } catch (error) {
+    logger("get-file-description", error);
     return {
       success: false,
       error: String(error),
@@ -70,7 +73,7 @@ ipcMain.handle("download-file", async (_, args) => {
           })
         );
       } catch (error) {
-        //
+        logger("download-content", error);
       }
 
       return {
@@ -83,6 +86,7 @@ ipcMain.handle("download-file", async (_, args) => {
       success: false,
     };
   } catch (error) {
+    logger("download-file", error);
     return {
       success: false,
       error: String(error),
@@ -108,6 +112,7 @@ ipcMain.handle("upload-file", async (_, info) => {
       fileHash,
     };
   } catch (error) {
+    logger("upload-file", error);
     return {
       success: false,
       error: String(error),
@@ -126,7 +131,7 @@ ipcMain.handle("like-content", (_, args) => {
       })
     );
   } catch (error) {
-    console.log(`error`, error);
+    logger("like-content", error);
   }
 });
 
@@ -157,6 +162,7 @@ ipcMain.handle("get-current-user", async () => {
       data,
     };
   } catch (error) {
+    logger("get-current-user", error);
     return {
       success: false,
       data: null,
@@ -179,6 +185,7 @@ ipcMain.handle("upload-avatar", async (_, path) => {
       hash: previewHash?.path,
     };
   } catch (error) {
+    logger("upload-avatar", error);
     return {
       success: false,
       error: String(error),

@@ -27,7 +27,6 @@ function Category() {
   const { data: files, fetchNextPage, isLoading, remove } = useInfiniteQuery(
     ["category", id],
     async ({ pageParam = page.current }) => {
-      console.log(`pageParam`, pageParam);
       const formData = new FormData();
       formData.append("category_id", id);
       formData.append("order_by", "rate");
@@ -51,6 +50,7 @@ function Category() {
         return undefined;
       },
       enabled: !!id,
+      refetchOnMount: "always",
     }
   );
 

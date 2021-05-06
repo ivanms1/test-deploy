@@ -51,7 +51,7 @@ function FileBox({ file }: FileBoxProps) {
 
   return (
     <div className={styles.FileBox}>
-      <Link to={`file/${file?.id}`} className={styles.Link}>
+      <Link to={`/file/${file?.id}`} className={styles.Link}>
         {data ? (
           <img className={styles.FileImage} src={data} alt={file.name} />
         ) : (

@@ -8,7 +8,7 @@ function useGetFile(id) {
       const { data } = await instance.get(`/content/${id}`);
       return data;
     },
-    { enabled: !!id }
+    { enabled: !!id, refetchOnMount: "always" }
   );
 
   return { data, isLoading };

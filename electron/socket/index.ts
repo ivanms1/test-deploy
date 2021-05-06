@@ -2,14 +2,15 @@ import { app } from "electron";
 import Jimp from "jimp";
 import fetch from "electron-fetch";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import isDev from "electron-is-dev";
 
 import { mainWindow, node } from "../";
 import db from "../store/db";
+import logger from "../logger";
 
 import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 
-const SERVER_URL =
-  process.env.NODE_ENV === "development" ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
+const SERVER_URL = DEV_DRIVE_SERVER;
 
 const MANAGER_PORT = 17401;
 
@@ -54,54 +55,64 @@ function connectToWS() {
             walletAddress: data?.walletAddress,
           });
         } catch (error) {
-          console.log(`error`, error);
+          logger("send-user-details", error);
         }
       }
 
       if (data.type === "upload-success") {
-        const descriptionHash = await node.add({
-          content: data?.data?.description,
-        });
-        const previewBuffer = Buffer.from(
-          data?.data?.previewPath.split(",")[1],
-          "base64"
-        );
-        const preview = await Jimp.read(previewBuffer);
-        await preview.resize(720, 404).quality(95);
-        const previewContent = await preview.getBufferAsync(preview.getMIME());
-        const previewHash = await node.add({
-          content: previewContent,
-        });
+        try {
+          const descriptionHash = await node.add({
+            content: data?.data?.description,
+          });
+          const previewBuffer = Buffer.from(
+            data?.data?.previewPath.split(",")[1],
+            "base64"
+          );
+          const preview = await Jimp.read(previewBuffer);
+          await preview.resize(720, 404).quality(95);
+          const previewContent = await preview.getBufferAsync(
+            preview.getMIME()
+          );
+          const previewHash = await node.add({
+            content: previewContent,
+          });
 
-        const userDetails = await db.get("userDetailsDrive");
+          const userDetails = await db.get("userDetailsDrive");
 
-        const body = {
-          name: data?.data?.title,
-          cate_id: data?.data?.category,
-          type_id: data?.data?.type,
-          user_id: userDetails?.userId,
-          tags: data?.data?.tags,
-          status_id: 1,
-          info: {
-            content_hash: data?.fileHash,
-            description: String(descriptionHash.cid),
-            txhash: data?.transactionHash,
-            file_name: data?.data?.fileName,
-            public_hash: data?.publicHash,
-            ext: data?.data?.ext,
-            size: data?.size,
-            thumbnail: String(previewHash.cid),
-          },
-        };
+          const body = {
+            name: data?.data?.title,
+            cate_id: data?.data?.category,
+            type_id: data?.data?.type,
+            user_id: userDetails?.userId,
+            tags: data?.data?.tags,
+            status_id: 1,
+            info: {
+              content_hash: data?.fileHash,
+              description: String(descriptionHash.cid),
+              txhash: data?.transactionHash,
+              file_name: data?.data?.fileName,
+              public_hash: data?.publicHash,
+              ext: data?.data?.ext,
+              size: data?.size,
+              thumbnail: String(previewHash.cid),
+            },
+          };
 
-        // upload to server
-        await fetch(`${SERVER_URL}/content/create`, {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: { "Content-Type": "application/json" },
-        });
+          // upload to server
+          await fetch(`${SERVER_URL}/content/create`, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: { "Content-Type": "application/json" },
+          });
 
+          mainWindow.webContents.send("is-registering-file", false);
+        } catch (error) {
+          logger("upload-success", error);
+        }
+      }
+      if (data.type === "upload-failure") {
         mainWindow.webContents.send("is-registering-file", false);
+        mainWindow.webContents.send("error-listener", data?.data);
       }
     }
   };
