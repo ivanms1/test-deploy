@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 21px;
-  width: 760px;
+  width: clamp(500px, 60vw, 760px);
 
   & .Form {
     display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "../Button";
@@ -20,6 +20,8 @@ import { FileProps } from "../../types";
 
 import styles from "./FileBox.module.scss";
 
+const { api } = window;
+
 export interface FileBoxProps {
   file: FileProps;
 }
@@ -37,6 +39,17 @@ function FileBox({ file }: FileBoxProps) {
   const { currentUser } = useCurrentUser();
 
   const { data } = useGetImage(file?.info?.thumbnail);
+
+  useEffect(() => {
+    api.listenToError((data) => {
+      if (data.contentId === file?.id) {
+        setLocalLikeStatus(false);
+        setLocalLikeCount((prev) => prev - 1);
+      }
+    });
+
+    return api.removeListener("error-listener");
+  }, []);
 
   const handleLike = async () => {
     await likeContent({

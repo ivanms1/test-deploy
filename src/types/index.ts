@@ -9,7 +9,7 @@ export interface FileProps {
     ext: string;
     file_name: string;
     public_hash: string;
-    size: string;
+    size: number;
     thumbnail: string;
     created_at: string;
   };

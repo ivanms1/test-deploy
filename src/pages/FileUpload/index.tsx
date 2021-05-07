@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 
 import Button from "../../components/Button";
 import CategorySelect from "../../components/Select/CategorySelect";
@@ -76,15 +77,24 @@ function FileUpload() {
   });
 
   useEffect(() => {
-    api.listenToFileRegister((isLoading) => {
-      setIsRegistering(isLoading);
-      if (!isLoading) {
-        reset(FORM_DEFAULT_VALUES);
-      }
+    api.listenToUploadSuccess(() => {
+      setIsRegistering(false);
+      toast.success("Upload successful", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+      reset(FORM_DEFAULT_VALUES);
     });
   }, []);
 
+  useEffect(() => {
+    setIsRegistering(false);
+    return api.removeListener("error-listener");
+  }, []);
+
   const onSubmit: SubmitHandler<UploadFormData> = async (data) => {
+    setIsRegistering(true);
     await uploadFile(data);
   };
 

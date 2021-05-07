@@ -7,8 +7,11 @@ import useLikeContent from "../../../../hooks/useLikeContent";
 import useCurrentUser from "../../../../hooks/useCurrentUser";
 import { useAppContext } from "../../../../components/AppContext";
 
+import isHot from "../../../../helpers/isHot";
+
 import HeartFull from "../../../../assets/icons/heart-full.svg";
 import HeartEmpty from "../../../../assets/icons/heart-empty.svg";
+import Hot from "../../../../assets/icons/flame.svg";
 
 import { FileProps } from "../../../../types";
 
@@ -42,6 +45,7 @@ function LikeControls({ file }: LikeProps) {
 
   return (
     <div className={styles.Controls}>
+      {isHot(file?.content_stats.rate) && <Hot className={styles.Icon} />}
       {localLikeStatus ? (
         <HeartFull className={styles.Icon} />
       ) : (

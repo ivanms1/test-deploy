@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "../../../components/Button";
@@ -19,6 +19,8 @@ import HeartFull from "../../../assets/icons/heart-full.svg";
 
 import styles from "./Cell.module.scss";
 
+const { api } = window;
+
 interface CellProps {
   file: FileProps;
 }
@@ -33,6 +35,17 @@ function Controls({ file }: CellProps) {
   const [localLikeCount, setLocalLikeCount] = useState(
     file?.content_stats.likes_cnt || 0
   );
+
+  useEffect(() => {
+    api.listenToError((data) => {
+      if (data.contentId === file?.id) {
+        setLocalLikeStatus(false);
+        setLocalLikeCount((prev) => prev - 1);
+      }
+    });
+
+    return api.removeListener("error-listener");
+  }, []);
 
   const handleLike = async () => {
     await likeContent({

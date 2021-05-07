@@ -10,7 +10,7 @@ import logger from "../logger";
 
 import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 
-const SERVER_URL = DEV_DRIVE_SERVER;
+const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 const MANAGER_PORT = 17401;
 
@@ -105,14 +105,48 @@ function connectToWS() {
             headers: { "Content-Type": "application/json" },
           });
 
-          mainWindow.webContents.send("is-registering-file", false);
+          mainWindow.webContents.send("upload-success");
         } catch (error) {
-          logger("upload-success", error);
+          mainWindow.webContents.send("error-listener", { data: data?.data });
+          logger("upload-failure", error);
+        }
+      }
+
+      if (data.type === "download-success") {
+        // eslint-disable-next-line
+        for await (const file of node.get(data?.contentHash)) {
+          // eslint-disable-next-line
+          if (!file.content) continue;
+          const content = [];
+
+          // eslint-disable-next-line
+          for await (const chunk of file.content) {
+            content.push(chunk);
+          }
+
+          mainWindow.webContents.send("download-success", {
+            success: true,
+            contentId: data?.contentId,
+            file: content,
+          });
         }
       }
       if (data.type === "upload-failure") {
-        mainWindow.webContents.send("is-registering-file", false);
-        mainWindow.webContents.send("error-listener", data?.data);
+        mainWindow.webContents.send("error-listener", { data: data?.data });
+      }
+
+      if (data.type === "like-failure") {
+        mainWindow.webContents.send("error-listener", {
+          data: data?.data,
+          contentId: data.contentId,
+        });
+      }
+
+      if (data.type === "download-failure") {
+        mainWindow.webContents.send("error-listener", {
+          data: data?.data,
+          contentId: data?.contentId,
+        });
       }
     }
   };

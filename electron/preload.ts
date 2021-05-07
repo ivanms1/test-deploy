@@ -17,4 +17,15 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("is-manager-connected", (e, ...args) => fn(...args));
   },
   connectToManager: () => ipcRenderer.invoke("connect-to-manager"),
+  listenToDownloadSuccess: (fn: any) => {
+    ipcRenderer.on("download-success", (e, ...args) => fn(...args));
+  },
+  listenToUploadSuccess: (fn: any) => {
+    ipcRenderer.on("upload-success", (e, ...args) => fn(...args));
+  },
+  listenToError: (fn: any) => {
+    ipcRenderer.on("error-listener", (e, ...args) => fn(...args));
+  },
+  removeListener: (name: string) =>
+    ipcRenderer.removeListener(name, () => null),
 });

@@ -2,11 +2,15 @@ import React, {
   createContext,
   ReactNode,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
+
+const { api } = window;
 
 type State = {
   currentUser: {
@@ -27,6 +31,18 @@ function AppProvider({ children }: AppProviderProps) {
   const { currentUser } = useCurrentUser();
   const [isSavedSearchOpen, setIsSavedSearchOpen] = useState(false);
   const [isManagerConnected, setIsManagerConnected] = useState(false);
+
+  useEffect(() => {
+    api.listenToError((data) => {
+      toast.error(data?.data || "An error happened", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    });
+
+    return api.removeListener("error-listener");
+  }, []);
 
   const handleSavedSearchBar = (state: boolean) => setIsSavedSearchOpen(state);
   const handleIsManagerConnected = (state: boolean) =>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
+import { toast } from "react-toastify";
 
 import Button from "../../../components/Button";
 import LikeBar from "./LikeBar";
@@ -17,15 +18,37 @@ import { FileProps } from "../../../types";
 
 import styles from "./MainCell.module.scss";
 
+const { api } = window;
+
 interface MainCellProps {
   file: FileProps;
 }
 
 function MainCell({ file }: MainCellProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const { isManagerConnected } = useAppContext();
   const { currentUser } = useCurrentUser();
-  const { downloadFile, isLoading } = useDownloadFile();
+  const { downloadFile } = useDownloadFile();
   const { data: thumbImgSrc } = useGetImage(file?.info?.thumbnail);
+
+  useEffect(() => {
+    api.listenToDownloadSuccess((data) => {
+      if (data.contentId === file.id) {
+        const newFile = new Blob(data.file);
+        saveAs(newFile, file?.info.file_name);
+        setIsDownloading(false);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    api.listenToError(() => {
+      setIsDownloading(false);
+    });
+
+    return api.removeListener("error-listener");
+  }, []);
 
   return (
     <div className={styles.Cell}>
@@ -46,16 +69,16 @@ function MainCell({ file }: MainCellProps) {
           <Button
             className={styles.PurchaseButton}
             type="button"
-            loading={isLoading}
+            loading={isDownloading}
+            disabled={!thumbImgSrc}
             onClick={async () => {
-              const data: any = await downloadFile({
+              setIsDownloading(true);
+              await downloadFile({
                 hash: file?.info?.content_hash,
                 publicHash: file?.info?.public_hash,
                 userId: currentUser?.id,
                 contentId: file?.id,
               });
-              const newFile = new Blob(data.file);
-              saveAs(newFile, file?.info.file_name);
             }}
           >
             Download

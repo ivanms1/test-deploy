@@ -60,21 +60,39 @@ function UserDetails() {
             <span className={styles.Title}>
               {isSelf ? "My Uploads" : "This User's Uploads"}
             </span>
-            <span className={styles.SeeMore}>
-              <Link to={`/user-uploads/${authorID}`}>SEE MORE</Link>
-            </span>
+            {uploadsData?.length > 10 && (
+              <span className={styles.SeeMore}>
+                <Link to={`/user-uploads/${authorID}`}>SEE MORE</Link>
+              </span>
+            )}
           </div>
-          <FilesHorizontalViewer files={uploadsData?.data} />
+
+          {downloadsData?.length >= 1 ? (
+            <FilesHorizontalViewer files={uploadsData?.data} />
+          ) : (
+            <div className={styles.NoDataMessage}>
+              {isSelf ? "You haven't" : "This user hasn;t"} uploaded anything
+              yet.
+            </div>
+          )}
         </div>
         {isSelf && (
           <div className={styles.FileBox}>
             <div className={styles.Header}>
               <span className={styles.Title}>My Downloads</span>
               <span className={styles.SeeMore}>
-                <Link to={`/user-downloads/`}>SEE MORE</Link>
+                {downloadsData?.length > 10 && (
+                  <Link to={`/user-downloads/`}>SEE MORE</Link>
+                )}
               </span>
             </div>
-            <FilesHorizontalViewer files={downloadsData?.data} />
+            {downloadsData?.length >= 1 ? (
+              <FilesHorizontalViewer files={downloadsData?.data} />
+            ) : (
+              <div className={styles.NoDataMessage}>
+                You haven&apos;t downloaded anything yet.
+              </div>
+            )}
           </div>
         )}
       </div>
