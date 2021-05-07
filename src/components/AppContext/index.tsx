@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import { saveAs } from "file-saver";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
 
@@ -40,8 +41,18 @@ function AppProvider({ children }: AppProviderProps) {
         hideProgressBar: true,
       });
     });
+  }, []);
 
-    return api.removeListener("error-listener");
+  useEffect(() => {
+    const listener = (data) => {
+      const newFile = new Blob(data.file);
+      saveAs(newFile, data?.fileName);
+    };
+    api.listenToDownloadSuccess(listener);
+
+    return () => {
+      api.removeListener("download-success", listener);
+    };
   }, []);
 
   const handleSavedSearchBar = (state: boolean) => setIsSavedSearchOpen(state);

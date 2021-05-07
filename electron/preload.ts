@@ -26,6 +26,6 @@ contextBridge.exposeInMainWorld("api", {
   listenToError: (fn: any) => {
     ipcRenderer.on("error-listener", (e, ...args) => fn(...args));
   },
-  removeListener: (name: string) =>
-    ipcRenderer.removeListener(name, () => null),
+  removeListener: (name: string, fn: any) =>
+    ipcRenderer.removeListener(name, fn),
 });

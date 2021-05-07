@@ -126,7 +126,7 @@ function connectToWS() {
 
           mainWindow.webContents.send("download-success", {
             success: true,
-            contentId: data?.contentId,
+            fileName: data?.name,
             file: content,
           });
         }

@@ -77,7 +77,7 @@ function FileUpload() {
   });
 
   useEffect(() => {
-    api.listenToUploadSuccess(() => {
+    const listener = () => {
       setIsRegistering(false);
       toast.success("Upload successful", {
         position: "bottom-center",
@@ -85,12 +85,12 @@ function FileUpload() {
         hideProgressBar: true,
       });
       reset(FORM_DEFAULT_VALUES);
-    });
-  }, []);
+    };
+    api.listenToUploadSuccess(listener);
 
-  useEffect(() => {
-    setIsRegistering(false);
-    return api.removeListener("error-listener");
+    return () => {
+      api.removeListener("upload-success", listener);
+    };
   }, []);
 
   const onSubmit: SubmitHandler<UploadFormData> = async (data) => {

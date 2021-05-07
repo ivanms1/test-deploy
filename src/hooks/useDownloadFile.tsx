@@ -7,6 +7,7 @@ type DownloadContent = {
   publicHash: string;
   userId: number;
   contentId: number;
+  name: string;
 };
 
 function useDownloadFile() {

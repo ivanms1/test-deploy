@@ -57,7 +57,8 @@ ipcMain.handle("download-file", async (_, args) => {
         ccid: args?.publicHash,
         user_id: args?.userId,
         content_id: args?.contentId,
-        hash: args.hash,
+        name: args?.name,
+        hash: args?.hash,
       })
     );
   } catch (error) {

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { saveAs } from "file-saver";
-import { toast } from "react-toastify";
 
 import Button from "../../../components/Button";
 import LikeBar from "./LikeBar";
@@ -33,21 +31,21 @@ function MainCell({ file }: MainCellProps) {
   const { data: thumbImgSrc } = useGetImage(file?.info?.thumbnail);
 
   useEffect(() => {
-    api.listenToDownloadSuccess((data) => {
-      if (data.contentId === file.id) {
-        const newFile = new Blob(data.file);
-        saveAs(newFile, file?.info.file_name);
-        setIsDownloading(false);
-      }
-    });
+    const listener = () => {
+      setIsDownloading(false);
+    };
+
+    api.listenToDownloadSuccess(listener);
+
+    return () => {
+      api.removeListener("download-success", listener);
+    };
   }, []);
 
   useEffect(() => {
     api.listenToError(() => {
       setIsDownloading(false);
     });
-
-    return api.removeListener("error-listener");
   }, []);
 
   return (
@@ -75,6 +73,7 @@ function MainCell({ file }: MainCellProps) {
               setIsDownloading(true);
               await downloadFile({
                 hash: file?.info?.content_hash,
+                name: file?.info.file_name,
                 publicHash: file?.info?.public_hash,
                 userId: currentUser?.id,
                 contentId: file?.id,
