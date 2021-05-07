@@ -99,13 +99,29 @@ function connectToWS() {
           };
 
           // upload to server
-          await fetch(`${SERVER_URL}/content/create`, {
+          const res = await fetch(`${SERVER_URL}/content/create`, {
             method: "POST",
             body: JSON.stringify(body),
             headers: { "Content-Type": "application/json" },
           });
 
-          mainWindow.webContents.send("upload-success");
+          if (res.status === 201) {
+            mainWindow.webContents.send("upload-success");
+          } else {
+            try {
+              const createData = await res.json();
+
+              mainWindow.webContents.send("error-listener", {
+                data: createData?.message,
+              });
+              logger("upload-failure", createData?.message);
+            } catch (error) {
+              mainWindow.webContents.send("error-listener", {
+                data: String(error),
+              });
+              logger("upload-failure", error);
+            }
+          }
         } catch (error) {
           mainWindow.webContents.send("error-listener", { data: data?.data });
           logger("upload-failure", error);
