@@ -8,11 +8,18 @@ interface UseGetContentByProps {
 }
 
 function useGetContentBy({ formData, id }: UseGetContentByProps) {
-  const { data, isLoading } = useQuery(id, async () => {
-    const { data } = await instance.post("/content/get-contents-by", formData);
+  const { data, isLoading } = useQuery(
+    id,
+    async () => {
+      const { data } = await instance.post(
+        "/content/get-contents-by",
+        formData
+      );
 
-    return data;
-  });
+      return data;
+    },
+    { refetchOnMount: "always" }
+  );
   return { files: data?.data?.data, isLoading, total: data?.data?.total };
 }
 
