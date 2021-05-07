@@ -2,6 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import classNames from "classnames";
 
+import SmallSpinner from "../Spinner/SmallSpinner";
+
 import styles from "./Button.module.scss";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -42,7 +44,7 @@ function Button({
       })}
       {...props}
     >
-      {loading ? <span>loading...</span> : children}
+      {loading ? <SmallSpinner className={styles.Spinner} /> : children}
     </motion.button>
   );
 }
