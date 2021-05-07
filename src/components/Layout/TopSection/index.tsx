@@ -15,7 +15,7 @@ import SaveSearchIcon from "../../../assets/icons/save-search.svg";
 import NoAvatar from "../../../assets/icons/no-avatar.svg";
 import HomeIcon from "../../../assets/icons/home.svg";
 import DotIcon from "../../../assets/icons/dot.svg";
-import ConunIcon from "../../../assets/icons/conun-logo-letter.svg";
+import ConunIcon from "../../../assets/icons/conun.svg";
 
 import styles from "./TopSection.module.scss";
 

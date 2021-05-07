@@ -4,10 +4,11 @@
 
   & .LogoSection {
     display: flex;
-    flex-direction: column;
 
     & .ConunLogo {
-      height: 40px;
+      transform: translateX(-5px);
+      height: 35px;
+      margin-bottom: 5px;
     }
 
     & .ManagerButton {
