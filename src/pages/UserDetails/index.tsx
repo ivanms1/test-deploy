@@ -46,7 +46,6 @@ function UserDetails() {
     enabled: isSelf,
     limit: LIMIT,
   });
-
   return (
     <div className={styles.Background}>
       <BackButton />
@@ -60,18 +59,18 @@ function UserDetails() {
             <span className={styles.Title}>
               {isSelf ? "My Uploads" : "This User's Uploads"}
             </span>
-            {uploadsData?.length > 10 && (
+            {uploadsData?.total > 4 && (
               <span className={styles.SeeMore}>
                 <Link to={`/user-uploads/${authorID}`}>SEE MORE</Link>
               </span>
             )}
           </div>
 
-          {downloadsData?.length >= 1 ? (
+          {uploadsData?.total >= 1 ? (
             <FilesHorizontalViewer files={uploadsData?.data} />
           ) : (
             <div className={styles.NoDataMessage}>
-              {isSelf ? "You haven't" : "This user hasn;t"} uploaded anything
+              {isSelf ? "You haven't" : "This user hasn't"} uploaded anything
               yet.
             </div>
           )}
@@ -81,12 +80,12 @@ function UserDetails() {
             <div className={styles.Header}>
               <span className={styles.Title}>My Downloads</span>
               <span className={styles.SeeMore}>
-                {downloadsData?.length > 10 && (
+                {downloadsData?.total > 4 && (
                   <Link to={`/user-downloads/`}>SEE MORE</Link>
                 )}
               </span>
             </div>
-            {downloadsData?.length >= 1 ? (
+            {downloadsData?.total >= 1 ? (
               <FilesHorizontalViewer files={downloadsData?.data} />
             ) : (
               <div className={styles.NoDataMessage}>
