@@ -62,10 +62,10 @@ const createWindow = async (): Promise<void> => {
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
+      mainWindow.webContents.openDevTools({ mode: "detach" });
     } else {
       await loadURL(mainWindow);
     }
-    mainWindow.webContents.openDevTools({ mode: "detach" });
   } catch (err) {
     logger("ipfs-connection", err);
   }
