@@ -9,7 +9,6 @@ import serve from "electron-serve";
 import { prepareDb } from "./store/db";
 import connectToWS from "./socket";
 import logger from "./logger";
-import initAutoUpdate from "./updater";
 
 import "./ipcMain";
 
