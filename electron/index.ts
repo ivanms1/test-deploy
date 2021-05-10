@@ -32,6 +32,7 @@ const createWindow = async (): Promise<void> => {
     webPreferences: {
       nodeIntegration: false,
       preload: path.resolve(__dirname, "preload.js"),
+      webSecurity: false,
     },
     resizable: false,
   });
