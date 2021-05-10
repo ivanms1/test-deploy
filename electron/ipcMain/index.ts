@@ -18,11 +18,14 @@ const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 ipcMain.handle("get-file-preview", async (_, hash) => {
   let filePreviewLogger;
   try {
-    filePreviewLogger = setInterval(() => {
-      logger("file-preview-logger", `Getting preview with hash ${hash}`);
-    }, 10000);
+    logger("file-preview-cat", `Getting preview with hash ${hash}`);
 
     const preview = concat(await all(node.cat(hash)));
+
+    logger(
+      "file-preview-cat-success",
+      `Preview cat succeeded with hash ${hash}`
+    );
 
     clearInterval(filePreviewLogger);
 
