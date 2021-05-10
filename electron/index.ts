@@ -32,6 +32,7 @@ const createWindow = async (): Promise<void> => {
     webPreferences: {
       nodeIntegration: false,
       preload: path.resolve(__dirname, "preload.js"),
+      webSecurity: false,
     },
     resizable: false,
   });
@@ -55,6 +56,14 @@ const createWindow = async (): Promise<void> => {
     });
 
     await prepareDb();
+
+    const id = await node.id();
+    const peers = await node.swarm.peers();
+
+    logger("ipfs-id", id);
+    logger("ipfs-peers", peers);
+
+    logger("ipfs-id", id);
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
