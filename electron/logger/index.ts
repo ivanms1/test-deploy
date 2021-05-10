@@ -18,13 +18,13 @@ async function logger(name: string, error: any) {
 
   const userDetails: { walletAddress: string } = await db.get("userDetails");
   const body = {
-    productName: "Conun Drive",
-    companyName: "CONUN Global",
+    product_name: "Conun Drive",
+    company_name: "CONUN Global",
     version: app.getVersion(),
     platform: process.platform,
     process_type: process.type,
     wallet_address: userDetails?.walletAddress,
-    appLocation: app.getPath("exe"),
+    app_location: app.getPath("exe"),
     error_name: name,
     error_message: formattedError,
   };

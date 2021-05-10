@@ -28,4 +28,5 @@ contextBridge.exposeInMainWorld("api", {
   },
   removeListener: (name: string, fn: any) =>
     ipcRenderer.removeListener(name, fn),
+  getAppVersion: () => ipcRenderer.invoke("get-app-version"),
 });

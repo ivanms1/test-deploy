@@ -16,14 +16,22 @@ import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
+  let filePreviewLogger;
   try {
+    filePreviewLogger = setInterval(() => {
+      logger("file-preview-logger", `Getting preview with hash ${hash}`);
+    }, 10000);
+
     const preview = concat(await all(node.cat(hash)));
+
+    clearInterval(filePreviewLogger);
 
     return {
       success: true,
       preview,
     };
   } catch (error) {
+    clearInterval(filePreviewLogger);
     logger("get-file-preview", error);
     return {
       success: false,

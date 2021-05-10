@@ -5,11 +5,11 @@ import IPFS from "ipfs-core";
 import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
-import { autoUpdater } from "electron-updater";
 
 import { prepareDb } from "./store/db";
 import connectToWS from "./socket";
 import logger from "./logger";
+import initAutoUpdate from "./updater";
 
 import "./ipcMain";
 
@@ -18,8 +18,6 @@ const loadURL = serve({ directory: "dist/parcel-build" });
 export let node;
 
 export let mainWindow: BrowserWindow | null = null;
-
-autoUpdater.checkForUpdatesAndNotify();
 
 connectToWS();
 
