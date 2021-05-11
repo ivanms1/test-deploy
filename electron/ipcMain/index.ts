@@ -17,8 +17,6 @@ const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
   try {
-    const peers = await node.swarm.peers();
-    logger("peers-get-file-preview", peers);
     logger("file-preview-logger", `Getting preview with hash ${hash}`);
 
     const preview = concat(await all(node.cat(hash)));
