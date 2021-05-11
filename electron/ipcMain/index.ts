@@ -16,13 +16,10 @@ import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
-  let filePreviewLogger;
   try {
     const peers = await node.swarm.peers();
     logger("peers-get-file-preview", peers);
-    filePreviewLogger = setInterval(() => {
-      logger("file-preview-logger", `Getting preview with hash ${hash}`);
-    }, 10000);
+    logger("file-preview-logger", `Getting preview with hash ${hash}`);
 
     const preview = concat(await all(node.cat(hash)));
 
@@ -30,8 +27,6 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
       "file-preview-cat-success",
       `Preview cat succeeded with hash ${hash}`
     );
-
-    clearInterval(filePreviewLogger);
 
     return {
       success: true,
