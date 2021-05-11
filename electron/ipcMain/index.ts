@@ -33,7 +33,6 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
       preview,
     };
   } catch (error) {
-    clearInterval(filePreviewLogger);
     logger("get-file-preview", error);
     return {
       success: false,
