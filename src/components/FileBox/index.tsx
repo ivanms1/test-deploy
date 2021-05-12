@@ -40,19 +40,19 @@ function FileBox({ file }: FileBoxProps) {
 
   const { data } = useGetImage(file?.info?.thumbnail);
 
-  useEffect(() => {
-    const listener = (data) => {
-      if (data.contentId === file?.id) {
-        setLocalLikeStatus(false);
-        setLocalLikeCount((prev) => prev - 1);
-      }
-    };
-    api.listenToError(listener);
+  // useEffect(() => {
+  //   const listener = (data) => {
+  //     if (data.contentId === file?.id) {
+  //       setLocalLikeStatus(false);
+  //       setLocalLikeCount((prev) => prev - 1);
+  //     }
+  //   };
+  //   api.listenToError(listener);
 
-    return () => {
-      api.removeListener("error-listener", listener);
-    };
-  }, []);
+  //   return () => {
+  //     api.removeListener("error-listener", listener);
+  //   };
+  // }, []);
 
   const handleLike = async () => {
     await likeContent({

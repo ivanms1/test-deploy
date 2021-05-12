@@ -13,6 +13,7 @@ interface EditorProps {
   boxWidth: number;
   boxRadius: number;
   handleUploadProcess: (imgData: string) => void;
+  isLoading?: boolean;
 }
 
 function ThumbnailEditor({
@@ -21,6 +22,7 @@ function ThumbnailEditor({
   boxWidth,
   boxRadius,
   handleUploadProcess,
+  isLoading,
 }: EditorProps) {
   const inputRef = useRef(null);
   const editorRef = useRef(null);
@@ -79,6 +81,7 @@ function ThumbnailEditor({
             const scaledImgData = getScaledImage(editorRef);
             handleUploadProcess(scaledImgData);
           }}
+          loading={isLoading}
         >
           Submit
         </Button>

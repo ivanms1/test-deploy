@@ -32,16 +32,22 @@ function ProfilePicture({
   const [msgShow, setMsgShow] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { mutateAsync: uploadAvatar } = useMutation(async (hash: string) => {
-    const formData = new FormData();
-    formData.append("avatar", hash);
-    const { data } = await instance.put(`/user/${currentUser?.id}`, formData);
-    return data;
-  });
+  const { mutateAsync: uploadAvatar, isLoading } = useMutation(
+    async (hash: string) => {
+      const formData = new FormData();
+      formData.append("avatar", hash);
+      const { data } = await instance.put(`/user/${currentUser?.id}`, formData);
+      return data;
+    }
+  );
+
+  const { mutateAsync: createAvatarHash, isLoading: createHashLoading } =
+    useMutation((imgData) => api.uploadAvatar(imgData));
 
   const onClickSave = async (scaledImgData) => {
     if (scaledImgData) {
-      const data = await api.uploadAvatar(scaledImgData);
+      const data: any = await createAvatarHash(scaledImgData);
+      console.log(`data`, data);
       await uploadAvatar(data?.hash);
       await refetch();
     }
@@ -78,6 +84,7 @@ function ProfilePicture({
             boxWidth={330}
             boxRadius={165}
             handleUploadProcess={onClickSave}
+            isLoading={isLoading || createHashLoading}
           />
         </Modal>
       </>

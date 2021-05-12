@@ -10,7 +10,7 @@ function useGetLatestRelease() {
   });
 
   return {
-    latestVersion: data?.name,
+    latestVersion: data?.tag_name,
   };
 }
 

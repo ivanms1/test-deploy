@@ -1,18 +1,21 @@
 import { app, BrowserWindow } from "electron";
 import Ctl from "ipfsd-ctl";
-import fs from "fs";
 import path from "path";
-import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
+import copyfiles from "copyfiles";
 
-import { prepareDb } from "./store/db";
+import db, { prepareDb } from "./store/db";
 import connectToWS from "./socket";
 import logger from "./logger";
 
 import "./ipcMain";
+import getIpfsBinPath from "./helpers/getIpfsBinPath";
+import writeIpfsBinaryPath from "./helpers/writeIpfsBinaryPath";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
+
+export let ipfsd = null;
 
 export let node;
 
@@ -41,41 +44,57 @@ const createWindow = async (): Promise<void> => {
   mainWindow.setResizable(false);
 
   try {
-    const ipfsd = await Ctl.createController({
+    await prepareDb();
+    const ipfsBin = getIpfsBinPath();
+    writeIpfsBinaryPath(ipfsBin);
+
+    const ipfsPath = await db.get("ipfs-path");
+
+    ipfsd = await Ctl.createController({
       ipfsHttpModule: require("ipfs-http-client"),
-      ipfsBin: require("go-ipfs").path(),
+      type: "go",
+      ipfsBin: ipfsBin,
+      ipfsOptions: {
+        repo: ipfsPath?.path ?? "",
+      },
       remote: false,
       disposable: false,
       test: false,
-      ipfsOptions: {
-        libp2p: {
-          modules: {
-            connProtector: new Protector(
-              fs.readFileSync(__dirname + "/assets/swarm.key")
-            ),
-          },
-        },
-        config: {
-          Bootstrap: [BOOTSTRAP_ADDRESSS],
-        },
-      },
+      args: ["--migrate", "--enable-gc", "--routing", "dhtclient"],
     });
+
+    copyfiles(
+      [__dirname + "/assets/swarm.key", ipfsd.path],
+      { up: true, error: true },
+      (err) => {
+        console.log(`err`, err);
+      }
+    );
+
+    if (!ipfsPath?.path) {
+      await db.put({
+        ...ipfsPath,
+        path: ipfsd.path,
+      });
+    }
 
     await ipfsd.init();
 
     await ipfsd.start();
 
-    await prepareDb();
+    node = ipfsd.api;
 
     const id = await ipfsd.api.id();
+
+    await ipfsd.api.bootstrap.clear();
+
+    await ipfsd.api.bootstrap.add(BOOTSTRAP_ADDRESSS);
 
     const peers = await ipfsd.api.swarm.peers();
 
     logger("ipfs-id", id);
 
     logger("peers", peers);
-
-    node = ipfsd.api;
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
@@ -91,8 +110,11 @@ const createWindow = async (): Promise<void> => {
 
 app.on("ready", createWindow);
 
-app.on("window-all-closed", () => {
+app.on("window-all-closed", async () => {
   if (process.platform !== "darwin") {
+    if (ipfsd) {
+      await ipfsd.stop();
+    }
     app.quit();
   }
 });
