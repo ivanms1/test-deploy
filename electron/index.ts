@@ -5,6 +5,7 @@ import IPFS from "ipfs-core";
 import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
+import PeerId from "peer-id";
 
 import { prepareDb } from "./store/db";
 import connectToWS from "./socket";
@@ -43,6 +44,8 @@ const createWindow = async (): Promise<void> => {
   logger("swarm-key", fs.readFileSync(__dirname + "/assets/swarm.key"));
 
   try {
+    const privateKey = await PeerId.create({ keyType: "Ed25519" });
+
     node = await IPFS.create({
       libp2p: {
         modules: {
@@ -55,6 +58,7 @@ const createWindow = async (): Promise<void> => {
       config: {
         Bootstrap: [BOOTSTRAP_ADDRESSS],
       },
+      init: { privateKey },
     });
 
     await prepareDb();

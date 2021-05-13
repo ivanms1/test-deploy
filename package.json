@@ -110,6 +110,7 @@
     "it-all": "^1.0.5",
     "jimp": "^0.16.1",
     "libp2p": "^0.30.12",
+    "peer-id": "^0.14.8",
     "pouchdb": "^7.2.2",
     "react": "^17.0.1",
     "react-avatar-editor": "^11.1.0",
