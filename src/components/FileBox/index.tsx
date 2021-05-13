@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import Button from "../Button";
-import Tooltip from "../Tooltip";
+import Thumbnail from "../Thumbnail";
+import LikeButton from "../LikeButton";
 
-import useLikeContent from "../../hooks/useLikeContent";
-import useCurrentUser from "../../hooks/useCurrentUser";
 import useGetImage from "../../hooks/useGetImage";
-import { useAppContext } from "../AppContext";
 
 import isHot from "../../helpers/isHot";
 
-import HeartFull from "../../assets/icons/heart-full.svg";
-import HeartEmpty from "../../assets/icons/heart-empty.svg";
 import DownloadIcon from "../../assets/icons/download.svg";
 import Flame from "../../assets/icons/flame.svg";
 
@@ -27,77 +22,16 @@ export interface FileBoxProps {
 }
 
 function FileBox({ file }: FileBoxProps) {
-  const [localLikeStatus, setLocalLikeStatus] = useState(file?.is_liked);
-  const [localLikeCount, setLocalLikeCount] = useState(
-    file?.content_stats.likes_cnt
-  );
-
-  const { isManagerConnected } = useAppContext();
-
-  const { likeContent } = useLikeContent();
-
-  const { currentUser } = useCurrentUser();
-
   const { data } = useGetImage(file?.info?.thumbnail);
-
-  // useEffect(() => {
-  //   const listener = (data) => {
-  //     if (data.contentId === file?.id) {
-  //       setLocalLikeStatus(false);
-  //       setLocalLikeCount((prev) => prev - 1);
-  //     }
-  //   };
-  //   api.listenToError(listener);
-
-  //   return () => {
-  //     api.removeListener("error-listener", listener);
-  //   };
-  // }, []);
-
-  const handleLike = async () => {
-    await likeContent({
-      userId: currentUser?.id,
-      contentId: file?.id,
-      publicHash: file?.info?.public_hash,
-    });
-
-    setLocalLikeStatus(true);
-    setLocalLikeCount((prev) => prev + 1);
-  };
 
   return (
     <div className={styles.FileBox}>
       <Link to={`/file/${file?.id}`} className={styles.Link}>
-        {data ? (
-          <img className={styles.FileImage} src={data} alt={file.name} />
-        ) : (
-          <div className={styles.NoImage}>No peers available</div>
-        )}
+        <Thumbnail imgSrc={data} className={styles.FileImage} />
       </Link>
       <div className={styles.InfoSection}>
         <div className={styles.Top}>
-          <div className={styles.Likes}>
-            {localLikeStatus ? (
-              <HeartFull className={styles.Heart} />
-            ) : (
-              <Tooltip id="like">
-                <Button
-                  noStyle
-                  type="button"
-                  onClick={isManagerConnected ? handleLike : null}
-                  data-for="like"
-                  data-tip={
-                    isManagerConnected
-                      ? "Liking is permanent."
-                      : "Connect to Conun manager to like this file"
-                  }
-                >
-                  <HeartEmpty className={styles.Heart} />
-                </Button>
-              </Tooltip>
-            )}
-            {localLikeCount}
-          </div>
+          <LikeButton file={file} />
           <p className={styles.Downloads}>
             {isHot(file?.content_stats?.rate ?? 0) && (
               <Flame className={styles.Flame} />

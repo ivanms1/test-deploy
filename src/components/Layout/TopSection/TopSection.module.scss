@@ -1,24 +1,26 @@
 .TopSection {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   & .LogoSection {
     display: flex;
+    padding: 0 5px;
 
     & .ConunLogo {
       transform: translateX(-5px);
       height: 35px;
-      margin-bottom: 5px;
+      margin: 5px 0;
     }
 
     & .ManagerButton {
-      display: flex;
-      width: 150px;
-      justify-content: center;
       align-items: center;
-      font-size: 14px;
       border-radius: 4px;
+      display: flex;
+      font-size: 14px;
       height: 30px;
+      justify-content: center;
+      margin-top: 7px;
+      width: 150px;
 
       & .DotIcon {
         width: 10px;
@@ -34,7 +36,7 @@
 
   & .UserAndSearchBar {
     display: flex;
-
+    padding: 0 5px;
     & .UserPicture {
       height: 45px;
       width: 45px;
@@ -51,7 +53,7 @@
   & .ActionsBar {
     display: flex;
     justify-content: flex-end;
-
+    padding: 5px;
     & :not(:last-child) {
       margin-right: 7px;
     }

@@ -4,7 +4,7 @@ import fetch from "electron-fetch";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import isDev from "electron-is-dev";
 
-import { ipfsd, mainWindow } from "../";
+import { mainWindow, node } from "../";
 import db from "../store/db";
 import logger from "../logger";
 
@@ -61,7 +61,7 @@ function connectToWS() {
 
       if (data.type === "upload-success") {
         try {
-          const descriptionHash = await ipfsd.api.add({
+          const descriptionHash = await node.add({
             content: data?.data?.description,
           });
           const previewBuffer = Buffer.from(
@@ -73,7 +73,7 @@ function connectToWS() {
           const previewContent = await preview.getBufferAsync(
             preview.getMIME()
           );
-          const previewHash = await ipfsd.api.add({
+          const previewHash = await node.add({
             content: previewContent,
           });
 
@@ -130,7 +130,7 @@ function connectToWS() {
 
       if (data.type === "download-success") {
         // eslint-disable-next-line
-        for await (const file of ipfsd.api.get(data?.contentHash)) {
+        for await (const file of node.get(data?.contentHash)) {
           // eslint-disable-next-line
           if (!file.content) continue;
           const content = [];

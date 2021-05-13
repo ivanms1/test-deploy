@@ -1,21 +1,18 @@
 import { app, BrowserWindow } from "electron";
-import Ctl from "ipfsd-ctl";
+import fs from "fs";
 import path from "path";
+import IPFS from "ipfs-core";
+import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
-import copyfiles from "copyfiles";
 
-import db, { prepareDb } from "./store/db";
+import { prepareDb } from "./store/db";
 import connectToWS from "./socket";
 import logger from "./logger";
 
 import "./ipcMain";
-import getIpfsBinPath from "./helpers/getIpfsBinPath";
-import writeIpfsBinaryPath from "./helpers/writeIpfsBinaryPath";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
-
-export let ipfsd = null;
 
 export let node;
 
@@ -43,58 +40,32 @@ const createWindow = async (): Promise<void> => {
   mainWindow.removeMenu();
   mainWindow.setResizable(false);
 
+  logger("swarm-key", fs.readFileSync(__dirname + "/assets/swarm.key"));
+
   try {
-    await prepareDb();
-    const ipfsBin = getIpfsBinPath();
-    writeIpfsBinaryPath(ipfsBin);
-
-    const ipfsPath = await db.get("ipfs-path");
-
-    ipfsd = await Ctl.createController({
-      ipfsHttpModule: require("ipfs-http-client"),
-      type: "go",
-      ipfsBin: ipfsBin,
-      ipfsOptions: {
-        repo: ipfsPath?.path ?? "",
+    node = await IPFS.create({
+      libp2p: {
+        modules: {
+          connProtector: new Protector(
+            fs.readFileSync(__dirname + "/assets/swarm.key")
+          ),
+        },
       },
-      remote: false,
-      disposable: false,
-      test: false,
-      args: ["--migrate", "--enable-gc", "--routing", "dhtclient"],
+      // @ts-expect-error
+      config: {
+        Bootstrap: [BOOTSTRAP_ADDRESSS],
+      },
     });
 
-    copyfiles(
-      [__dirname + "/assets/swarm.key", ipfsd.path],
-      { up: true, error: true },
-      (err) => {
-        console.log(`err`, err);
-      }
-    );
+    await prepareDb();
 
-    if (!ipfsPath?.path) {
-      await db.put({
-        ...ipfsPath,
-        path: ipfsd.path,
-      });
-    }
-
-    await ipfsd.init();
-
-    await ipfsd.start();
-
-    node = ipfsd.api;
-
-    const id = await ipfsd.api.id();
-
-    await ipfsd.api.bootstrap.clear();
-
-    await ipfsd.api.bootstrap.add(BOOTSTRAP_ADDRESSS);
-
-    const peers = await ipfsd.api.swarm.peers();
+    const id = await node.id();
+    const peers = await node.swarm.peers();
 
     logger("ipfs-id", id);
+    logger("ipfs-peers", peers);
 
-    logger("peers", peers);
+    logger("ipfs-id", id);
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
@@ -103,18 +74,14 @@ const createWindow = async (): Promise<void> => {
       await loadURL(mainWindow);
     }
   } catch (err) {
-    console.log(`err`, err);
     logger("ipfs-connection", err);
   }
 };
 
 app.on("ready", createWindow);
 
-app.on("window-all-closed", async () => {
+app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    if (ipfsd) {
-      await ipfsd.stop();
-    }
     app.quit();
   }
 });

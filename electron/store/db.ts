@@ -15,16 +15,6 @@ export async function prepareDb() {
   }
 
   try {
-    await db.get("ipfs-path");
-  } catch {
-    const newPath: any = {
-      _id: "ipfs-path",
-      path: "",
-    };
-    await db.put(newPath);
-  }
-
-  try {
     await db.get("userDetailsDrive");
   } catch {
     const newUserDetails: any = {

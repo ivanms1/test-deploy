@@ -15,6 +15,17 @@
     width: 102px;
   }
 
+  & .NoImage {
+    align-items: center;
+    border-radius: 3px 3px 0 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+  }
+
   & .Text {
     display: flex;
     flex-direction: column;
@@ -40,23 +51,28 @@
 }
 
 .ControlGrid {
-  display: grid;
-  grid-template-columns: 50px 12px;
-  grid-template-rows: 12px 12px;
+  display: flex;
+  flex-direction: column;
+
   column-gap: 10px;
   row-gap: 8px;
-  & .Count {
-    align-items: center;
-    color: var(--grey-button-color);
+  & .Downloads {
     display: flex;
-    height: 12px;
-    font-size: 14px;
-    justify-content: flex-end;
-    text-align: right;
-  }
 
-  & .Icon {
-    height: 12px;
-    width: 12px;
+    & .Icon {
+      height: 13px;
+      width: 13px;
+      margin-right: 7px;
+    }
+
+    & .Count {
+      align-items: center;
+      color: var(--grey-button-color);
+      display: flex;
+      height: 13px;
+      font-size: 13px;
+      justify-content: flex-end;
+      text-align: right;
+    }
   }
 }

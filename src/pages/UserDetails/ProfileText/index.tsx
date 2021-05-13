@@ -1,6 +1,7 @@
 import React from "react";
 
 import Button from "../../../components/Button";
+import CopyButton from "../../../components/CopyButton";
 
 import CopyIcon from "../../../assets/icons/copy.svg";
 
@@ -17,15 +18,7 @@ export default function ProfileText({
       <div className={styles.IDPart}>
         <div className={styles.Label}>ID</div>
         <div className={styles.Hash}>{walletHash}</div>
-        <Button
-          className={styles.CopyBtn}
-          noStyle
-          onClick={() => {
-            navigator.clipboard.writeText(walletHash);
-          }}
-        >
-          <CopyIcon className={styles.CopyIcon} />
-        </Button>
+        <CopyButton walletAdd={walletHash} />
       </div>
       {/* About Me text will go here when implemented */}
       <div className={styles.About}></div>

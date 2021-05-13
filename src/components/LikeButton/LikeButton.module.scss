@@ -1,0 +1,16 @@
+.LikeButton {
+  align-items: center;
+  color: var(--grey-button-color);
+  display: flex;
+  height: 100%;
+
+  & .Heart {
+    height: 13px;
+    transform: translateY(3px);
+    margin-right: 6px;
+  }
+  & .Count {
+    font-size: 13px;
+    height: 13px;
+  }
+}

@@ -2,6 +2,11 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  & .Image {
+    height: 195px;
+    width: 348px;
+  }
 }
 
 .ItemTitle {

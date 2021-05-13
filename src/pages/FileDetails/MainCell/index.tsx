@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import LikeBar from "./LikeBar";
 import FileProperties from "./FileProperties";
 import Tooltip from "../../../components/Tooltip";
+import Thumbnail from "../../../components/Thumbnail";
 
 import useGetImage from "../../../hooks/useGetImage";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -50,11 +51,9 @@ function MainCell({ file }: MainCellProps) {
 
   return (
     <div className={styles.Cell}>
-      {thumbImgSrc ? (
-        <img className={styles.MainImage} src={thumbImgSrc} />
-      ) : (
-        <div className={styles.NoImage}>No peers available</div>
-      )}
+      <div className={styles.Image}>
+        <Thumbnail imgSrc={thumbImgSrc} className={styles.MainImage} />
+      </div>
       <LikeBar file={file} />
       <div className={styles.ItemTitle}>{file && trunc(file.name, 55)}</div>
       <FileProperties
