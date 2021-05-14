@@ -6,7 +6,8 @@ import { concat } from "uint8arrays";
 import Jimp from "jimp";
 import isDev from "electron-is-dev";
 
-import { mainWindow, node } from "../";
+import { mainWindow } from "../";
+import { getIpfs } from "../ipfs";
 import db from "../store/db";
 import connectToWS, { client } from "../socket";
 import logger from "../logger";
@@ -17,13 +18,16 @@ const SERVER_URL = isDev ? DEV_DRIVE_SERVER : PROD_DRIVE_SERVER;
 
 ipcMain.handle("get-file-preview", async (_, hash) => {
   try {
-    logger("file-preview-logger", `Getting preview with hash ${hash}`);
+    const node = getIpfs();
+
+    logger("file-preview-logger", `getting preview with hash ${hash}`, "info");
 
     const preview = concat(await all(node.cat(hash)));
 
     logger(
       "file-preview-cat-success",
-      `Preview cat succeeded with hash ${hash}`
+      `preview cat succeeded with hash ${hash}`,
+      "info"
     );
 
     return {
@@ -31,7 +35,7 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
       preview,
     };
   } catch (error) {
-    logger("get-file-preview", error);
+    logger("get-file-preview", error, "error");
     return {
       success: false,
       error: String(error),
@@ -41,14 +45,28 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
 
 ipcMain.handle("get-file-description", async (_, hash) => {
   try {
-    const description = concat(await all(node.cat(hash, { timeout: 5000 })));
+    const node = getIpfs();
+
+    logger(
+      "cat-file-description",
+      `getting file description with hash ${hash}`,
+      "info"
+    );
+
+    const description = concat(await all(node.cat(hash)));
+
+    logger(
+      "cat-file-description",
+      `description cat successful with hash ${hash}`,
+      "info"
+    );
 
     return {
       success: true,
       description,
     };
   } catch (error) {
-    logger("get-file-description", error);
+    logger("get-file-description", error, "error");
     return {
       success: false,
       error: String(error),
@@ -58,6 +76,12 @@ ipcMain.handle("get-file-description", async (_, hash) => {
 
 ipcMain.handle("download-file", async (_, args) => {
   try {
+    logger(
+      "downloading-file",
+      `sending file ${args.hash} sent to manager`,
+      "info"
+    );
+
     client.send(
       JSON.stringify({
         type: "download-content",
@@ -69,18 +93,24 @@ ipcMain.handle("download-file", async (_, args) => {
       })
     );
   } catch (error) {
-    logger("download-file", error);
+    logger("download-file", error, "error");
   }
 });
 
 ipcMain.handle("upload-file", async (_, info) => {
   try {
+    const node = getIpfs();
+
+    logger("upload-file", `uploading file ${info?.filePath} to ipfs`, "info");
+
     mainWindow.webContents.send("is-registering-file", true);
     const file = fs.readFileSync(info.filePath);
     const fileContent = Buffer.from(file);
     const fileHash = await node.add({
       content: fileContent,
     });
+
+    logger("upload-file", `sending ${fileHash.path} hash to manager`, "info");
 
     client.send(
       JSON.stringify({ type: "upload-file", fileHash, price: 0, data: info })
@@ -91,7 +121,7 @@ ipcMain.handle("upload-file", async (_, info) => {
       fileHash,
     };
   } catch (error) {
-    logger("upload-file", error);
+    logger("upload-file", error, "error");
     return {
       success: false,
       error: String(error),
@@ -101,6 +131,11 @@ ipcMain.handle("upload-file", async (_, info) => {
 
 ipcMain.handle("like-content", (_, args) => {
   try {
+    logger(
+      "like-content",
+      `attempting like of file ${args?.publicHash}`,
+      "info"
+    );
     client.send(
       JSON.stringify({
         type: "like-content",
@@ -110,13 +145,19 @@ ipcMain.handle("like-content", (_, args) => {
       })
     );
   } catch (error) {
-    logger("like-content", error);
+    logger("like-content", error, "error");
   }
 });
 
 ipcMain.handle("get-current-user", async () => {
   try {
     const userDetails = await db.get("userDetailsDrive");
+
+    logger(
+      "get-current-user",
+      `getting current user with wallet ${userDetails?.walletAddress}`,
+      "info"
+    );
 
     const res = await fetch(`${SERVER_URL}/user/auth`, {
       method: "POST",
@@ -128,10 +169,8 @@ ipcMain.handle("get-current-user", async () => {
 
     const { data } = await res.json();
 
-    const userDetailsDrive = await db.get("userDetailsDrive");
-
     await db.put({
-      ...userDetailsDrive,
+      ...userDetails,
       userId: data.id,
       walletId: data?.wallet_id,
     });
@@ -141,7 +180,7 @@ ipcMain.handle("get-current-user", async () => {
       data,
     };
   } catch (error) {
-    logger("get-current-user", error);
+    logger("get-current-user", error, "error");
     return {
       success: false,
       data: null,
@@ -151,6 +190,10 @@ ipcMain.handle("get-current-user", async () => {
 
 ipcMain.handle("upload-avatar", async (_, path) => {
   try {
+    const node = getIpfs();
+
+    logger("upload-avatar", `uploading avatar with path ${path}`, "info");
+
     const bufferizedPath = Buffer.from(path.split(",")[1], "base64");
     const preview = await Jimp.read(bufferizedPath);
     await preview.resize(Jimp.AUTO, 500).quality(95);
@@ -164,7 +207,7 @@ ipcMain.handle("upload-avatar", async (_, path) => {
       hash: previewHash?.path,
     };
   } catch (error) {
-    logger("upload-avatar", error);
+    logger("upload-avatar", error, "error");
     return {
       success: false,
       error: String(error),
@@ -172,4 +215,11 @@ ipcMain.handle("upload-avatar", async (_, path) => {
   }
 });
 
-ipcMain.handle("connect-to-manager", () => connectToWS());
+ipcMain.handle("connect-to-manager", () => {
+  try {
+    logger("connect-to-manager", "connecting to manager", "info");
+    connectToWS();
+  } catch (error) {
+    logger("connect-to-manager", error?.message, "error");
+  }
+});

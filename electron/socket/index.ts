@@ -4,9 +4,10 @@ import fetch from "electron-fetch";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import isDev from "electron-is-dev";
 
-import { mainWindow, node } from "../";
+import { mainWindow } from "../";
 import db from "../store/db";
 import logger from "../logger";
+import { getIpfs } from "../ipfs";
 
 import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 
@@ -20,9 +21,16 @@ function connectToWS() {
   client = new W3CWebSocket(`ws://127.0.0.1:${MANAGER_PORT}`);
 
   client.onopen = () => {
+    logger("socket-connected", "socket is connected", "info");
     if (mainWindow) {
       mainWindow.webContents.send("is-manager-connected", true);
     }
+
+    logger(
+      "sending-drive-path",
+      `sending drive path to manager: ${app.getPath("exe")}`,
+      "info"
+    );
 
     client.send(
       JSON.stringify({
@@ -36,12 +44,15 @@ function connectToWS() {
     if (mainWindow) {
       mainWindow.webContents.send("is-manager-connected", false);
     }
+    logger("socket-disconnected", "socket has been disconnected", "info");
   };
 
-  client.onerror = () => {
+  client.onerror = (error) => {
     if (mainWindow) {
       mainWindow.webContents.send("is-manager-connected", false);
     }
+
+    logger("socket-error", error.message, "error");
   };
 
   client.onmessage = async (message) => {
@@ -50,17 +61,31 @@ function connectToWS() {
       if (data.type === "send-user-details") {
         try {
           const userDetails = await db.get("userDetailsDrive");
+
+          logger(
+            "receiving-user-details",
+            `receiving user details: ${data?.walletAddress}`,
+            "info"
+          );
           await db.put({
             ...userDetails,
             walletAddress: data?.walletAddress,
           });
         } catch (error) {
-          logger("send-user-details", error);
+          logger("send-user-details", error.message, "error");
         }
       }
 
       if (data.type === "upload-success") {
         try {
+          const node = getIpfs();
+
+          logger(
+            "manager-file-register-success",
+            `received public hash from manager: ${data?.publicHash}`,
+            "info"
+          );
+
           const descriptionHash = await node.add({
             content: data?.data?.description,
           });
@@ -76,6 +101,12 @@ function connectToWS() {
           const previewHash = await node.add({
             content: previewContent,
           });
+
+          logger(
+            "manager-file-register-success",
+            `created description and preview hash`,
+            "info"
+          );
 
           const userDetails = await db.get("userDetailsDrive");
 
@@ -106,6 +137,12 @@ function connectToWS() {
           });
 
           if (res.status === 201) {
+            logger(
+              "drive-upload-file-success",
+              `file uploaded to drive: ${data?.publicHash}`,
+              "info"
+            );
+
             mainWindow.webContents.send("upload-success");
           } else {
             try {
@@ -114,21 +151,29 @@ function connectToWS() {
               mainWindow.webContents.send("error-listener", {
                 data: createData?.message,
               });
-              logger("upload-failure", createData?.message);
+              logger("upload-failure", createData?.message, "error");
             } catch (error) {
               mainWindow.webContents.send("error-listener", {
                 data: String(error),
               });
-              logger("upload-failure", error);
+              logger("upload-failure", error?.message, "error");
             }
           }
         } catch (error) {
           mainWindow.webContents.send("error-listener", { data: data?.data });
-          logger("upload-failure", error);
+          logger("upload-failure", error, "error");
         }
       }
 
       if (data.type === "download-success") {
+        const node = getIpfs();
+
+        logger(
+          "download-start",
+          `Downloading hash ${data.contentHash}`,
+          "info"
+        );
+
         // eslint-disable-next-line
         for await (const file of node.get(data?.contentHash)) {
           // eslint-disable-next-line
@@ -140,6 +185,12 @@ function connectToWS() {
             content.push(chunk);
           }
 
+          logger(
+            "download-succes",
+            `Downloaded hash ${data.contentHash}`,
+            "info"
+          );
+
           mainWindow.webContents.send("download-success", {
             success: true,
             fileName: data?.name,
@@ -148,10 +199,20 @@ function connectToWS() {
         }
       }
       if (data.type === "upload-failure") {
+        logger(
+          "upload-failure",
+          `failed to register hash ${data.contentHash}`,
+          "error"
+        );
         mainWindow.webContents.send("error-listener", { data: data?.data });
       }
 
       if (data.type === "like-failure") {
+        logger(
+          "like-failure",
+          `failed to like hash ${data.contentHash}`,
+          "error"
+        );
         mainWindow.webContents.send("error-listener", {
           data: data?.data,
           contentId: data.contentId,
@@ -159,6 +220,11 @@ function connectToWS() {
       }
 
       if (data.type === "download-failure") {
+        logger(
+          "download-failure",
+          `failed to download hash ${data.contentHash}`,
+          "info"
+        );
         mainWindow.webContents.send("error-listener", {
           data: data?.data,
           contentId: data?.contentId,

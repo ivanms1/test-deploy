@@ -1,13 +1,10 @@
 import { app, BrowserWindow } from "electron";
-import fs from "fs";
 import path from "path";
-import IPFS from "ipfs-core";
-import Protector from "libp2p/src/pnet";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
-import PeerId from "peer-id";
 
 import { prepareDb } from "./store/db";
+import { createIpfs } from "./ipfs";
 import connectToWS from "./socket";
 import logger from "./logger";
 
@@ -15,19 +12,13 @@ import "./ipcMain";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
 
-export let node;
-
 export let mainWindow: BrowserWindow | null = null;
 
 connectToWS();
 
-const BOOTSTRAP_ADDRESSS_1 =
-  "/ip4/52.79.200.55/tcp/4001/ipfs/12D3KooWFyYb19Xki7pj4PyQ1jnZsEx4MfExyng2MZCAtpPXoCxb";
-
-const BOOTSTRAP_ADDRESSS_2 =
-  "/ip4/3.34.181.64/tcp/4002/ipfs/12D3KooWRRxEVRbptGzX4Moz6xEqrGnCA35kvFW371QwFuSipwEJ";
-
 const createWindow = async (): Promise<void> => {
+  await createIpfs();
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     height: 720,
@@ -44,35 +35,8 @@ const createWindow = async (): Promise<void> => {
   mainWindow.removeMenu();
   mainWindow.setResizable(false);
 
-  logger("swarm-key", fs.readFileSync(__dirname + "/assets/swarm.key"));
-
   try {
-    const privateKey = await PeerId.create({ keyType: "Ed25519" });
-
-    node = await IPFS.create({
-      libp2p: {
-        modules: {
-          connProtector: new Protector(
-            fs.readFileSync(__dirname + "/assets/swarm.key")
-          ),
-        },
-      },
-      // @ts-expect-error
-      config: {
-        Bootstrap: [BOOTSTRAP_ADDRESSS_1, BOOTSTRAP_ADDRESSS_2],
-      },
-      init: { privateKey },
-    });
-
     await prepareDb();
-
-    const id = await node.id();
-    const peers = await node.swarm.peers();
-
-    logger("ipfs-id", id);
-    logger("ipfs-peers", peers);
-
-    logger("ipfs-id", id);
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
@@ -81,7 +45,7 @@ const createWindow = async (): Promise<void> => {
       await loadURL(mainWindow);
     }
   } catch (err) {
-    logger("ipfs-connection", err);
+    logger("app-init", err, "error");
   }
 };
 
@@ -100,5 +64,5 @@ app.on("activate", () => {
 });
 
 process.on("uncaughtException", (uncaughtException) => {
-  logger("uncaught-exception", uncaughtException);
+  logger("uncaught-exception", uncaughtException, "error");
 });

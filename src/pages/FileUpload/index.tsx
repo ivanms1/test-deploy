@@ -79,11 +79,6 @@ function FileUpload() {
   useEffect(() => {
     const listener = () => {
       setIsRegistering(false);
-      toast.success("Upload successful", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
       reset(FORM_DEFAULT_VALUES);
     };
     api.listenToUploadSuccess(listener);
@@ -203,6 +198,7 @@ function FileUpload() {
                     onChange={onChange}
                     isMulti
                     formatCreateLabel={(value) => `Add new ${value} tag`}
+                    createOptionPosition="first"
                     placeholder=""
                   />
                 )}
