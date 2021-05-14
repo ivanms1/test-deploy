@@ -21,8 +21,11 @@ export let mainWindow: BrowserWindow | null = null;
 
 connectToWS();
 
-const BOOTSTRAP_ADDRESSS =
+const BOOTSTRAP_ADDRESSS_1 =
   "/ip4/52.79.200.55/tcp/4001/ipfs/12D3KooWFyYb19Xki7pj4PyQ1jnZsEx4MfExyng2MZCAtpPXoCxb";
+
+const BOOTSTRAP_ADDRESSS_2 =
+  "/ip4/3.34.181.64/tcp/4002/ipfs/12D3KooWRRxEVRbptGzX4Moz6xEqrGnCA35kvFW371QwFuSipwEJ";
 
 const createWindow = async (): Promise<void> => {
   // Create the browser window.
@@ -56,7 +59,7 @@ const createWindow = async (): Promise<void> => {
       },
       // @ts-expect-error
       config: {
-        Bootstrap: [BOOTSTRAP_ADDRESSS],
+        Bootstrap: [BOOTSTRAP_ADDRESSS_1, BOOTSTRAP_ADDRESSS_2],
       },
       init: { privateKey },
     });
