@@ -21,6 +21,7 @@ export async function prepareDb() {
       _id: "userDetailsDrive",
       walletId: null,
       userId: null,
+      isIpfsFileNew: false,
     };
     await db.put(newUserDetails);
   }
