@@ -169,8 +169,12 @@ ipcMain.handle("get-current-user", async () => {
 
     const { data } = await res.json();
 
+    const userDriveDetails = await db.get("userDetailsDrive");
+
+    logger("get-current-user", `current user has id ${data?.id}`, "info");
+
     await db.put({
-      ...userDetails,
+      ...userDriveDetails,
       userId: data.id,
       walletId: data?.wallet_id,
     });
