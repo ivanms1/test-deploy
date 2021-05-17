@@ -17,26 +17,25 @@ export let mainWindow: BrowserWindow | null = null;
 connectToWS();
 
 const createWindow = async (): Promise<void> => {
-  await createIpfs();
-
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 720,
-    width: 1280,
-    title: "Conun Drive",
-    webPreferences: {
-      nodeIntegration: false,
-      preload: path.resolve(__dirname, "preload.js"),
-      webSecurity: false,
-    },
-    resizable: false,
-  });
-
-  mainWindow.removeMenu();
-  mainWindow.setResizable(false);
-
   try {
     await prepareDb();
+
+    await createIpfs();
+
+    mainWindow = new BrowserWindow({
+      height: 720,
+      width: 1280,
+      title: "Conun Drive",
+      webPreferences: {
+        nodeIntegration: false,
+        preload: path.resolve(__dirname, "preload.js"),
+        webSecurity: false,
+      },
+      resizable: false,
+    });
+
+    mainWindow.removeMenu();
+    mainWindow.setResizable(false);
 
     if (isDev) {
       await mainWindow.loadURL("http://localhost:1235");
