@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, shell } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
@@ -9,6 +9,7 @@ import connectToWS from "./socket";
 import logger from "./logger";
 
 import "./ipcMain";
+import "./ipcMain/app";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
 
@@ -46,6 +47,11 @@ const createWindow = async (): Promise<void> => {
   } catch (err) {
     logger("app-init", err, "error");
   }
+
+  mainWindow.webContents.on("new-window", (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
 };
 
 app.on("ready", createWindow);

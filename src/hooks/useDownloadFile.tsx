@@ -5,9 +5,10 @@ const { api } = window;
 type DownloadContent = {
   hash: string;
   publicHash: string;
-  userId: number;
   contentId: number;
   name: string;
+  size: number;
+  title: string;
 };
 
 function useDownloadFile() {

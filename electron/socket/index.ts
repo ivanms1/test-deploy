@@ -1,6 +1,8 @@
 import { app } from "electron";
 import Jimp from "jimp";
 import fetch from "electron-fetch";
+import { join } from "path";
+import { appendFileSync } from "fs";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import isDev from "electron-is-dev";
 
@@ -176,12 +178,29 @@ function connectToWS() {
 
         // eslint-disable-next-line
         for await (const file of node.get(data?.contentHash)) {
+          let totalBytes = 0;
           // eslint-disable-next-line
           if (!file.content) continue;
           const content = [];
 
           // eslint-disable-next-line
           for await (const chunk of file.content) {
+            totalBytes += chunk?.length;
+            const currentPercentage = (
+              (totalBytes * 100) /
+              data?.data?.size
+            ).toFixed(2);
+
+            appendFileSync(
+              join(app.getPath("downloads"), data.name),
+              Buffer.from(chunk)
+            );
+
+            mainWindow.webContents.send("download-percentage", {
+              file: data?.data,
+              percentage: currentPercentage,
+            });
+
             content.push(chunk);
           }
 
@@ -193,26 +212,18 @@ function connectToWS() {
 
           mainWindow.webContents.send("download-success", {
             success: true,
-            fileName: data?.name,
-            file: content,
+            path: join(app.getPath("downloads"), data.name),
+            data: data?.data,
           });
         }
       }
       if (data.type === "upload-failure") {
-        logger(
-          "upload-failure",
-          `failed to register hash ${data.contentHash}`,
-          "error"
-        );
+        logger("upload-failure", data?.data, "error");
         mainWindow.webContents.send("error-listener", { data: data?.data });
       }
 
       if (data.type === "like-failure") {
-        logger(
-          "like-failure",
-          `failed to like hash ${data.contentHash}`,
-          "error"
-        );
+        logger("like-failure", data?.data, "error");
         mainWindow.webContents.send("error-listener", {
           data: data?.data,
           contentId: data.contentId,

@@ -1,5 +1,5 @@
 .FileProperties {
-  color: var(--grey-button-color);
+  color: #333;
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -14,7 +14,6 @@
     font-size: 14px;
 
     & span {
-      font-weight: bold;
       font-size: 14px;
     }
   }

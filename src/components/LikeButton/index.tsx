@@ -25,12 +25,10 @@ function LikeButton({ file }: Props) {
   const [likeCount, setLikeCount] = useState(file?.content_stats.likes_cnt);
 
   const { likeContent } = useLikeContent();
-  const { currentUser } = useCurrentUser();
   const { isManagerConnected } = useAppContext();
 
   const handleLike = async () => {
     await likeContent({
-      userId: currentUser?.id,
       contentId: file?.id,
       publicHash: file?.info?.public_hash,
     });

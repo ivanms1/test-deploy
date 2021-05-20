@@ -8,6 +8,11 @@
   animation: loading-spinner 2s linear infinite;
   margin: 0 auto;
   box-sizing: border-box;
+
+  &.inverted {
+    border: 0.4em solid var(--primary);
+    border-top-color: #fff;
+  }
 }
 
 @-webkit-keyframes load4 {

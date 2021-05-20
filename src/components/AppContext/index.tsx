@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import { saveAs } from "file-saver";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
 
@@ -23,6 +22,8 @@ type State = {
   handleSavedSearchBar: (state: boolean) => void;
   isManagerConnected: boolean;
   handleIsManagerConnected: (state: boolean) => void;
+  isDownloadsOpen: boolean;
+  handleDownloadSidebar: (state: boolean) => void;
 };
 type AppProviderProps = { children: ReactNode };
 
@@ -32,47 +33,21 @@ function AppProvider({ children }: AppProviderProps) {
   const { currentUser } = useCurrentUser();
   const [isSavedSearchOpen, setIsSavedSearchOpen] = useState(false);
   const [isManagerConnected, setIsManagerConnected] = useState(false);
+  const [isDownloadsOpen, setIsDownloadsOpen] = useState(true);
 
   useEffect(() => {
     api.listenToError((data) => {
       toast.error(data?.data || "An error happened", {
         position: "bottom-center",
         autoClose: 2000,
-        hideProgressBar: true,
       });
     });
-  }, []);
-
-  useEffect(() => {
-    const listener = (data) => {
-      const newFile = new Blob(data.file);
-      saveAs(newFile, data?.fileName);
-    };
-    api.listenToDownloadSuccess(listener);
-
-    return () => {
-      api.removeListener("download-success", listener);
-    };
-  }, []);
-
-  useEffect(() => {
-    const listener = () => {
-      toast.success("Upload successful", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
-    };
-    api.listenToUploadSuccess(listener);
-
-    return () => {
-      api.removeListener("upload-success", listener);
-    };
   }, []);
 
   const handleSavedSearchBar = (state: boolean) => setIsSavedSearchOpen(state);
   const handleIsManagerConnected = (state: boolean) =>
     setIsManagerConnected(state);
+  const handleDownloadSidebar = (state: boolean) => setIsDownloadsOpen(state);
 
   const value = useMemo(
     () => ({
@@ -81,8 +56,10 @@ function AppProvider({ children }: AppProviderProps) {
       handleSavedSearchBar,
       isManagerConnected,
       handleIsManagerConnected,
+      isDownloadsOpen,
+      handleDownloadSidebar,
     }),
-    [currentUser, isSavedSearchOpen, isManagerConnected]
+    [currentUser, isSavedSearchOpen, isManagerConnected, isDownloadsOpen]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

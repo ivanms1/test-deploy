@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { toast } from "react-toastify";
 
 import Button from "../../../components/Button";
 import LikeBar from "./LikeBar";
@@ -7,7 +8,6 @@ import Tooltip from "../../../components/Tooltip";
 import Thumbnail from "../../../components/Thumbnail";
 
 import useGetImage from "../../../hooks/useGetImage";
-import useCurrentUser from "../../../hooks/useCurrentUser";
 import useDownloadFile from "../../../hooks/useDownloadFile";
 import { useAppContext } from "../../../components/AppContext";
 
@@ -24,30 +24,31 @@ interface MainCellProps {
 }
 
 function MainCell({ file }: MainCellProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-
   const { isManagerConnected } = useAppContext();
-  const { currentUser } = useCurrentUser();
-  const { downloadFile } = useDownloadFile();
+  const { downloadFile, isLoading } = useDownloadFile();
   const { data: thumbImgSrc } = useGetImage(file?.info?.thumbnail);
 
-  useEffect(() => {
-    const listener = () => {
-      setIsDownloading(false);
-    };
-
-    api.listenToDownloadSuccess(listener);
-
-    return () => {
-      api.removeListener("download-success", listener);
-    };
-  }, []);
-
-  useEffect(() => {
-    api.listenToError(() => {
-      setIsDownloading(false);
+  const handleDownload = async () => {
+    const data: any = await downloadFile({
+      hash: file?.info?.content_hash,
+      name: file?.info.file_name,
+      publicHash: file?.info?.public_hash,
+      contentId: file?.id,
+      size: file?.info?.size,
+      title: file?.name,
     });
-  }, []);
+
+    if (data?.success) {
+      toast.info("Your download has started", {
+        position: "bottom-center",
+        autoClose: 2000,
+      });
+    } else {
+      toast.error(data?.error ?? "An error ocurred", {
+        position: "bottom-center",
+      });
+    }
+  };
 
   return (
     <div className={styles.Cell}>
@@ -66,18 +67,9 @@ function MainCell({ file }: MainCellProps) {
           <Button
             className={styles.PurchaseButton}
             type="button"
-            loading={isDownloading}
-            disabled={!thumbImgSrc}
-            onClick={async () => {
-              setIsDownloading(true);
-              await downloadFile({
-                hash: file?.info?.content_hash,
-                name: file?.info.file_name,
-                publicHash: file?.info?.public_hash,
-                userId: currentUser?.id,
-                contentId: file?.id,
-              });
-            }}
+            loading={isLoading}
+            disabled={!thumbImgSrc || isLoading}
+            onClick={handleDownload}
           >
             Download
           </Button>

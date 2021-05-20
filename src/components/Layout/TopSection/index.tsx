@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
@@ -27,6 +27,7 @@ function TopSection() {
     isSavedSearchOpen,
     handleIsManagerConnected,
     isManagerConnected,
+    isDownloadsOpen,
   } = useAppContext();
   const { currentUser } = useCurrentUser();
   const { data: avatarImgSrc } = useGetImage(currentUser?.avatar);
@@ -42,49 +43,53 @@ function TopSection() {
 
   return (
     <div className={styles.TopSection}>
-      <div className={styles.LogoSection}>
-        <ConunIcon className={styles.ConunLogo} />
-        <Tooltip id="manager-check">
-          <Button
-            type="button"
-            data-for="manager-check"
-            data-tip={
-              isManagerConnected
-                ? "Manager is connected!"
-                : "Open the manager and click here to reconnect"
-            }
-            className={styles.ManagerButton}
-            onClick={() => (isManagerConnected ? {} : api.connectToManager())}
-            variant="grey"
-          >
-            <DotIcon
-              className={classNames(styles.DotIcon, {
-                [styles.online]: isManagerConnected,
-              })}
-            />
-            Manager {isManagerConnected ? "Online" : "Offline"}{" "}
-          </Button>
-        </Tooltip>
-      </div>
-      <div className={styles.UserAndSearchBar}>
-        {currentUser && (
-          <Link
-            className={styles.UserPicture}
-            to={`/user-details?user=${currentUser?.id}&walletHash=${currentUser?.wallet_id}&avatar=${currentUser?.avatar}`}
-          >
-            {avatarImgSrc ? (
-              <img
-                className={styles.Picture}
-                src={avatarImgSrc}
-                alt="user profile"
-              />
-            ) : (
-              <NoAvatar className={styles.Picture} />
-            )}
+      {!isDownloadsOpen && (
+        <div className={styles.LogoSection}>
+          <Link to="/">
+            <ConunIcon className={styles.ConunLogo} />
           </Link>
-        )}
-        <SearchBar />
-      </div>
+          <Tooltip id="manager-check">
+            <Button
+              type="button"
+              data-for="manager-check"
+              data-tip={
+                isManagerConnected
+                  ? "Manager is connected!"
+                  : "Sign into the manager and click here to reconnect"
+              }
+              className={styles.ManagerButton}
+              onClick={() => (isManagerConnected ? {} : api.connectToManager())}
+              variant="grey"
+            >
+              <DotIcon
+                className={classNames(styles.DotIcon, {
+                  [styles.online]: isManagerConnected,
+                })}
+              />
+              Manager {isManagerConnected ? "Online" : "Offline"}{" "}
+            </Button>
+          </Tooltip>
+        </div>
+      )}
+      {currentUser && (
+        <Link
+          className={styles.UserPicture}
+          to={`/user-details?user=${currentUser?.id}&walletHash=${currentUser?.wallet_id}&avatar=${currentUser?.avatar}`}
+        >
+          {avatarImgSrc ? (
+            <img
+              className={styles.Picture}
+              src={avatarImgSrc}
+              alt="user profile"
+            />
+          ) : (
+            <NoAvatar className={styles.Picture} />
+          )}
+        </Link>
+      )}
+
+      <SearchBar />
+
       <div className={styles.ActionsBar}>
         <Link className={styles.ActionButtonAdd} to="/">
           <HomeIcon className={styles.Icon} />

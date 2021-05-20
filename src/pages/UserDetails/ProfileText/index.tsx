@@ -1,9 +1,6 @@
 import React from "react";
 
-import Button from "../../../components/Button";
 import CopyButton from "../../../components/CopyButton";
-
-import CopyIcon from "../../../assets/icons/copy.svg";
 
 import styles from "./ProfileText.module.scss";
 

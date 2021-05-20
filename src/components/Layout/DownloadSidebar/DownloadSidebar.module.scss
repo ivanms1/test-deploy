@@ -1,0 +1,95 @@
+.DownloadSidebar {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 205px;
+  height: calc(100vh - 29px - 32px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  padding: 16px 0;
+
+  & .LogoSection {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+
+    & .ConunLogo {
+      transform: translateX(-5px);
+      height: 35px;
+      margin: 5px 0;
+    }
+
+    & .ManagerButton {
+      align-items: center;
+      border-radius: 4px;
+      display: flex;
+      font-size: 13px;
+      height: 10px;
+      justify-content: center;
+      margin-top: 7px;
+      padding: 10px 5px;
+
+      & .DotIcon {
+        width: 10px;
+        margin-right: 5px;
+        fill: var(--ui-red);
+
+        &.online {
+          fill: var(--ui-green);
+        }
+      }
+    }
+  }
+
+  & .UserPicture {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    height: 64px;
+    width: 64px;
+
+    & .Picture {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  .WalletAddressContainer {
+    display: flex;
+    width: 70%;
+    margin-bottom: 30px;
+
+    & .WalletAddress {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      &:hover {
+        color: var(--dark-grey);
+      }
+    }
+  }
+
+  & .ArrowButton {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    & .Arrow {
+      height: 15px;
+      fill: var(--grey-button-color);
+    }
+  }
+}

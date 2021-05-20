@@ -36,9 +36,9 @@ async function logger(name: string, message: any, type: "info" | "error") {
   }
 
   if (type === "info") {
-    localLogger.info(message);
+    localLogger.info(formattedMessage);
   } else {
-    localLogger.error(message);
+    localLogger.error(formattedMessage);
   }
 
   try {

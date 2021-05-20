@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { ipcMain, shell } from "electron";
 import fs from "fs";
 import fetch from "electron-fetch";
 import all from "it-all";
@@ -76,6 +76,8 @@ ipcMain.handle("get-file-description", async (_, hash) => {
 
 ipcMain.handle("download-file", async (_, args) => {
   try {
+    const userDetails = await db.get("userDetailsDrive");
+
     logger(
       "downloading-file",
       `sending file ${args.hash} sent to manager`,
@@ -86,14 +88,26 @@ ipcMain.handle("download-file", async (_, args) => {
       JSON.stringify({
         type: "download-content",
         ccid: args?.publicHash,
-        user_id: args?.userId,
+        user_id: userDetails?.userId,
         content_id: args?.contentId,
         name: args?.name,
         hash: args?.hash,
+        size: args?.size,
       })
     );
+
+    mainWindow.webContents.send("download-start", args);
+
+    return {
+      success: true,
+    };
   } catch (error) {
     logger("download-file", error, "error");
+
+    return {
+      success: false,
+      error: String(error),
+    };
   }
 });
 
@@ -103,12 +117,21 @@ ipcMain.handle("upload-file", async (_, info) => {
 
     logger("upload-file", `uploading file ${info?.filePath} to ipfs`, "info");
 
-    mainWindow.webContents.send("is-registering-file", true);
+    const handleProgress = (data) => {
+      const currentPercentage = ((data * 100) / info?.size).toFixed(2);
+
+      mainWindow.webContents.send("upload-percentage", currentPercentage);
+    };
     const file = fs.readFileSync(info.filePath);
     const fileContent = Buffer.from(file);
-    const fileHash = await node.add({
-      content: fileContent,
-    });
+    const fileHash = await node.add(
+      {
+        content: fileContent,
+      },
+      {
+        progress: handleProgress,
+      }
+    );
 
     logger("upload-file", `sending ${fileHash.path} hash to manager`, "info");
 
@@ -129,8 +152,9 @@ ipcMain.handle("upload-file", async (_, info) => {
   }
 });
 
-ipcMain.handle("like-content", (_, args) => {
+ipcMain.handle("like-content", async (_, args) => {
   try {
+    const userDetails = await db.get("userDetailsDrive");
     logger(
       "like-content",
       `attempting like of file ${args?.publicHash}`,
@@ -140,7 +164,7 @@ ipcMain.handle("like-content", (_, args) => {
       JSON.stringify({
         type: "like-content",
         ccid: args?.publicHash,
-        user_id: args?.userId,
+        user_id: userDetails?.userId,
         content_id: args?.contentId,
       })
     );
@@ -225,5 +249,13 @@ ipcMain.handle("connect-to-manager", () => {
     connectToWS();
   } catch (error) {
     logger("connect-to-manager", error?.message, "error");
+  }
+});
+
+ipcMain.handle("open-file", async (_, path: string) => {
+  try {
+    await shell.openPath(path);
+  } catch (error) {
+    logger("open-file", error?.message, "error");
   }
 });

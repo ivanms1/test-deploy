@@ -8,6 +8,7 @@ import ProPic from "./ProPic";
 
 import useGetImage from "../../../hooks/useGetImage";
 import useCurrentUser from "../../../hooks/useCurrentUser";
+import { useAppContext } from "../../../components/AppContext";
 
 import instance from "../../../axios/instance";
 
@@ -47,7 +48,10 @@ function ProfilePicture({
     }
     setShowModal(false);
   };
-  if (isSelf) {
+
+  const { isManagerConnected } = useAppContext();
+
+  if (isSelf && isManagerConnected) {
     return (
       <>
         <div className={styles.MyPicBox} onClick={() => setShowModal(true)}>

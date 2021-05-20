@@ -34,7 +34,11 @@ function Downloads() {
 
   const { currentUser } = useCurrentUser();
 
-  const { data: files, fetchNextPage, isLoading } = useInfiniteQuery(
+  const {
+    data: files,
+    fetchNextPage,
+    isLoading,
+  } = useInfiniteQuery(
     ["user_downloads", currentUser?.id],
     async ({ pageParam = page.current }) => {
       const { data } = await instance.get(
@@ -52,6 +56,8 @@ function Downloads() {
 
         return undefined;
       },
+      refetchOnMount: "always",
+      refetchOnReconnect: "always",
     }
   );
   //End of hook

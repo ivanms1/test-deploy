@@ -4,7 +4,6 @@ const { api } = window;
 
 type LikeContent = {
   publicHash: string;
-  userId: number;
   contentId: number;
 };
 
@@ -13,10 +12,8 @@ function useLikeContent() {
     mutateAsync: likeContent,
     isLoading,
     mutate,
-  } = useMutation(
-    "like-content",
-    ({ publicHash, userId, contentId }: LikeContent) =>
-      api.likeContent({ publicHash, userId, contentId })
+  } = useMutation("like-content", ({ publicHash, contentId }: LikeContent) =>
+    api.likeContent({ publicHash, contentId })
   );
   return { likeContent, isLoading, mutate };
 }

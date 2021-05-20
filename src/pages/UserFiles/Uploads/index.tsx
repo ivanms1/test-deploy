@@ -33,7 +33,11 @@ function Uploads() {
 
   const { id: authorID } = useParams();
 
-  const { data: files, fetchNextPage, isLoading } = useInfiniteQuery(
+  const {
+    data: files,
+    fetchNextPage,
+    isLoading,
+  } = useInfiniteQuery(
     ["user_uploads", authorID],
     async ({ pageParam = page.current }) => {
       const formData = new FormData();
@@ -59,6 +63,7 @@ function Uploads() {
         return undefined;
       },
       enabled: !!authorID,
+      refetchOnMount: "always",
     }
   );
 

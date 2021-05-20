@@ -1,6 +1,6 @@
 .TopSection {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   & .LogoSection {
     display: flex;
@@ -34,19 +34,15 @@
     }
   }
 
-  & .UserAndSearchBar {
-    display: flex;
-    padding: 0 5px;
-    & .UserPicture {
+  & .UserPicture {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+    & .Picture {
       height: 45px;
       width: 45px;
       border-radius: 50%;
-      margin-right: 10px;
-      & .Picture {
-        height: 45px;
-        width: 45px;
-        border-radius: 50%;
-      }
     }
   }
 

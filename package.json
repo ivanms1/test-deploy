@@ -22,7 +22,7 @@
   ],
   "repository": "https://github.com/CONUN-Global/conun-drive",
   "author": {
-    "name": "Ivan Saldano",
+    "name": "Conun",
     "email": "ivanms1@conun.co.kr"
   },
   "license": "MIT",
@@ -106,6 +106,7 @@
     "electron-updater": "^4.3.8",
     "file-saver": "^2.0.5",
     "framer-motion": "^4.1.8",
+    "immer": "^9.0.2",
     "ipfs-core": "^0.5.4",
     "it-all": "^1.0.5",
     "jimp": "^0.16.1",

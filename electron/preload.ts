@@ -23,10 +23,19 @@ contextBridge.exposeInMainWorld("api", {
   listenToUploadSuccess: (fn: any) => {
     ipcRenderer.on("upload-success", (e, ...args) => fn(...args));
   },
+  listenToDownloadStart: (fn: any) => {
+    ipcRenderer.on("download-start", (e, ...args) => fn(...args));
+  },
   listenToError: (fn: any) => {
     ipcRenderer.on("error-listener", (e, ...args) => fn(...args));
   },
-  removeListener: (name: string, fn: any) =>
-    ipcRenderer.removeListener(name, fn),
+  listenToDownloadProgress: (fn: any) => {
+    ipcRenderer.on("download-percentage", (e, ...args) => fn(...args));
+  },
+  listenToUploadProgress: (fn: any) => {
+    ipcRenderer.on("upload-percentage", (e, ...args) => fn(...args));
+  },
+  removeListeners: (name: string) => ipcRenderer.removeAllListeners(name),
+  openFile: (path: string) => ipcRenderer.invoke("open-file", path),
   getAppVersion: () => ipcRenderer.invoke("get-app-version"),
 });

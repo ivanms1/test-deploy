@@ -11,7 +11,7 @@ interface TagsSelectProps {
   onChange: (values: any) => void;
   isMulti?: boolean;
   formatCreateLabel?: (value: string) => string;
-  createOptionPositon: "first" | "last";
+  createOptionPosition: "first" | "last";
   placeholder?: string;
 }
 
