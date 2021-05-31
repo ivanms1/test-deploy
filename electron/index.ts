@@ -13,6 +13,8 @@ import "./ipcMain/app";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
 
+const APP_HEIGHT = process.platform === "win32" ? 746 : 720;
+
 export let mainWindow: BrowserWindow | null = null;
 
 connectToWS();
@@ -24,7 +26,7 @@ const createWindow = async (): Promise<void> => {
     await createIpfs();
 
     mainWindow = new BrowserWindow({
-      height: 720,
+      height: APP_HEIGHT,
       width: 1280,
       title: "Conun Drive",
       webPreferences: {
