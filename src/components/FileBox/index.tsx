@@ -15,8 +15,6 @@ import { FileProps } from "../../types";
 
 import styles from "./FileBox.module.scss";
 
-const { api } = window;
-
 export interface FileBoxProps {
   file: FileProps;
 }
@@ -26,9 +24,14 @@ function FileBox({ file }: FileBoxProps) {
 
   return (
     <div className={styles.FileBox}>
-      <Link to={`/file/${file?.id}`} className={styles.Link}>
-        <Thumbnail imgSrc={data} className={styles.FileImage} />
-      </Link>
+      <div className={styles.ImageContainer}>
+        <Thumbnail
+          imgSrc={data}
+          className={styles.FileImage}
+          link={`/file/${file?.id}`}
+          fileForList={file}
+        />
+      </div>
       <div className={styles.InfoSection}>
         <div className={styles.Top}>
           <LikeButton file={file} />

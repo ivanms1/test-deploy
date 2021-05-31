@@ -30,7 +30,6 @@ function ProfilePicture({
     isSelf ? currentUser?.avatar : avatar
   );
 
-  const [msgShow, setMsgShow] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const { mutateAsync: uploadAvatar } = useMutation(async (hash: string) => {
@@ -55,24 +54,8 @@ function ProfilePicture({
     return (
       <>
         <div className={styles.MyPicBox} onClick={() => setShowModal(true)}>
-          <ProPic
-            avatarImgSrc={avatarImgSrc}
-            msgShow={msgShow}
-            setMsgShow={setMsgShow}
-          />
-          <span
-            className={classNames(styles.EditMessage, {
-              [styles.show]: msgShow,
-            })}
-            onMouseEnter={() => {
-              setMsgShow(true);
-            }}
-            onMouseLeave={() => {
-              setMsgShow(false);
-            }}
-          >
-            edit
-          </span>
+          <ProPic avatarImgSrc={avatarImgSrc} />
+          <span className={styles.EditMessage}>edit</span>
         </div>
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <ThumbnailEditor

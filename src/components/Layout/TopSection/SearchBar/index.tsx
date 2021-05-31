@@ -68,21 +68,19 @@ function SearchBar() {
         <Controller
           name="searchString"
           control={control}
-          render={({ field: { onChange } }) => (
-            <>
-              <SearchSelect
-                className={styles.SearchBar}
-                onChange={(value) => {
-                  onChange(value?.value);
+          render={({ field: { onChange, value } }) => (
+            <SearchSelect
+              className={styles.SearchBar}
+              onChange={(value, method) => {
+                onChange(value);
+                if (method === "click" || method === "enter") {
                   handleSearch(getValues());
-                }}
-                placeholder="Search..."
-                formatCreateLabel={(value) => value}
-                allowCreateWhileLoading
-                createOptionPosition="first"
-                isTagSearch={watchedFilter === "tags"}
-              />
-            </>
+                }
+              }}
+              value={value}
+              placeholder="Search..."
+              isTagSearch={watchedFilter === "tags"}
+            />
           )}
           rules={{
             required: true,

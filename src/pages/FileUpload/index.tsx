@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
 
 import Button from "../../components/Button";
 import CategorySelect from "../../components/Select/CategorySelect";
@@ -72,25 +71,6 @@ function FileUpload() {
     defaultValues: FORM_DEFAULT_VALUES,
   });
 
-  useEffect(() => {
-    const listener = () => {
-      reset(FORM_DEFAULT_VALUES);
-    };
-    api.listenToUploadSuccess(listener);
-  }, []);
-
-  useEffect(() => {
-    const listener = () => {
-      toast.success("Upload successful", {
-        position: "bottom-center",
-        autoClose: 2000,
-      });
-    };
-    api.listenToUploadSuccess(listener);
-
-    return () => api.removeListeners("upload-success");
-  }, []);
-
   const onSubmit: SubmitHandler<UploadFormData> = async (data) => {
     await uploadFile(data);
   };
@@ -109,7 +89,7 @@ function FileUpload() {
         <div className={styles.InputsBox}>
           <div className={styles.UploadSection}>
             <div className={styles.AddFileInput}>
-              <p className={styles.InputLabel}>1. Add File</p>
+              <p className={styles.InputLabel}>1. Add File (Max. 2Gb)</p>
               <Controller
                 control={control}
                 name="file"
@@ -118,6 +98,8 @@ function FileUpload() {
                     currentFile={value}
                     className={styles.DropzoneFile}
                     onDrop={(files) => onChange(files[0])}
+                    maxSize={2147483648}
+                    rejectMessage="File too large: Max file size is 2Gb."
                     label="Drop your file"
                   />
                 )}
@@ -256,7 +238,7 @@ function FileUpload() {
             </div>
           </div>
         </div>
-        <SubmitButton />
+        <SubmitButton reset={reset} />
       </form>
     </div>
   );

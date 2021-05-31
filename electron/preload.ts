@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld("api", {
   uploadFile: (info: any) => ipcRenderer.invoke("upload-file", info),
   likeContent: (args: any) => ipcRenderer.invoke("like-content", args),
   getCurrentUser: () => ipcRenderer.invoke("get-current-user"),
+  getLaterList: () => ipcRenderer.invoke("get-later-list"),
+  updateLaterList: (list: any) => ipcRenderer.invoke("update-later-list", list),
   listenToFileRegister: (fn: any) => {
     ipcRenderer.on("is-registering-file", (e, ...args) => fn(...args));
   },
@@ -35,7 +37,11 @@ contextBridge.exposeInMainWorld("api", {
   listenToUploadProgress: (fn: any) => {
     ipcRenderer.on("upload-percentage", (e, ...args) => fn(...args));
   },
+  listenToUpdateManager: (fn: any) => {
+    ipcRenderer.on("update-manager", (e, ...args) => fn(...args));
+  },
   removeListeners: (name: string) => ipcRenderer.removeAllListeners(name),
   openFile: (path: string) => ipcRenderer.invoke("open-file", path),
   getAppVersion: () => ipcRenderer.invoke("get-app-version"),
+  getPeers: () => ipcRenderer.invoke("get-peers"),
 });

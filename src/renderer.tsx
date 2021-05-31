@@ -13,23 +13,26 @@ import { queryClient } from "./react-query/config";
 import styles from "./renderer.module.scss";
 
 import "react-toastify/dist/ReactToastify.css";
+import UpdateCheckerProvider from "./components/UpdateChecker";
 
 ReactDOM.render(
-  <QueryClientProvider client={queryClient}>
-    <Router>
-      <AppProvider>
-        <Layout>
-          <App />
-          <ToastContainer
-            limit={1}
-            bodyClassName={styles.ToastBody}
-            toastClassName={styles.Toast}
-            className={styles.ToastCotainer}
-            hideProgressBar
-          />
-        </Layout>
-      </AppProvider>
-    </Router>
-  </QueryClientProvider>,
+  <UpdateCheckerProvider>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <AppProvider>
+          <Layout>
+            <App />
+            <ToastContainer
+              limit={1}
+              bodyClassName={styles.ToastBody}
+              toastClassName={styles.Toast}
+              className={styles.ToastCotainer}
+              hideProgressBar
+            />
+          </Layout>
+        </AppProvider>
+      </Router>
+    </QueryClientProvider>
+  </UpdateCheckerProvider>,
   document.getElementById("app")
 );

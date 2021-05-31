@@ -11,8 +11,11 @@
   z-index: 5;
   border-top: solid 1px var(--bg);
 
-  & span {
+  & .CurrentVersion {
     margin-right: 10px;
+  }
+
+  & .UpdateStatus {
     font-weight: 400;
     & a {
       color: var(--emerald);

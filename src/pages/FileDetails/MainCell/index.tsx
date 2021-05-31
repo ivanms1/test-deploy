@@ -53,7 +53,11 @@ function MainCell({ file }: MainCellProps) {
   return (
     <div className={styles.Cell}>
       <div className={styles.Image}>
-        <Thumbnail imgSrc={thumbImgSrc} className={styles.MainImage} />
+        <Thumbnail
+          imgSrc={thumbImgSrc}
+          className={styles.MainImage}
+          fileForList={file}
+        />
       </div>
       <LikeBar file={file} />
       <div className={styles.ItemTitle}>{file && trunc(file.name, 55)}</div>

@@ -5,6 +5,7 @@ import classNames from "classnames";
 import Button from "../../Button";
 import SearchBar from "./SearchBar";
 import Tooltip from "../../Tooltip";
+import PeersButton from "../../PeersButton";
 
 import { useAppContext } from "../../AppContext";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -87,10 +88,9 @@ function TopSection() {
           )}
         </Link>
       )}
-
       <SearchBar />
-
       <div className={styles.ActionsBar}>
+        <PeersButton className={styles.Peers} />
         <Link className={styles.ActionButtonAdd} to="/">
           <HomeIcon className={styles.Icon} />
         </Link>

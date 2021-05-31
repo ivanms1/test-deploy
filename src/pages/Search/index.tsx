@@ -23,7 +23,12 @@ function Search() {
   const page = useRef(Number(query.get("page")));
   const total = useRef(0);
 
-  const { data: files, fetchNextPage, remove, isLoading } = useInfiniteQuery(
+  const {
+    data: files,
+    fetchNextPage,
+    remove,
+    isLoading,
+  } = useInfiniteQuery(
     ["search", query.get("keyword"), query.get("filter")],
     async ({ pageParam = page.current }) => {
       const { data } = await instance.get(
@@ -43,7 +48,7 @@ function Search() {
         }
         return undefined;
       },
-      enabled: page.current === 1,
+      enabled: !!query.get("keyword") && page.current === 1,
     }
   );
 

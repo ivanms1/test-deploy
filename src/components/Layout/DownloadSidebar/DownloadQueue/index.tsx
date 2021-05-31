@@ -55,10 +55,23 @@ function DownloadQueue() {
   return (
     <div className={styles.DownloadQueue}>
       <p className={styles.Title}>Download Queue</p>
-      <div>
-        {downloads.map((id) => (
-          <DownloadItem key={id} download={state?.downloads?.[id]} />
-        ))}
+      <div className={styles.ListContainer}>
+        {downloads?.length > 0 ? (
+          downloads.map((id) => (
+            <DownloadItem
+              key={id}
+              download={state?.downloads?.[id]}
+              removeItem={(id) => {
+                dispatch({
+                  type: "REMOVE_DOWNLOAD",
+                  payload: id,
+                });
+              }}
+            />
+          ))
+        ) : (
+          <div className={styles.NoDownloads}>Download queue is empty</div>
+        )}
       </div>
     </div>
   );

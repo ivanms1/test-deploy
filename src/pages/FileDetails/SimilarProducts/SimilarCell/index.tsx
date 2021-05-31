@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import Thumbnail from "../../../../components/Thumbnail";
 
@@ -19,12 +18,15 @@ function SimilarCell({ file }: SimProps) {
   const { data: thumbImgSrc } = useGetImage(file.info.thumbnail);
 
   return (
-    <Link to={`/file/${file.id}`}>
-      <div className={styles.SimilarCell}>
-        <Thumbnail imgSrc={thumbImgSrc} className={styles.Thumbnail} />
-        <div className={styles.Text}>{trunc(file.name, 70)}</div>
-      </div>
-    </Link>
+    <div className={styles.SimilarCell}>
+      <Thumbnail
+        imgSrc={thumbImgSrc}
+        className={styles.Thumbnail}
+        link={`/file/${file.id}`}
+        fileForList={file}
+      />
+      <div className={styles.Text}>{trunc(file.name, 70)}</div>
+    </div>
   );
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
 
 import styles from "./Dropzone.module.scss";
 
@@ -10,7 +11,11 @@ interface DropzoneProps extends DropzoneOptions {
   className?: string;
   label?: string;
   withPreview?: boolean;
+  maxSize?: number;
+  rejectMessage?: string;
 }
+
+const defaultReject = "File upload failed: File is too large";
 
 function Dropzone({
   onDrop,
@@ -19,11 +24,20 @@ function Dropzone({
   currentFile,
   withPreview,
   accept,
+  maxSize = null,
+  rejectMessage = defaultReject,
 }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     multiple: false,
     accept,
+    maxSize,
+    onDropRejected: () => {
+      toast.error(rejectMessage, {
+        autoClose: 1500,
+        position: "bottom-center",
+      });
+    },
   });
 
   return (

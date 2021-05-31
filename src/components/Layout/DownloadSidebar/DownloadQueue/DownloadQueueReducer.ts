@@ -40,7 +40,7 @@ const reducer = produce(
 
       case "REMOVE_DOWNLOAD": {
         const newDownloads = draft?.downloads;
-        delete newDownloads[action?.payload];
+        delete newDownloads[ID_LABEL + action?.payload];
         draft.downloads = newDownloads;
         break;
       }

@@ -24,7 +24,12 @@ function Category() {
 
   const query = useUrlQuery();
 
-  const { data: files, fetchNextPage, isLoading, remove } = useInfiniteQuery(
+  const {
+    data: files,
+    fetchNextPage,
+    isLoading,
+    remove,
+  } = useInfiniteQuery(
     ["category", id],
     async ({ pageParam = page.current }) => {
       const formData = new FormData();

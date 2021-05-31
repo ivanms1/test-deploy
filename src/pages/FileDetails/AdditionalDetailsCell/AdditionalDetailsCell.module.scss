@@ -2,4 +2,8 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  flex-basis: 275px;
+  flex-grow: 1;
+  flex-shrink: 1;
 }

@@ -17,12 +17,17 @@ function FileBoxMini({ file }: FileBoxMiniProps) {
   const { data } = useGetImage(file?.info?.thumbnail);
 
   return (
-    <Link className={styles.FileBoxMini} to={`file/${file?.id}`}>
+    <div className={styles.FileBoxMini}>
       <div className={styles.FileImageBox}>
-        <Thumbnail imgSrc={data} className={styles.FileImage} />
+        <Thumbnail
+          imgSrc={data}
+          className={styles.FileImage}
+          link={`file/${file?.id}`}
+          fileForList={file}
+        />
       </div>
       <p className={styles.FileName}>{file.name}</p>
-    </Link>
+    </div>
   );
 }
 

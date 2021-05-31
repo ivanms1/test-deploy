@@ -35,7 +35,7 @@ ipcMain.handle("get-file-preview", async (_, hash) => {
       preview,
     };
   } catch (error) {
-    logger("get-file-preview", error, "error");
+    logger("get-file-preview", error?.message, "error");
     return {
       success: false,
       error: String(error),
@@ -66,7 +66,7 @@ ipcMain.handle("get-file-description", async (_, hash) => {
       description,
     };
   } catch (error) {
-    logger("get-file-description", error, "error");
+    logger("get-file-description", error?.message, "error");
     return {
       success: false,
       error: String(error),
@@ -102,7 +102,7 @@ ipcMain.handle("download-file", async (_, args) => {
       success: true,
     };
   } catch (error) {
-    logger("download-file", error, "error");
+    logger("download-file", error?.message, "error");
 
     return {
       success: false,
@@ -173,6 +173,42 @@ ipcMain.handle("like-content", async (_, args) => {
   }
 });
 
+ipcMain.handle("get-later-list", async () => {
+  try {
+    const laterList = await db.get("savedForLaterList");
+    logger("get-later-list", "Attempting to load saved for later list", "info");
+    return {
+      success: true,
+      list: laterList,
+    };
+  } catch (error) {
+    logger("get-later-list", error.message, "error");
+    return {
+      success: false,
+      list: null,
+    };
+  }
+});
+ipcMain.handle("update-later-list", async (_, newList: any) => {
+  try {
+    const laterList = await db.get("savedForLaterList");
+    logger("update-later-list", "Attempting to update later list", "info");
+
+    const updatedList = await db.put({ ...laterList, list: newList });
+    logger("update-later-list", "List updated", "info");
+    return {
+      success: true,
+      list: updatedList,
+    };
+  } catch (error) {
+    logger("update-later-list", error.message, "error");
+    return {
+      success: false,
+      list: null,
+    };
+  }
+});
+
 ipcMain.handle("get-current-user", async () => {
   try {
     const userDetails = await db.get("userDetailsDrive");
@@ -208,7 +244,7 @@ ipcMain.handle("get-current-user", async () => {
       data,
     };
   } catch (error) {
-    logger("get-current-user", error, "error");
+    logger("get-current-user", error.message, "error");
     return {
       success: false,
       data: null,
@@ -257,5 +293,17 @@ ipcMain.handle("open-file", async (_, path: string) => {
     await shell.openPath(path);
   } catch (error) {
     logger("open-file", error?.message, "error");
+  }
+});
+
+ipcMain.handle("get-peers", async () => {
+  try {
+    const node = getIpfs();
+
+    const peers = await node.swarm.peers();
+
+    return peers;
+  } catch (error) {
+    logger("get-peers", error?.message, "error");
   }
 });

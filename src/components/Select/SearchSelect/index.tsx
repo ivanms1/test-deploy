@@ -1,22 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
-import AsyncCreatableSelect from "react-select/async-creatable";
+import Autosuggest from "react-autosuggest";
+import classNames from "classnames";
 
 import instance from "../../../axios/instance";
 
-import customStyles from "./styles";
+import styles from "./SearchSelect.module.scss";
 
 interface SearchSelectProps {
   isTagSearch?: boolean;
   className: any;
-  onChange: (values: any) => void;
-  formatCreateLabel?: (value: string) => string;
+  onChange: (
+    value: string,
+    method: "type" | "down" | "up" | "escape" | "enter" | "click"
+  ) => void;
   placeholder?: string;
-  allowCreateWhileLoading: boolean;
-  createOptionPosition: string;
+  value: string;
 }
 
-function SearchSelect({ isTagSearch, ...props }: SearchSelectProps) {
+function SearchSelect({
+  isTagSearch,
+  value = "",
+  onChange,
+  placeholder,
+  className,
+}: SearchSelectProps) {
+  const [suggestions, setSuggestions] = useState([]);
+
   const { mutateAsync: search } = useMutation(async (inputValue) => {
     const { data } = await instance.get(
       `/search/content/autocomplete?keyword=${inputValue}`
@@ -31,28 +41,49 @@ function SearchSelect({ isTagSearch, ...props }: SearchSelectProps) {
     return data;
   });
 
-  const promiseOptions = (inputValue) =>
-    new Promise((resolve) => {
-      setTimeout(async () => {
-        let data;
-        if (inputValue) {
-          if (isTagSearch) {
-            data = await searchTags(inputValue);
-          } else {
-            data = await search(inputValue);
-          }
-        }
-        resolve(data?.data?.map((tag) => ({ value: tag, label: tag })) ?? []);
-      }, 100);
-    });
+  const onSuggestionFetchRequested = async ({ value }) => {
+    let data;
+
+    if (value) {
+      if (isTagSearch) {
+        data = await searchTags(value);
+      } else {
+        data = await search(value);
+      }
+
+      setSuggestions(data?.data ?? []);
+    } else {
+      setSuggestions([]);
+    }
+  };
 
   return (
-    <AsyncCreatableSelect
-      cacheOptions
-      defaultOptions
-      styles={customStyles}
-      loadOptions={promiseOptions}
-      {...props}
+    <Autosuggest
+      inputProps={{
+        value,
+        onChange: (e, { newValue, method }) => {
+          onChange(newValue, method);
+        },
+        placeholder,
+      }}
+      theme={{
+        container: classNames(styles.Container, className),
+        input: styles.Input,
+        suggestionsContainerOpen: styles.SuggestionsContainerOpen,
+        suggestionsList: styles.SuggestionsList,
+        suggestion: styles.Suggestion,
+        suggestionHighlighted: styles.SuggestionHighlighted,
+      }}
+      suggestions={suggestions}
+      onSuggestionsFetchRequested={onSuggestionFetchRequested}
+      onSuggestionsClearRequested={() => setSuggestions([])}
+      getSuggestionValue={(s) => s}
+      renderSuggestion={(suggestion) => <div>{suggestion}</div>}
+      onSuggestionSelected={(e, { suggestionValue, method }) => {
+        if (method === "click" || method === "enter") {
+          onChange(suggestionValue, method);
+        }
+      }}
     />
   );
 }

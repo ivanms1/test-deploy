@@ -1,0 +1,60 @@
+.ListItemContainer {
+  align-items: center;
+  display: flex;
+  position: relative;
+
+  &:hover {
+    .DeleteButton {
+      opacity: 1;
+    }
+  }
+
+  & .ListItem {
+    border-bottom: solid 1px var(--bg);
+    width: 85%;
+
+    .Item {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+      width: 100%;
+
+      .DownloadIcon {
+        height: 13px;
+        width: 13px;
+        fill: var(--emerald);
+      }
+    }
+    .ItemButton {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      width: 100%;
+
+      & .Title {
+        max-width: 100px;
+        overflow: hidden;
+        text-align: start;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 85%;
+      }
+    }
+  }
+
+  & .DeleteButton {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    width: 25px;
+    transition: opacity 0.1s linear;
+
+    & .DeleteIcon {
+      width: 12px;
+      height: 12px;
+      fill: var(--dark-grey);
+    }
+  }
+}

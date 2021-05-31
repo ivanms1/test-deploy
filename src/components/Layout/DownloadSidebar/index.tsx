@@ -7,6 +7,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import Tooltip from "../../Tooltip";
 import Button from "../../Button";
 import DownloadQueue from "./DownloadQueue";
+import LaterList from "./LaterList";
 
 import { useAppContext } from "../../AppContext";
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -99,6 +100,7 @@ function FilesSidebar() {
       </ScrollContainer>
 
       <DownloadQueue />
+      <LaterList />
 
       <motion.button
         animate={isDownloadsOpen ? "open" : "closed"}

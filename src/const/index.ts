@@ -7,6 +7,8 @@ export const PROD_DRIVE_SERVER = "https://drivecontentserver.conun.io/api";
 
 export const LOG_SERVER = "http://192.168.100.54:9600/api/v1/log";
 
+export const BOOTSTRAP = "http://3.37.88.192:8080";
+
 export const AUTH_TOKEN = "conun-drive-auth-token";
 
 export const SAVED_SEARCHES = "conun-saved-searches";
