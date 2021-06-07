@@ -1,9 +1,10 @@
 .QRBox {
   align-items: center;
+  background-color: none;
   border-top: 1px solid #e9ebef;
   display: flex;
   justify-content: center;
-  height: 100px;
+  height: 110px;
   width: 100%;
   & .QRCodeImg {
     height: 100px;

@@ -23,7 +23,7 @@ function AdditionalDetailsCell({ file }: DetailsProps) {
       />
       <Description descriptionHash={file?.info.description} />
       <TagsBox tags={file?.tags} />
-      <QRBox publicHash={file?.info.public_hash} />
+      <QRBox publicHash={file?.info.public_hash} title={file?.name} />
     </div>
   );
 }
