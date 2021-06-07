@@ -3,6 +3,7 @@ import React from "react";
 import UserDetails from "./UserDetails";
 import Description from "./Description";
 import TagsBox from "./TagsBox";
+import QRBox from "./QRBox";
 
 import { FileProps } from "../../../types";
 
@@ -22,6 +23,7 @@ function AdditionalDetailsCell({ file }: DetailsProps) {
       />
       <Description descriptionHash={file?.info.description} />
       <TagsBox tags={file?.tags} />
+      <QRBox publicHash={file?.info.public_hash} />
     </div>
   );
 }

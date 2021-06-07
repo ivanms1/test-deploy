@@ -5,49 +5,51 @@
   margin-bottom: 21px;
   flex: 1 1 700px;
 
-  & .Form {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-
-    & .Glass {
-      width: 25px;
-      position: absolute;
-      left: 15px;
-      top: 12px;
-      fill: #64c2d1;
-      z-index: 1;
-    }
-
-    & .SearchBar {
-      background-color: #fff;
-      border-radius: 30px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-      height: 45px;
-      width: 100%;
-      border: none;
-      margin-bottom: 10px;
-      outline: none;
-      padding-left: 50px;
+  & > div {
+    & .Form {
       display: flex;
       align-items: center;
+      position: relative;
+      width: 100%;
 
-      & > input {
-        width: 90%;
+      & .Glass {
+        width: 25px;
+        position: absolute;
+        left: 15px;
+        top: 12px;
+        fill: #64c2d1;
+        z-index: 1;
       }
-    }
 
-    & .CurrentFilterIcon {
-      height: 16px;
-      position: absolute;
-      width: 18px;
-      top: 15px;
-      right: 45px;
+      & .SearchBar {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+        height: 45px;
+        width: 100%;
+        border: none;
+        margin-bottom: 10px;
+        outline: none;
+        padding-left: 50px;
+        display: flex;
+        align-items: center;
+
+        & > input {
+          width: 90%;
+        }
+      }
+
+      & .CurrentFilterIcon {
+        height: 16px;
+        position: absolute;
+        width: 18px;
+        top: 15px;
+        right: 45px;
+      }
     }
   }
 
-  & .SaveButton {
+  .SaveButton {
     background-color: #fff;
     border-radius: 10px;
     max-width: 150px;

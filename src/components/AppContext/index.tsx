@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
@@ -34,6 +35,7 @@ function AppProvider({ children }: AppProviderProps) {
   const [isSavedSearchOpen, setIsSavedSearchOpen] = useState(false);
   const [isManagerConnected, setIsManagerConnected] = useState(false);
   const [isDownloadsOpen, setIsDownloadsOpen] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     api.listenToError((data) => {
@@ -41,6 +43,13 @@ function AppProvider({ children }: AppProviderProps) {
         position: "bottom-center",
         autoClose: 2000,
       });
+    });
+  }, []);
+  useEffect(() => {
+    api.listenToDeepLink((data) => {
+      if (data.targetLink) {
+        history.push(data.targetLink);
+      }
     });
   }, []);
 

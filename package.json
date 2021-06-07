@@ -39,8 +39,24 @@
     "publish": {
       "provider": "github"
     },
+    "protocols": {
+      "name": "conun-drive",
+      "schemes": [
+        "conun-drive"
+      ]
+    },
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "extendInfo": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "conun-drive"
+            ],
+            "CFBundleURLName": "Conun Drive"
+          }
+        ]
+      }
     },
     "win": {
       "target": [
@@ -59,7 +75,13 @@
     },
     "linux": {
       "category": "Utility",
-      "target": "deb"
+      "target": "deb",
+      "mimeTypes": [
+        "x-scheme-handler/conun-drive"
+      ],
+      "desktop": {
+        "exec": "conun-drive %U"
+      }
     },
     "nsis": {
       "oneClick": false,
@@ -99,6 +121,7 @@
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "@svgr/parcel-plugin-svgr": "^5.5.0",
+    "@types/qrcode": "^1.4.0",
     "@types/react-router-dom": "^5.1.7",
     "classnames": "^2.3.1",
     "electron-fetch": "^1.7.3",
@@ -114,6 +137,8 @@
     "libp2p": "^0.30.12",
     "peer-id": "^0.14.8",
     "pouchdb": "^7.2.2",
+    "qrcode": "^1.4.4",
+    "qrcode-reader": "^1.0.4",
     "react": "^17.0.1",
     "react-autosuggest": "^10.1.0",
     "react-avatar-editor": "^11.1.0",

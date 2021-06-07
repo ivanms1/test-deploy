@@ -11,6 +11,7 @@ import { getIpfs } from "../ipfs";
 import db from "../store/db";
 import connectToWS, { client } from "../socket";
 import logger from "../logger";
+import { createQRCode, readQRCode } from "../helpers";
 
 import { DEV_DRIVE_SERVER, PROD_DRIVE_SERVER } from "../const";
 
@@ -309,4 +310,13 @@ ipcMain.handle("get-peers", async () => {
   } catch (error) {
     logger("get-peers", error?.message, "error");
   }
+});
+
+ipcMain.handle("create-qr-code", async (_, args) => {
+  const res = await createQRCode(args);
+  return res;
+});
+ipcMain.handle("read-qr-code", async (_, args) => {
+  const res = await readQRCode(args);
+  return res;
 });

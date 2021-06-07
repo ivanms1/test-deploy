@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router";
+import { toast } from "react-toastify";
 
 import Button from "../../../Button";
 import SaveSearchModal from "./SaveSearchModal";
 import SearchSelect from "../../../Select/SearchSelect";
 import Filters from "./Filters";
+
+import QRDropZone from "./QRDropZone";
+
+import useReadQRCode from "../../../../hooks/useReadQRCode";
 
 import Glass from "../../../../assets/icons/magnifying-glass.svg";
 import Tag from "../../../../assets/icons/tag.svg";
@@ -36,6 +41,7 @@ function SearchBar() {
 
   const history = useHistory();
   const params = useParams<{ keyword: string }>();
+  const { readCode } = useReadQRCode();
 
   const { control, handleSubmit, getValues, watch } = useForm<SearchFormData>({
     defaultValues: { filterBy: params?.keyword ?? "" },
@@ -61,51 +67,61 @@ function SearchBar() {
 
   const currentFilter = filters?.find((f) => f?.value === watchedFilter);
 
+  const handleQRLink = async (drop: File) => {
+    const result = await readCode(drop.path);
+    if (result.success) {
+      history.push(`/${result.qrDecode}`);
+    } else {
+      toast.warn("QR Code Link is invalid");
+    }
+  };
+
   return (
     <div className={styles.SearchBarContainer}>
-      <form onSubmit={handleSubmit(handleSearch)} className={styles.Form}>
-        <Glass className={styles.Glass} />
-        <Controller
-          name="searchString"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <SearchSelect
-              className={styles.SearchBar}
-              onChange={(value, method) => {
-                onChange(value);
-                if (method === "click" || method === "enter") {
-                  handleSearch(getValues());
-                }
-              }}
-              value={value}
-              placeholder="Search..."
-              isTagSearch={watchedFilter === "tags"}
-            />
-          )}
-          rules={{
-            required: true,
-          }}
+      <QRDropZone onDrop={(a) => handleQRLink(a[0])} noClick>
+        <form onSubmit={handleSubmit(handleSearch)} className={styles.Form}>
+          <Glass className={styles.Glass} />
+          <Controller
+            name="searchString"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SearchSelect
+                className={styles.SearchBar}
+                onChange={(value, method) => {
+                  onChange(value);
+                  if (method === "click" || method === "enter") {
+                    handleSearch(getValues());
+                  }
+                }}
+                value={value}
+                placeholder="Search..."
+                isTagSearch={watchedFilter === "tags"}
+              />
+            )}
+            rules={{
+              required: true,
+            }}
+          />
+          <Filters
+            control={control}
+            filters={filters}
+            currentFilter={currentFilter}
+          />
+        </form>
+        <Button
+          type="button"
+          onClick={handleModal}
+          noStyle
+          className={styles.SaveButton}
+        >
+          Save this search
+        </Button>
+        <SaveSearchModal
+          isOpen={!!searchToSave}
+          search={searchToSave}
+          onClose={() => setSearchToSave(null)}
         />
-        <Filters
-          control={control}
-          filters={filters}
-          currentFilter={currentFilter}
-        />
-      </form>
-
-      <Button
-        type="button"
-        onClick={handleModal}
-        noStyle
-        className={styles.SaveButton}
-      >
-        Save this search
-      </Button>
-      <SaveSearchModal
-        isOpen={!!searchToSave}
-        search={searchToSave}
-        onClose={() => setSearchToSave(null)}
-      />
+      </QRDropZone>
     </div>
   );
 }

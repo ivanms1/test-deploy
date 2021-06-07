@@ -1,0 +1,15 @@
+.ListButton {
+  align-items: center;
+  background-color: white;
+  border-radius: 2px;
+  display: flex;
+  height: 22px;
+  justify-content: center;
+  width: 22px;
+
+  & .Icon {
+    fill: black;
+    height: 12px;
+    width: 12px;
+  }
+}

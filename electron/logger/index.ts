@@ -1,5 +1,4 @@
 import { app } from "electron";
-import { join } from "path";
 import { createLogger, format, transports } from "winston";
 
 import isDev from "electron-is-dev";
