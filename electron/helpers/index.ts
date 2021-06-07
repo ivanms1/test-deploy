@@ -24,7 +24,7 @@ async function getFileIDfromPHash(argv: string) {
       `user ID not present. Not logged in?`,
       "info"
     );
-    return "file/NO_USER";
+    return "/file/NO_USER";
   }
 
   logger(

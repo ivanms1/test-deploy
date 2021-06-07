@@ -70,7 +70,7 @@ function SearchBar() {
   const handleQRLink = async (drop: File) => {
     const result = await readCode(drop.path);
     if (result.success) {
-      history.push(`/${result.qrDecode}`);
+      history.push(result.qrDecode);
     } else {
       toast.warn("QR Code Link is invalid");
     }
