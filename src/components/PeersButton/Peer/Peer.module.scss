@@ -1,0 +1,15 @@
+.Peer {
+  display: flex;
+  align-items: center;
+
+  & .FlagContainer {
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+
+    & .Flag {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Button from "../../../../Button";
+import Tooltip from "../../../../Tooltip";
 
 import useDownloadFile from "../../../../../hooks/useDownloadFile";
+import { useAppContext } from "../../../../AppContext";
 
 import { FileProps } from "../../../../../types";
 
@@ -25,6 +27,7 @@ interface Props {
 }
 
 function ListItem({ file, handleDelete }: Props) {
+  const { isManagerConnected } = useAppContext();
   const { downloadFile } = useDownloadFile();
 
   const handleDownload = async () => {
@@ -58,16 +61,31 @@ function ListItem({ file, handleDelete }: Props) {
               <p className={styles.Title}>{file.name}</p>
             </Button>
           </Link>
-          <Button
-            noStyle
-            className={styles.DownloadButton}
-            onClick={() => {
-              handleDownload();
-              handleDelete();
-            }}
-          >
-            <DownloadIcon className={styles.DownloadIcon} />
-          </Button>
+          {isManagerConnected ? (
+            <Button
+              type="button"
+              noStyle
+              className={styles.DownloadButton}
+              onClick={() => {
+                handleDownload();
+                handleDelete();
+              }}
+            >
+              <DownloadIcon className={styles.DownloadIcon} />
+            </Button>
+          ) : (
+            <Tooltip id="download-button">
+              <Button
+                noStyle
+                className={styles.DownloadButton}
+                type="button"
+                data-for="download-button"
+                data-tip="Connect to Conun manager in order to download"
+              >
+                <DownloadIcon className={styles.DownloadIcon} />
+              </Button>
+            </Tooltip>
+          )}
         </div>
       </div>
 

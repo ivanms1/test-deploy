@@ -31,7 +31,9 @@ function DownloadIcon({ download }: { download: Download }) {
     return <CheckmarkIcon className={styles.CancelledIcon} />;
   }
   return (
-    <span>{download.percentage && `${download.percentage.toFixed()}%`}</span>
+    <span>
+      {download.percentage && `${download?.percentage?.toFixed() ?? 0}%`}
+    </span>
   );
 }
 
@@ -40,7 +42,7 @@ function ProgressBar({ download }: { download: Download }) {
     <div className={styles.ProgressBar}>
       <span
         className={styles.Progress}
-        style={{ width: `${download.percentage || "0"}%` }}
+        style={{ width: `${download?.percentage || "0"}%` }}
       ></span>
     </div>
   );

@@ -90,7 +90,7 @@ function TopSection() {
       )}
       <SearchBar />
       <div className={styles.ActionsBar}>
-        <PeersButton className={styles.Peers} />
+        <PeersButton />
         <Link className={styles.ActionButtonAdd} to="/">
           <HomeIcon className={styles.Icon} />
         </Link>

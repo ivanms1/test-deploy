@@ -38,37 +38,12 @@
       }
     }
 
-    & .SettingsIcon {
+    & .CurrentFilterIcon {
       height: 16px;
       position: absolute;
       width: 18px;
       top: 15px;
-      right: 20px;
-    }
-
-    .FiltersPopper {
-      background-color: #fff;
-      padding: 20px 35px;
-      display: flex;
-      flex-direction: column;
-      border-radius: 3px;
-      box-shadow: var(--box-shadow-1);
-
-      & .Title {
-        margin-bottom: 12px;
-      }
-
-      & .FiltersContainer {
-        & > :not(:last-child) {
-          margin-bottom: 16px;
-        }
-      }
-
-      & .ApplyButton {
-        font-size: 14px;
-        max-width: 70px;
-        margin: 0 auto;
-      }
+      right: 45px;
     }
   }
 
@@ -79,14 +54,5 @@
     color: var(--dark-grey);
     font-size: 11px;
     padding: 3px 15px;
-  }
-}
-
-.Label {
-  display: flex;
-  width: fit-content;
-  & .Icon {
-    width: 15px;
-    margin-right: 5px;
   }
 }

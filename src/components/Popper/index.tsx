@@ -13,12 +13,14 @@ interface PopperProps {
   manager: React.ReactNode;
   modifiers?: unknown[];
   placement?: Placement;
+  onClick?: () => void;
 }
 
 function Popper({
   children,
   manager,
   modifiers = [],
+  onClick,
   placement = "top",
 }: PopperProps) {
   const [isVisible, setisVisible] = useState(false);
@@ -40,7 +42,13 @@ function Popper({
         type="button"
         ref={referenceRef}
         className={customStyles.Button}
-        onClick={() => setisVisible(!isVisible)}
+        onClick={() => {
+          if (onClick) {
+            onClick();
+          }
+
+          setisVisible(!isVisible);
+        }}
       >
         {manager}
       </button>

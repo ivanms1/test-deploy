@@ -17,8 +17,6 @@ import { FileProps } from "../../../types";
 
 import styles from "./MainCell.module.scss";
 
-const { api } = window;
-
 interface MainCellProps {
   file: FileProps;
 }

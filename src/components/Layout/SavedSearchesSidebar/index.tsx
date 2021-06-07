@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import SavedSearchFiles from "./SavedSearchFiles";
 import OutsideClickHandler from "../../OutsideClickHandler";
 import Button from "../../Button";
-import PeersButton from "../../PeersButton";
 
 import { useAppContext } from "../../AppContext";
 
@@ -46,7 +45,6 @@ function SavedSearchSidebar() {
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
         <div className={styles.ActionsBar}>
-          <PeersButton className={styles.PeersButton} />
           <Link className={styles.ActionButtonAdd} to="/">
             <HomeIcon className={styles.Icon} />
           </Link>
