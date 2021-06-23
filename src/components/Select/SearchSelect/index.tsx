@@ -3,9 +3,9 @@ import { useMutation } from "react-query";
 import Autosuggest from "react-autosuggest";
 import classNames from "classnames";
 
-import instance from "../../../axios/instance";
-
 import styles from "./SearchSelect.module.scss";
+
+const { api } = window;
 
 interface SearchSelectProps {
   isTagSearch?: boolean;
@@ -28,16 +28,12 @@ function SearchSelect({
   const [suggestions, setSuggestions] = useState([]);
 
   const { mutateAsync: search } = useMutation(async (inputValue) => {
-    const { data } = await instance.get(
-      `/search/content/autocomplete?keyword=${inputValue}`
-    );
+    const { data } = await api.searchContentAutocomplete(inputValue);
     return data;
   });
 
   const { mutateAsync: searchTags } = useMutation(async (inputValue) => {
-    const { data } = await instance.get(
-      `/search/tag/autocomplete?tag=${inputValue}`
-    );
+    const { data } = await api.getTagsAutocomplete(inputValue);
     return data;
   });
 

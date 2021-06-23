@@ -3,22 +3,22 @@
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
-  height: calc(596px - 25px);
+  height: calc(100vh - 150px);
   justify-content: center;
   padding: 30px;
   position: relative;
 }
 
 .BackButton {
+  left: 21px;
   position: absolute;
   top: 21px;
-  left: 21px;
 }
 
 .FileBox {
-  height: 210px;
-  margin-top: 10px;
   flex: 1 1 400px;
+  height: 210px;
+  margin-top: 20px;
 
   & .Header {
     display: flex;
@@ -33,19 +33,22 @@
       font-size: 12px;
     }
   }
+
+  &.Solo {
+    margin-top: 5%;
+  }
 }
 
 .Icon {
-  width: 13px;
-  height: 11px;
   fill: var(--grey-button-color);
+  height: 11px;
+  width: 13px;
 }
 
 .Layout {
-  height: calc(596px - 30px);
-
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 200px);
   width: 100%;
 }
 

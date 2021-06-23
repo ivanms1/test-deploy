@@ -1,8 +1,47 @@
 .Container {
+  align-items: center;
   display: flex;
   flex-direction: column;
+  height: 50px;
   justify-content: center;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+.Form {
   align-items: center;
   cursor: pointer;
+  display: flex;
+  position: relative;
   width: 100%;
+
+  & .QRIcon {
+    fill: var(--dark-grey);
+    left: 14px;
+    position: absolute;
+    top: -319px;
+    width: 25px;
+    z-index: 1;
+  }
+
+  & .DropHere {
+    align-items: center;
+    background-color: rgb(196, 255, 188);
+    border-radius: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    color: var(--dark-grey);
+    display: flex;
+    font-size: 16px;
+    height: 45px;
+    margin-bottom: 10px;
+    outline: none;
+    padding-left: 50px;
+    width: 100%;
+
+    & > input {
+      width: 90%;
+    }
+  }
 }

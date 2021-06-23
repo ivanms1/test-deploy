@@ -1,7 +1,7 @@
 .SimilarProducts {
+  flex: 0 0 250px;
   padding: 10px 0;
   width: 250px;
-  flex: 0 0 250px;
 
   & .Title {
     font-size: 18px;
@@ -13,7 +13,7 @@
   display: grid;
   gap: 15px;
   grid-template-columns: 1fr;
-  height: 430px;
+  height: calc(100vh - 280px);
   margin-top: 23px;
   overflow-y: auto;
   width: 100%;

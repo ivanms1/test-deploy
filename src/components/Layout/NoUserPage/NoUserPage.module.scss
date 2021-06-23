@@ -1,0 +1,21 @@
+.NoUserPage {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+
+  & .Logo {
+    height: 100px;
+  }
+
+  & .Title {
+    font-size: 26px;
+  }
+
+  & .Message {
+    font-size: 17px;
+  }
+}

@@ -2,6 +2,9 @@ import { app, BrowserWindow, shell } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 
 import { prepareDb } from "./store/db";
 import { createIpfs } from "./ipfs";
@@ -12,8 +15,10 @@ import { getURLFromArgv } from "./helpers";
 
 import "./ipcMain";
 import "./ipcMain/app";
+import "./ipcMain/server";
 
 const loadURL = serve({ directory: "dist/parcel-build" });
+
 const PROTOCOL_PREFIX = "conun-drive://";
 
 const APP_HEIGHT = process.platform === "win32" ? 746 : 720;
@@ -31,19 +36,19 @@ const createWindow = async (): Promise<void> => {
     mainWindow = new BrowserWindow({
       height: APP_HEIGHT,
       width: 1280,
+      minHeight: APP_HEIGHT,
+      minWidth: 1080,
       title: "Conun Drive",
       webPreferences: {
         nodeIntegration: false,
         preload: path.resolve(__dirname, "preload.js"),
-        webSecurity: false,
       },
-      resizable: false,
     });
 
     mainWindow.removeMenu();
-    mainWindow.setResizable(false);
 
     if (isDev) {
+      await installExtension(REACT_DEVELOPER_TOOLS);
       await mainWindow.loadURL("http://localhost:1235");
       mainWindow.webContents.openDevTools({ mode: "detach" });
     } else {

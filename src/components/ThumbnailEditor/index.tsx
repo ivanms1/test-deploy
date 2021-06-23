@@ -5,8 +5,6 @@ import Button from "../Button";
 
 import styles from "./ThumbnailEditor.module.scss";
 
-const { api } = window;
-
 interface EditorProps {
   origImage: string;
   boxHeight: number;

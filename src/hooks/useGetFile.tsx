@@ -1,12 +1,14 @@
 import { useQuery } from "react-query";
-import instance from "../axios/instance";
+
 import { NO_BAD_FILE, NO_USER } from "../const";
+
+const { api } = window;
 
 function useGetFile(id) {
   const { data, isLoading } = useQuery(
     [id, "get-file"],
     async () => {
-      const { data } = await instance.get(`/content/${id}`);
+      const { data } = await api.getFile(id);
       return data;
     },
     {

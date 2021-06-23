@@ -1,16 +1,15 @@
 .DownloadSidebar {
+  align-items: center;
   background-color: #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 205px;
-  height: calc(100vh - 29px - 32px);
-  z-index: 1000;
   display: flex;
   flex-direction: column;
-
-  align-items: center;
+  height: calc(100vh - 29px - 32px);
+  left: 0;
   padding: 16px 0;
+  position: absolute;
+  top: 0;
+  width: 205px;
+  z-index: 1000;
 
   & .LogoSection {
     display: flex;
@@ -18,9 +17,9 @@
     margin-bottom: 18px;
 
     & .ConunLogo {
-      transform: translateX(-5px);
       height: 35px;
       margin: 5px 0;
+      transform: translateX(-5px);
     }
 
     & .ManagerButton {
@@ -34,9 +33,9 @@
       padding: 10px 5px;
 
       & .DotIcon {
-        width: 10px;
-        margin-right: 5px;
         fill: var(--ui-red);
+        margin-right: 5px;
+        width: 10px;
 
         &.online {
           fill: var(--ui-green);
@@ -46,29 +45,30 @@
   }
 
   & .UserPicture {
-    height: 45px;
-    width: 45px;
     border-radius: 50%;
-    margin-bottom: 24px;
+    height: 45px;
     height: 64px;
+    margin-bottom: 24px;
+    width: 45px;
     width: 64px;
 
     & .Picture {
+      border-radius: 50%;
       height: 100%;
       width: 100%;
-      border-radius: 50%;
     }
   }
 
   .WalletAddressContainer {
     display: flex;
-    width: 70%;
     margin-bottom: 30px;
+    width: 70%;
 
     & .WalletAddress {
-      border: none;
       background: transparent;
+      border: none;
       cursor: pointer;
+
       &:hover {
         color: var(--dark-grey);
       }
@@ -76,20 +76,20 @@
   }
 
   & .ArrowButton {
-    position: absolute;
-    right: 5px;
-    top: 50%;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 50%;
 
     &:focus {
       outline: none;
     }
 
     & .Arrow {
-      height: 15px;
       fill: var(--grey-button-color);
+      height: 15px;
     }
   }
 }

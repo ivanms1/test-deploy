@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router";
+import { motion } from "framer-motion";
 
 import Button from "../../components/Button";
 import CategorySelect from "../../components/Select/CategorySelect";
@@ -15,6 +16,8 @@ import TypeSelect from "../../components/Select/TypeSelect";
 import SubmitButton from "./SubmitButton";
 
 import getFileExtension from "../../helpers/getFileExtension";
+
+import { mainPageAnimation } from "../../anim";
 
 import LeftArrow from "../../assets/icons/left-arrow.svg";
 
@@ -76,7 +79,13 @@ function FileUpload() {
   };
 
   return (
-    <div className={styles.FileUpload}>
+    <motion.div
+      className={styles.FileUpload}
+      variants={mainPageAnimation}
+      initial="exit"
+      animate="enter"
+      exit="exit"
+    >
       <Button
         noStyle
         onClick={() => history.goBack()}
@@ -240,7 +249,7 @@ function FileUpload() {
         </div>
         <SubmitButton reset={reset} />
       </form>
-    </div>
+    </motion.div>
   );
 }
 

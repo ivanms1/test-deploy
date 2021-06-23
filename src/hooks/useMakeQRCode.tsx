@@ -6,7 +6,7 @@ function useMakeQRCode(filePublicHash) {
   const { data } = useQuery(
     "get-qr-code-from-file-url",
     () => api.createQRCode(`conun-drive://${filePublicHash}`),
-    {}
+    { refetchOnMount: "always" }
   );
 
   return data;

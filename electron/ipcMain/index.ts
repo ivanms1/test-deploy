@@ -234,11 +234,17 @@ ipcMain.handle("get-current-user", async () => {
 
     logger("get-current-user", `current user has id ${data?.id}`, "info");
 
-    await db.put({
-      ...userDriveDetails,
-      userId: data.id,
-      walletId: data?.wallet_id,
-    });
+    if (userDriveDetails?.userId !== data?.id) {
+      logger(
+        "get-current-user",
+        `updating current user id ${data?.id}`,
+        "info"
+      );
+      await db.put({
+        ...userDriveDetails,
+        userId: data.id,
+      });
+    }
 
     return {
       success: true,
@@ -257,7 +263,7 @@ ipcMain.handle("upload-avatar", async (_, path) => {
   try {
     const node = getIpfs();
 
-    logger("upload-avatar", `uploading avatar with path ${path}`, "info");
+    logger("upload-avatar", `uploading avatar`, "info");
 
     const bufferizedPath = Buffer.from(path.split(",")[1], "base64");
     const preview = await Jimp.read(bufferizedPath);

@@ -5,18 +5,17 @@ import FilesHorizontalViewer from "../../FilesHorizontalViewer";
 
 import { useAppContext } from "../../AppContext";
 
-import instance from "../../../axios/instance";
+const { api } = window;
 
 function SavedSearchFiles({ search }) {
   const { isSavedSearchOpen } = useAppContext();
   const { data } = useQuery(
     ["saved-search", search?.keyword, search?.filter],
     async () => {
-      const { data } = await instance(
-        `/search/content?keyword=${search?.keyword ?? ""}&filter=${
-          search?.filter ?? ""
-        }`
-      );
+      const { data } = await api.searchContent({
+        keyword: search?.keyword ?? "",
+        filter: search?.filter ?? "",
+      });
       return data;
     },
     {

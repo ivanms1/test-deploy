@@ -1,10 +1,10 @@
 import React from "react";
 import { useQuery } from "react-query";
-import Select, { OptionTypeBase } from "react-select";
-
-import instance from "../../../axios/instance";
+import Select from "react-select";
 
 import customStyles from "../styles";
+
+const { api } = window;
 
 interface CategorySelectProps {
   value: any;
@@ -13,7 +13,7 @@ interface CategorySelectProps {
 
 function CategorySelect({ ...props }: CategorySelectProps) {
   const { data } = useQuery("get-all-categories", async () => {
-    const { data } = await instance.get("/cate/get_all");
+    const { data } = await api.getCategories();
     return data;
   });
 

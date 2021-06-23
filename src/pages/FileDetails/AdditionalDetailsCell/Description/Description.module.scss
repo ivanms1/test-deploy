@@ -1,8 +1,8 @@
 .ItemDescription {
   box-sizing: border-box;
-  width: 100%;
-  position: relative;
   margin: 22px;
+  position: relative;
+  width: 100%;
 }
 
 .BoxTitle {
@@ -12,12 +12,12 @@
 }
 
 .DescriptionText {
-  padding: 0 0 20px 0;
   color: #333;
   font-size: 14px;
   line-height: 18px;
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
+  padding: 0 0 20px 0;
   width: 100%;
 }

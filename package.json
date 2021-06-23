@@ -12,7 +12,9 @@
     "electron": "wait-on tcp:1235 && tsc && yarn copy-assets && electron .",
     "make": "yarn build && tsc && yarn copy-assets && electron-builder",
     "release": "yarn build && electron-builder --publish=always",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
   },
   "keywords": [
     "conun",
@@ -26,7 +28,7 @@
     "email": "ivanms1@conun.co.kr"
   },
   "license": "MIT",
-  "copyright": "Copyright 2020 by CONUN GROUP",
+  "copyright": "Copyright 2021 by CONUN GROUP",
   "build": {
     "files": [
       "dist/**/*",
@@ -109,12 +111,21 @@
     "copyfiles": "^2.4.1",
     "electron": "^12.0.1",
     "electron-builder": "^22.10.5",
+    "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-react": "^7.22.0",
+    "husky": "^6.0.0",
+    "lint-staged": ">=10",
     "parcel-bundler": "1.12.3",
     "postcss-modules": "3.2.2",
+    "prettier": "2.3.1",
     "sass": "^1.32.8",
+    "stylelint": "^13.13.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-prettier": "^1.2.0",
     "typescript": "^4.2.3",
     "wait-on": "^5.2.1"
   },
@@ -129,6 +140,7 @@
     "electron-serve": "^1.1.0",
     "electron-updater": "^4.3.8",
     "file-saver": "^2.0.5",
+    "form-data": "^4.0.0",
     "framer-motion": "^4.1.8",
     "immer": "^9.0.2",
     "ipfs-core": "^0.5.4",
@@ -158,5 +170,17 @@
     "uint8arrays": "^2.1.4",
     "websocket": "^1.0.34",
     "winston": "^3.3.3"
+  },
+  "lint-staged": {
+    "*.{json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write",
+      "./node_modules/.bin/eslint --fix"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix"
+    ]
   }
 }

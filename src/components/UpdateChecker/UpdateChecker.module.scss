@@ -1,16 +1,16 @@
 .Container {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   height: 100vh;
+  justify-content: center;
   width: 100vw;
 
   & .Text {
     font-size: 2rem;
 
     & a {
-      font-size: 2rem;
       color: var(--primary);
+      font-size: 2rem;
     }
   }
 }

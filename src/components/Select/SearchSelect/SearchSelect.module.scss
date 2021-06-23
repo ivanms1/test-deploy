@@ -5,28 +5,29 @@
 .Input {
   border: none;
   box-shadow: none;
+
   &:focus {
     outline: none;
   }
 }
 
 .SuggestionsContainerOpen {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   display: block;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
   position: absolute;
   top: 51px;
   width: 85%;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-  font-family: Helvetica, sans-serif;
-  font-weight: 300;
   z-index: 2;
 }
 
 .SuggestionsList {
+  list-style-type: none;
   margin: 0;
   padding: 0;
-  list-style-type: none;
 }
 
 .Suggestion {
@@ -35,5 +36,5 @@
 }
 
 .SuggestionHighlighted {
-  background-color: #ddd;
+  background-color: var(--dull-grey);
 }

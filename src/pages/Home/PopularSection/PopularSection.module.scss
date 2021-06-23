@@ -1,7 +1,7 @@
 .PopularSection {
-  overflow-y: auto;
-  height: 580px;
+  height: calc(100vh - 150px);
   -ms-overflow-style: none;
+  overflow-y: auto;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {

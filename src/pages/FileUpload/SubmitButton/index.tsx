@@ -6,7 +6,6 @@ import Tooltip from "../../../components/Tooltip";
 import { useAppContext } from "../../../components/AppContext";
 
 import styles from "./SubmitButton.module.scss";
-import { toast } from "react-toastify";
 
 const { api } = window;
 

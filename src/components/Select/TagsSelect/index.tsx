@@ -2,9 +2,9 @@ import React from "react";
 import { useMutation } from "react-query";
 import AsyncCreatableSelect from "react-select/async-creatable";
 
-import instance from "../../../axios/instance";
-
 import customStyles from "../styles";
+
+const { api } = window;
 
 interface TagsSelectProps {
   value: unknown[];
@@ -17,9 +17,8 @@ interface TagsSelectProps {
 
 function TagsSelect({ ...props }: TagsSelectProps) {
   const { mutateAsync: search } = useMutation(async (inputValue) => {
-    const { data } = await instance.get(
-      `/search/tag/autocomplete?tag=${inputValue}`
-    );
+    const { data } = await api.getTagsAutocomplete(inputValue);
+
     return data;
   });
 

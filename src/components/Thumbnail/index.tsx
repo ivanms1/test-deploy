@@ -36,11 +36,13 @@ function Thumbnail({ imgSrc, className, fileForList, link }: Props) {
   }
   return (
     <div className={classNames(className, styles.NoImage, styles.Container)}>
-      No peers available
-      <div className={styles.HoverButton}>
-        {fileForList && <AddToListButton file={fileForList} />}
-        <ShareButton fileID={fileForList?.info.public_hash} />
-      </div>
+      <Link to={link} className={styles.Link}>
+        No peers available
+        <div className={styles.HoverButton}>
+          {fileForList && <AddToListButton file={fileForList} />}
+          <ShareButton fileID={fileForList?.info.public_hash} />
+        </div>
+      </Link>
     </div>
   );
 }

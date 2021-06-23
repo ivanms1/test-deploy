@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
 import Button from "../../../../Button";
-import Tooltip from "../../../../Tooltip";
 
 import useDownloadFile from "../../../../../hooks/useDownloadFile";
 import { useAppContext } from "../../../../AppContext";
@@ -14,6 +14,7 @@ import DownloadIcon from "../../../../../assets/icons/download.svg";
 import CloseIcon from "../../../../../assets/icons/close.svg";
 
 import styles from "./ListItem.module.scss";
+import classNames from "classnames";
 
 type Download = {
   name: string;
@@ -53,7 +54,12 @@ function ListItem({ file, handleDelete }: Props) {
   };
 
   return (
-    <div className={styles.ListItemContainer}>
+    <motion.div
+      className={styles.ListItemContainer}
+      initial={{ x: "-100%" }}
+      animate={{ x: "0" }}
+      transition={{ ease: "easeIn" }}
+    >
       <div className={styles.ListItem}>
         <div className={styles.Item}>
           <Link to={`/file/${file.id}`}>
@@ -74,17 +80,21 @@ function ListItem({ file, handleDelete }: Props) {
               <DownloadIcon className={styles.DownloadIcon} />
             </Button>
           ) : (
-            <Tooltip id="download-button">
-              <Button
-                noStyle
-                className={styles.DownloadButton}
-                type="button"
-                data-for="download-button"
-                data-tip="Connect to Conun manager in order to download"
-              >
-                <DownloadIcon className={styles.DownloadIcon} />
-              </Button>
-            </Tooltip>
+            <Button
+              noStyle
+              className={styles.DownloadButton}
+              type="button"
+              onClick={() =>
+                toast.warning("Connect to Conun manager in order to download", {
+                  autoClose: 1500,
+                  position: "bottom-center",
+                })
+              }
+            >
+              <DownloadIcon
+                className={classNames(styles.DownloadIcon, styles.noManager)}
+              />
+            </Button>
           )}
         </div>
       </div>
@@ -92,7 +102,7 @@ function ListItem({ file, handleDelete }: Props) {
       <Button className={styles.DeleteButton} noStyle onClick={handleDelete}>
         <CloseIcon className={styles.DeleteIcon} />
       </Button>
-    </div>
+    </motion.div>
   );
 }
 

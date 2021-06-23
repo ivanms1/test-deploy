@@ -5,6 +5,7 @@ import DownloadItem from "./DownloadItem";
 import reducer from "./DownloadQueueReducer";
 
 import styles from "./DownloadQueue.module.scss";
+import { AnimatePresence } from "framer-motion";
 
 const { api } = window;
 
@@ -56,22 +57,24 @@ function DownloadQueue() {
     <div className={styles.DownloadQueue}>
       <p className={styles.Title}>Download Queue</p>
       <div className={styles.ListContainer}>
-        {downloads?.length > 0 ? (
-          downloads.map((id) => (
-            <DownloadItem
-              key={id}
-              download={state?.downloads?.[id]}
-              removeItem={(id) => {
-                dispatch({
-                  type: "REMOVE_DOWNLOAD",
-                  payload: id,
-                });
-              }}
-            />
-          ))
-        ) : (
-          <div className={styles.NoDownloads}>Download queue is empty</div>
-        )}
+        <AnimatePresence>
+          {downloads?.length > 0 ? (
+            downloads.map((id) => (
+              <DownloadItem
+                key={id}
+                download={state?.downloads?.[id]}
+                removeItem={(id) => {
+                  dispatch({
+                    type: "REMOVE_DOWNLOAD",
+                    payload: id,
+                  });
+                }}
+              />
+            ))
+          ) : (
+            <div className={styles.NoDownloads}>Download queue is empty</div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

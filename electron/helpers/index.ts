@@ -32,6 +32,7 @@ async function getFileIDfromPHash(argv: string) {
     `Found current user with id ${userDetails?.userId}`,
     "info"
   );
+
   const res = await fetch(
     `${SERVER_URL}/search/content?keyword=${publicHash}&filter=cid`,
     {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Button from "../../../Button";
@@ -11,6 +11,7 @@ import Filters from "./Filters";
 import QRDropZone from "./QRDropZone";
 
 import useReadQRCode from "../../../../hooks/useReadQRCode";
+import useUrlQuery from "../../../../hooks/useUrlQuery";
 
 import Glass from "../../../../assets/icons/magnifying-glass.svg";
 import Tag from "../../../../assets/icons/tag.svg";
@@ -40,12 +41,26 @@ function SearchBar() {
   const [searchToSave, setSearchToSave] = useState(null);
 
   const history = useHistory();
-  const params = useParams<{ keyword: string }>();
   const { readCode } = useReadQRCode();
 
-  const { control, handleSubmit, getValues, watch } = useForm<SearchFormData>({
-    defaultValues: { filterBy: params?.keyword ?? "" },
-  });
+  const queryParams = useUrlQuery();
+  const keywordQuery = queryParams.get("keyword");
+  const tagQuery = queryParams.get("filter");
+
+  const { control, handleSubmit, getValues, watch, reset } =
+    useForm<SearchFormData>({
+      defaultValues: {
+        filterBy: tagQuery || "",
+        searchString: keywordQuery || "",
+      },
+    });
+
+  useEffect(() => {
+    reset({
+      filterBy: tagQuery || "",
+      searchString: keywordQuery || "",
+    });
+  }, [keywordQuery, tagQuery]);
 
   const handleSearch: SubmitHandler<SearchFormData> = async (values) => {
     history.push(
@@ -108,20 +123,20 @@ function SearchBar() {
             currentFilter={currentFilter}
           />
         </form>
-        <Button
-          type="button"
-          onClick={handleModal}
-          noStyle
-          className={styles.SaveButton}
-        >
-          Save this search
-        </Button>
-        <SaveSearchModal
-          isOpen={!!searchToSave}
-          search={searchToSave}
-          onClose={() => setSearchToSave(null)}
-        />
       </QRDropZone>
+      <Button
+        type="button"
+        onClick={handleModal}
+        noStyle
+        className={styles.SaveButton}
+      >
+        Save this search
+      </Button>
+      <SaveSearchModal
+        isOpen={!!searchToSave}
+        search={searchToSave}
+        onClose={() => setSearchToSave(null)}
+      />
     </div>
   );
 }

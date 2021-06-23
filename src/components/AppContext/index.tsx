@@ -9,16 +9,14 @@ import React, {
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { UserType } from "../../types";
+
 import useCurrentUser from "../../hooks/useCurrentUser";
 
 const { api } = window;
 
 type State = {
-  currentUser: {
-    id: string;
-    wallet_id: string;
-    avatar: string;
-  };
+  currentUser: UserType;
   isSavedSearchOpen: boolean;
   handleSavedSearchBar: (state: boolean) => void;
   isManagerConnected: boolean;

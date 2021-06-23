@@ -1,18 +1,16 @@
 import { useQuery } from "react-query";
-import instance from "../axios/instance";
+
+const { api } = window;
 
 function useGetUploads({ authorID, limit }) {
   const { data, isLoading } = useQuery(
     ["uploads", authorID],
     async () => {
-      const formData = new FormData();
-      formData.append("user_id", authorID);
-      formData.append("order_by", "date");
-      formData.append("limit", limit);
-      const { data } = await instance.post(
-        "/content/get-contents-by",
-        formData
-      );
+      const { data } = await api.getContentBy([
+        { name: "user_id", value: authorID },
+        { name: "order_by", value: "date" },
+        { name: "limit", value: limit },
+      ]);
       return data.data;
     },
     {

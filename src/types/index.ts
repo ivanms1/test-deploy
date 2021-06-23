@@ -25,3 +25,9 @@ export interface FileProps {
     wallet_id: string;
   };
 }
+
+export interface UserType {
+  avatar: string;
+  id: number;
+  wallet_id: string;
+}

@@ -19,7 +19,7 @@ export async function prepareDb() {
   } catch {
     const newUserDetails: any = {
       _id: "userDetailsDrive",
-      walletId: null,
+      walletAddress: null,
       userId: null,
       isIpfsFileNew: false,
     };

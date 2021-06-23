@@ -1,7 +1,8 @@
 import React from "react";
 
-import Button from "../../../../Button";
+import { motion } from "framer-motion";
 
+import Button from "../../../../Button";
 import CheckmarkIcon from "../../../../../assets/icons/checkmark.svg";
 import CloseIcon from "../../../../../assets/icons/close.svg";
 
@@ -56,7 +57,12 @@ function DownloadItem({ download, removeItem }: DownloadItemProps) {
   };
 
   return (
-    <div className={styles.DownloadItemContainer}>
+    <motion.div
+      className={styles.DownloadItemContainer}
+      initial={{ x: "-100%" }}
+      animate={{ x: "0" }}
+      transition={{ ease: "easeIn" }}
+    >
       <div className={styles.DownloadItem}>
         <Button className={styles.Download} onClick={openFile} noStyle>
           <p className={styles.Title}>{download.name}</p>
@@ -73,7 +79,7 @@ function DownloadItem({ download, removeItem }: DownloadItemProps) {
       >
         <CloseIcon className={styles.DeleteIcon} />
       </Button>
-    </div>
+    </motion.div>
   );
 }
 

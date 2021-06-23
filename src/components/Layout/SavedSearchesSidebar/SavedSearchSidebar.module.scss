@@ -1,73 +1,71 @@
 .Sidebar {
   background-color: #fff;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 276px;
-  height: 100vh;
-  z-index: 1000;
   box-shadow: var(--box-shadow-1);
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 276px;
+  z-index: 1000;
 
   & .ActionsBar {
     display: flex;
-    margin-right: 0;
-    margin-left: auto;
-    padding-top: 16px;
-    padding-right: 18px;
     margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: 0;
+    padding-right: 18px;
+    padding-top: 16px;
 
     & :not(:last-child) {
       margin-right: 7px;
     }
 
     & .ActionButtonAdd {
-      display: flex;
-      justify-content: center;
       align-items: center;
-      border-radius: 50%;
-      width: 24px;
       background-color: var(--bg);
       border: 0.5px solid var(--grey-button-color);
+      border-radius: 50%;
+      box-shadow: inset 0 -4px 4px rgba(0, 0, 0, 0.05), inset 0 4px 4px #fff;
       color: var(--grey-button-color);
-      box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.05),
-        inset 0px 4px 4px #ffffff;
+      display: flex;
       height: 24px;
+      justify-content: center;
+      width: 24px;
 
       & .Icon {
-        height: 15px;
         fill: var(--grey-button-color);
+        height: 15px;
       }
     }
 
     & .ActionButton {
-      display: flex;
       align-items: center;
       border-radius: 4px;
+      display: flex;
       height: 24px;
-      width: fit-content;
       padding: 12.5px 6px;
+      width: fit-content;
 
       & .Icon {
-        height: 18px;
         fill: var(--grey-button-color);
+        height: 18px;
       }
     }
   }
 
   & .Title {
     font-size: 18px;
+    font-weight: 500;
     margin-bottom: 26px;
     padding: 0 32px;
-
-    font-weight: 500;
   }
 
   & .SavedSearchesContainer {
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 
     & > :not(:last-child) {
       margin-bottom: 60px;
@@ -75,17 +73,17 @@
 
     & .Search {
       & .SearchHeader {
-        background-color: #e9ebef;
-        padding: 0 20px;
-        margin-bottom: 10px;
-        display: flex;
         align-items: center;
+        background-color: #e9ebef;
+        display: flex;
         justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 0 20px;
 
         & .GlassIcon {
-          margin-right: 2px;
-          height: 9px;
           fill: var(--dark-grey);
+          height: 9px;
+          margin-right: 2px;
         }
 
         & .SearchTitle {
@@ -95,6 +93,7 @@
 
         & .RemoveButton {
           height: 18px;
+
           & .RemoveIcon {
             height: 18px;
           }

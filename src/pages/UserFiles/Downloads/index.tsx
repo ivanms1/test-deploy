@@ -1,21 +1,26 @@
 import React, { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
-import { useHistory, useParams } from "react-router";
+import { useHistory } from "react-router";
 import { Waypoint } from "react-waypoint";
+import { motion } from "framer-motion";
 
 import Button from "../../../components/Button";
 import Cell from "../Cell";
 import Spinner from "../../../components/Spinner";
 
-import instance from "../../../axios/instance";
+import useCurrentUser from "../../../hooks/useCurrentUser";
+
+import BackIcon from "../../../assets/icons/back.svg";
 
 import { FileProps } from "../../../types";
 
-import styles from "./Downloads.module.scss";
-import BackIcon from "../../../assets/icons/back.svg";
-import useCurrentUser from "../../../hooks/useCurrentUser";
+import { mainPageAnimation } from "../../../anim";
 
-const PAGE_LIMIT = 10;
+import styles from "./Downloads.module.scss";
+
+const { api } = window;
+
+const PAGE_LIMIT = 18;
 
 function BackButton() {
   const history = useHistory();
@@ -41,9 +46,11 @@ function Downloads() {
   } = useInfiniteQuery(
     ["user_downloads", currentUser?.id],
     async ({ pageParam = page.current }) => {
-      const { data } = await instance.get(
-        `/content/downloaded-by?page=${pageParam}`
-      );
+      const { data } = await api.getDownloads({
+        page: pageParam,
+        limit: PAGE_LIMIT,
+      });
+
       total.current = data?.data?.total;
       page.current = page?.current + 1;
       return data.data;
@@ -60,10 +67,15 @@ function Downloads() {
       refetchOnReconnect: "always",
     }
   );
-  //End of hook
 
   return (
-    <div className={styles.Background}>
+    <motion.div
+      className={styles.Background}
+      variants={mainPageAnimation}
+      initial="exit"
+      animate="enter"
+      exit="exit"
+    >
       <BackButton />
       <div className={styles.Layout}>
         <div className={styles.Title}>Downloads</div>
@@ -88,7 +100,7 @@ function Downloads() {
           <Spinner />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 

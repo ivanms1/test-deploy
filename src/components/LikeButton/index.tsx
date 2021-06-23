@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Button from "../Button";
 import Tooltip from "../Tooltip";
 
 import useLikeContent from "../../hooks/useLikeContent";
-import useCurrentUser from "../../hooks/useCurrentUser";
 import { useAppContext } from "../AppContext";
 
 import { FileProps } from "../../types";
@@ -17,8 +16,6 @@ import styles from "./LikeButton.module.scss";
 interface Props {
   file: FileProps;
 }
-
-const { api } = window;
 
 function LikeButton({ file }: Props) {
   const [isLiked, setLiked] = useState(file?.is_liked);

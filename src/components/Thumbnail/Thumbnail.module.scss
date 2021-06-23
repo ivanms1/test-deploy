@@ -1,19 +1,20 @@
 .Container {
   position: relative;
 }
+
+.HoverButton {
+  display: none;
+}
+
 .Container:hover {
   .HoverButton {
     display: flex;
     flex-direction: column;
     gap: 5px;
     position: absolute;
-    top: 3%;
     right: 3%;
+    top: 3%;
   }
-}
-
-.HoverButton {
-  display: none;
 }
 
 .Image {
@@ -24,11 +25,16 @@
 }
 
 .NoImage {
-  align-items: center;
+  background-color: #ddd !important;
+  background-image: none !important;
   border-radius: 3px 3px 0 0;
+}
+
+.Link {
+  align-items: center;
   box-sizing: border-box;
   display: flex;
+  height: 100%;
   justify-content: center;
-  background-image: none !important;
-  background-color: #eee !important;
+  width: 100%;
 }

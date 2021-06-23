@@ -1,39 +1,40 @@
 .Container {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  border: 1.5px dashed #2f8bdf;
-  padding: 12px;
   background: #e0edfa;
+  border: 1.5px dashed #2f8bdf;
   border-radius: 4px;
-  max-width: 314px;
   color: #2f8bdf;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  max-width: 314px;
+  padding: 12px;
 
   & .Preview {
-    width: 100%;
     height: 100%;
     object-fit: cover;
+    width: 100%;
   }
 
   &:focus {
     outline: none;
   }
 
-  &.hasFile {
-    border: 1px solid #2f8bdf;
-    & .Label {
-      color: #2f8bdf;
-    }
-  }
-
   & .Label {
     color: #2f8bdf;
     font-size: 12px;
-    text-align: center;
-    width: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  &.hasFile {
+    border: 1px solid #2f8bdf;
+
+    & .Label {
+      color: #2f8bdf;
+    }
   }
 }

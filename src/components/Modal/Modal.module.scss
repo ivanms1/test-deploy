@@ -26,16 +26,16 @@
 }
 
 .Modal {
-  overflow: hidden;
   background-color: #fff;
   border: 0;
+  border: 1px solid var(--primary-color);
   font-size: 16px;
   left: 50%;
   max-height: calc(100vh - 100px);
+  outline: 0;
+  overflow: hidden;
   position: absolute;
   top: 50%;
-  border: 1px solid var(--primary-color);
-  outline: 0px;
   transform: translate(-50%, -50%);
   transition: all 0.5s ease-in-out;
 
@@ -45,8 +45,6 @@
 }
 
 .Title {
-  padding: 15px 40px;
-  border-style: solid;
   border-image: linear-gradient(
     to right,
     #f3f6fa 0%,
@@ -54,30 +52,38 @@
     #d5dae9 80%,
     #f3f6fa 100%
   );
-  border-image-width: 0px 0px 2px 0px;
   border-image-slice: 1;
+  border-image-width: 0 0 2px 0;
+  border-style: solid;
   font-size: 20px;
   font-weight: bold;
-  text-transform: uppercase;
+  padding: 15px 40px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .Close {
-  position: absolute;
-  display: flex;
-  right: 14px;
-  top: 14px;
-  width: 36px;
-  height: 36px;
+  align-items: center;
   background-color: #fff;
   border: 2px solid #dbe5f1;
   border-radius: 50%;
   box-sizing: border-box;
   color: #fff;
-  justify-content: center;
-  align-items: center;
-  transition: 0.2s;
   cursor: pointer;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  transition: 0.2s;
+  width: 36px;
+
+  & > svg {
+    fill: #bed0e4;
+    height: 16px;
+    width: 16px;
+  }
 
   &:hover {
     background-color: #645df6;
@@ -88,20 +94,14 @@
       fill: #fff;
     }
   }
-
-  & > svg {
-    width: 16px;
-    height: 16px;
-    fill: #bed0e4;
-  }
 }
 
 .Content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  font-size: 16px;
   min-height: 200px;
   padding: 1rem;
-  font-size: 16px;
-  box-sizing: border-box;
+  width: 100%;
 }

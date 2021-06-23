@@ -3,49 +3,52 @@
   border-radius: 5px;
   box-sizing: border-box;
   display: flex;
-  height: calc(596px - 30px);
+  height: calc(100vh - 150px);
   justify-content: center;
   padding: 30px;
   position: relative;
 }
 
 .BackButton {
+  left: 21px;
   position: absolute;
   top: 21px;
-  left: 21px;
 }
 
 .Icon {
-  width: 13px;
-  height: 11px;
   fill: var(--grey-button-color);
+  height: 11px;
+  width: 13px;
 }
 
 .Layout {
-  height: calc(596px - 30px);
+  box-sizing: border-box;
   display: flex;
+  flex: 1 1 700px;
   flex-direction: column;
-
-  width: 700px;
+  height: calc(100vh - 220px);
+  margin: 20px;
+  max-width: 1200px;
 
   & .Title {
+    align-self: flex-start;
     font-size: 20px;
   }
 
   & .ResultsTable {
     display: flex;
-    height: calc(76px * 6);
-    overflow-y: auto;
     flex-direction: column;
+    height: calc(100vh - 250px);
     margin: 29px;
+    overflow-y: auto;
   }
 }
 
 .NoResults {
   color: var(--grey-button-color);
   font-size: 16px;
-  text-align: center;
   margin-top: 50px;
+  text-align: center;
 }
 
 .Spinner {

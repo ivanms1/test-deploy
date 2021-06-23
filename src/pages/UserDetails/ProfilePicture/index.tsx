@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import classNames from "classnames";
 import { useMutation } from "react-query";
 
 import Modal from "../../../components/Modal";
@@ -9,8 +8,6 @@ import ProPic from "./ProPic";
 import useGetImage from "../../../hooks/useGetImage";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import { useAppContext } from "../../../components/AppContext";
-
-import instance from "../../../axios/instance";
 
 import NoAvatar from "../../../assets/icons/no-avatar.svg";
 
@@ -33,9 +30,9 @@ function ProfilePicture({
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const { mutateAsync: uploadAvatar } = useMutation(async (hash: string) => {
-    const formData = new FormData();
-    formData.append("avatar", hash);
-    const { data } = await instance.put(`/user/${currentUser?.id}`, formData);
+    const { data } = await api.updateUser([
+      { name: "avatar", value: hash },
+    ]);
     return data;
   });
 

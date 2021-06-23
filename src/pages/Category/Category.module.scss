@@ -1,12 +1,12 @@
 .Category {
-  overflow-y: auto;
+  height: calc(100vh - 200px);
   overflow-x: hidden;
-  height: 580px;
+  overflow-y: auto;
 
   & .Title {
     font-size: 18px;
-    margin-bottom: 10px;
     font-weight: bold;
+    margin-bottom: 10px;
     text-transform: capitalize;
   }
 
@@ -15,12 +15,19 @@
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
     justify-items: center;
+
+    & .Cell {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 225px;
+    }
   }
 
   & .NoResults {
     color: var(--grey-button-color);
     font-size: 16px;
-    text-align: center;
     margin-top: 50px;
+    text-align: center;
   }
 }

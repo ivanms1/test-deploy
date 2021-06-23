@@ -1,13 +1,13 @@
 .LaterList {
-  width: 73%;
   height: 30vh;
+  width: 73%;
 
   & .ListContainer {
-    height: 25vh;
-    overflow-y: auto;
-    overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    height: 25vh;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   & .Title {

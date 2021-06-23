@@ -3,6 +3,20 @@
   display: flex;
   position: relative;
 
+  & .DeleteButton {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    transition: opacity 0.1s linear;
+    width: 25px;
+
+    & .DeleteIcon {
+      fill: var(--dark-grey);
+      height: 12px;
+      width: 12px;
+    }
+  }
+
   &:hover {
     .DeleteButton {
       opacity: 1;
@@ -21,15 +35,20 @@
       width: 100%;
 
       .DownloadIcon {
+        fill: var(--emerald);
         height: 13px;
         width: 13px;
-        fill: var(--emerald);
+
+        &.noManager {
+          fill: var(--grey-button-color);
+        }
       }
     }
+
     .ItemButton {
+      align-items: center;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       padding: 5px 0;
       width: 100%;
 
@@ -39,22 +58,8 @@
         text-align: start;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: 85%;
+        width: 100%;
       }
-    }
-  }
-
-  & .DeleteButton {
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    width: 25px;
-    transition: opacity 0.1s linear;
-
-    & .DeleteIcon {
-      width: 12px;
-      height: 12px;
-      fill: var(--dark-grey);
     }
   }
 }

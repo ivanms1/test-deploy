@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
 
-import instance from "../axios/instance";
+const { api } = window;
 
 interface UseGetContentByProps {
-  formData: FormData;
+  formData: unknown[];
   id: string | unknown[];
 }
 
@@ -11,10 +11,7 @@ function useGetContentBy({ formData, id }: UseGetContentByProps) {
   const { data, isLoading } = useQuery(
     id,
     async () => {
-      const { data } = await instance.post(
-        "/content/get-contents-by",
-        formData
-      );
+      const { data } = await api.getContentBy(formData);
 
       return data;
     },

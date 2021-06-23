@@ -1,40 +1,54 @@
 .SearchBarContainer {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-bottom: 21px;
+  display: flex;
   flex: 1 1 700px;
+  flex-direction: column;
+  margin-bottom: 21px;
+
+  & .QRZone {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    justify-content: center;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+  }
 
   & > div {
     & .Form {
-      display: flex;
       align-items: center;
+      cursor: pointer;
+      display: flex;
       position: relative;
       width: 100%;
 
       & .Glass {
-        width: 25px;
-        position: absolute;
-        left: 15px;
-        top: 12px;
         fill: #64c2d1;
+        left: 15px;
+        position: absolute;
+        top: 12px;
+        width: 25px;
         z-index: 1;
       }
 
       & .SearchBar {
+        align-items: center;
         background-color: #fff;
-        border-radius: 30px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-        height: 45px;
-        width: 100%;
         border: none;
+        border-radius: 30px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        display: flex;
+        height: 45px;
         margin-bottom: 10px;
         outline: none;
         padding-left: 50px;
-        display: flex;
-        align-items: center;
+        width: 100%;
 
         & > input {
+          height: 45px;
           width: 90%;
         }
       }
@@ -42,9 +56,9 @@
       & .CurrentFilterIcon {
         height: 16px;
         position: absolute;
-        width: 18px;
-        top: 15px;
         right: 45px;
+        top: 15px;
+        width: 18px;
       }
     }
   }
@@ -52,9 +66,9 @@
   .SaveButton {
     background-color: #fff;
     border-radius: 10px;
-    max-width: 150px;
     color: var(--dark-grey);
     font-size: 11px;
+    max-width: 150px;
     padding: 3px 15px;
   }
 }

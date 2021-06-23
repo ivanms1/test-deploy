@@ -10,12 +10,11 @@ interface CategoryProps {
 }
 
 function Category({ categoryId }: CategoryProps) {
-  const formData = new FormData();
-  formData.append("category_id", categoryId);
-  formData.append("order_by", "rate");
-
   const { files, isLoading } = useGetContentBy({
-    formData,
+    formData: [
+      { name: "category_id", value: categoryId },
+      { name: "order", value: "rate" },
+    ],
     id: ["files", categoryId],
   });
 

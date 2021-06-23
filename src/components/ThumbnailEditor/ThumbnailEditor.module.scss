@@ -4,9 +4,9 @@
 }
 
 .Controls {
-  margin: 5px;
   display: grid;
   grid-template-columns: 60px 1fr;
+  margin: 5px;
 }
 
 .HiddenInput {
@@ -14,5 +14,5 @@
 }
 
 .Button {
-  margin:10px 0;
+  margin: 10px 0;
 }

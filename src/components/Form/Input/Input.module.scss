@@ -7,24 +7,24 @@
     border-radius: 20px;
   }
 
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   & .Input {
     background: var(--bg);
-    box-sizing: border-box;
     border: none;
-    padding: 3px 10px;
+    box-sizing: border-box;
     display: block;
     line-height: 1.5em;
-    width: 100%;
     min-height: 25px;
+    padding: 3px 10px;
+    width: 100%;
 
     &:focus {
       outline: none;
-    }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
     }
   }
 

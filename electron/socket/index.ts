@@ -71,10 +71,18 @@ function connectToWS() {
             `receiving user details: ${data?.walletAddress}`,
             "info"
           );
-          await db.put({
-            ...userDetails,
-            walletAddress: data?.walletAddress,
-          });
+
+          if (data?.walletAddress !== userDetails.walletAddress) {
+            logger(
+              "receiving-user-details",
+              `updating wallet address: ${data?.walletAddress}`,
+              "info"
+            );
+            await db.put({
+              ...userDetails,
+              walletAddress: data?.walletAddress,
+            });
+          }
 
           if (!data?.managerVersion.startsWith(MANAGER_CURRENT_VERSION)) {
             mainWindow.webContents.send("update-manager");

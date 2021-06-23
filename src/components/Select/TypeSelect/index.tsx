@@ -2,9 +2,9 @@ import React from "react";
 import { useQuery } from "react-query";
 import Select from "react-select";
 
-import instance from "../../../axios/instance";
-
 import customStyles from "../styles";
+
+const { api } = window;
 
 interface TypeSelectProps {
   value: any;
@@ -13,7 +13,7 @@ interface TypeSelectProps {
 
 function TypeSelect({ ...props }: TypeSelectProps) {
   const { data } = useQuery("get-all-types", async () => {
-    const { data } = await instance.get("/content_type/get_all");
+    const { data } = await api.getContentTypes();
     return data;
   });
 

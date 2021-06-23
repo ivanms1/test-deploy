@@ -1,18 +1,22 @@
 import React from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import classnames from "classnames";
+import { motion } from "framer-motion";
 
 import Button from "../../components/Button";
 import ProfileText from "./ProfileText";
 import ProfilePicture from "./ProfilePicture";
 import FilesHorizontalViewer from "../../components/FilesHorizontalViewer";
 
-import useGetUploads from "../../hooks/useGetUploads";
+import useCurrentUser from "../../hooks/useCurrentUser";
 import useGetDownloads from "../../hooks/useGetDownloads";
+import useGetUploads from "../../hooks/useGetUploads";
 
 import BackIcon from "../../assets/icons/back.svg";
 
+import { filePageAnimation } from "../../anim";
+
 import styles from "./UserDetails.module.scss";
-import useCurrentUser from "../../hooks/useCurrentUser";
 
 const LIMIT = "10";
 
@@ -47,14 +51,20 @@ function UserDetails() {
     limit: LIMIT,
   });
   return (
-    <div className={styles.Background}>
+    <motion.div
+      className={styles.Background}
+      variants={filePageAnimation}
+      initial="exit"
+      animate="enter"
+      exit="exit"
+    >
       <BackButton />
       <div className={styles.Layout}>
         <div className={styles.UserInfo}>
           <ProfilePicture avatar={avatar} isSelf={isSelf} />
           <ProfileText authorID={authorID} walletHash={walletHash} />
         </div>
-        <div className={styles.FileBox}>
+        <div className={classnames(styles.FileBox, { [styles.Solo]: !isSelf })}>
           <div className={styles.Header}>
             <span className={styles.Title}>
               {isSelf ? "My Uploads" : "This User's Uploads"}
@@ -95,7 +105,7 @@ function UserDetails() {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

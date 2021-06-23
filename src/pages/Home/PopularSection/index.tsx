@@ -1,16 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 
 import Category from "./Category";
 
-import instance from "../../../axios/instance";
+import { catAnimation } from "../../../anim";
 
 import styles from "./PopularSection.module.scss";
 
+const { api } = window;
+
 function PopularSection() {
   const { data } = useQuery("get-all-categories", async () => {
-    const { data } = await instance.get("/cate/get_all");
+    const { data } = await api.getCategories();
 
     return data;
   });
@@ -18,18 +21,22 @@ function PopularSection() {
   return (
     <div className={styles.PopularSection}>
       {data?.data?.map((category) => (
-        <div key={category.id} className={styles.Section}>
+        <motion.div
+          key={category.id}
+          className={styles.Section}
+          variants={catAnimation}
+        >
           <p className={styles.Title}>
             Popular in{" "}
             <Link
               className={styles.CategoryLink}
-              to={`/category/${category.id}?name=${category.name}`}
+              to={`/category/${category?.id}?name=${category?.name}`}
             >
               {category?.name}
             </Link>
           </p>
           <Category categoryId={category.id} />
-        </div>
+        </motion.div>
       ))}
     </div>
   );

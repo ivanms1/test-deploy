@@ -1,15 +1,13 @@
 import { useQuery } from "react-query";
-import instance from "../axios/instance";
+
+const { api } = window;
 
 function useGetSimilar(contentID) {
   const { data, isLoading } = useQuery(
-    ["similarProducts", contentID],
+    ["similar-products", contentID],
     async () => {
-      // Not sending limit - using default (10)
-      // Possible to add offset too, for scrolling
-      const { data } = await instance.get(
-        `/content/similar-contents/${contentID}`
-      );
+      const { data } = await api.getSimilarContent(contentID);
+
       return data.data;
     },
     {

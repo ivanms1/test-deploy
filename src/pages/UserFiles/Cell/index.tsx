@@ -12,8 +12,6 @@ import DownloadIcon from "../../../assets/icons/download.svg";
 
 import styles from "./Cell.module.scss";
 
-const { api } = window;
-
 interface CellProps {
   file: FileProps;
 }

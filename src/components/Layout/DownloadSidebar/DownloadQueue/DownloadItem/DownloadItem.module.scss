@@ -1,7 +1,22 @@
 .DownloadItemContainer {
-  display: flex;
   align-items: center;
+  display: flex;
   position: relative;
+
+  & .DeleteButton {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 6px;
+    transition: opacity 0.1s linear;
+    width: 25px;
+
+    & .DeleteIcon {
+      fill: var(--dark-grey);
+      height: 12px;
+      width: 12px;
+    }
+  }
 
   &:hover {
     .DeleteButton {
@@ -13,19 +28,19 @@
     width: 85%;
 
     .Download {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
       border-bottom: solid 1px var(--bg);
+      display: flex;
+      justify-content: space-between;
       padding: 5px 0;
       width: 100%;
 
       & .Title {
-        white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
-        width: 85%;
         text-align: start;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 85%;
       }
 
       & .Loading {
@@ -35,21 +50,22 @@
       }
 
       & .CheckmarkIcon {
-        height: 13px;
-        width: 13px;
         fill: var(--emerald);
-      }
-      & .CancelledIcon {
         height: 13px;
         width: 13px;
+      }
+
+      & .CancelledIcon {
         fill: var(--ui-red);
+        height: 13px;
+        width: 13px;
       }
     }
 
     & .ProgressBar {
       height: 3px;
-      width: 100%;
       position: relative;
+      width: 100%;
 
       & .Progress {
         background-color: var(--emerald);
@@ -58,21 +74,6 @@
         position: absolute;
         z-index: 5;
       }
-    }
-  }
-
-  & .DeleteButton {
-    position: absolute;
-    opacity: 0;
-    right: 0;
-    width: 25px;
-    top: 6px;
-    transition: opacity 0.1s linear;
-
-    & .DeleteIcon {
-      width: 12px;
-      height: 12px;
-      fill: var(--dark-grey);
     }
   }
 }
