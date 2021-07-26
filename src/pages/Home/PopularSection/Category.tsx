@@ -2,6 +2,7 @@ import React from "react";
 
 import FilesHorizontalViewer from "../../../components/FilesHorizontalViewer";
 import Spinner from "../../../components/Spinner";
+import EmptyCategory from "./EmptyCategory";
 
 import useGetContentBy from "../../../hooks/useGetContentBy";
 
@@ -20,6 +21,10 @@ function Category({ categoryId }: CategoryProps) {
 
   if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!files?.length) {
+    return <EmptyCategory />;
   }
 
   return <FilesHorizontalViewer files={files} />;

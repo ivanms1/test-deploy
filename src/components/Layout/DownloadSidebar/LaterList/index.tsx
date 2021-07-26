@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 import ListItem from "./ListItem";
 
@@ -20,7 +20,7 @@ function LaterList() {
 
   return (
     <div className={styles.LaterList}>
-      <p className={styles.Title}>Saved for later</p>
+      <p className={styles.Title}>Saved For Later</p>
       <div className={styles.ListContainer}>
         <AnimatePresence>
           {list?.length > 0 ? (
@@ -32,7 +32,7 @@ function LaterList() {
               />
             ))
           ) : (
-            <div className={styles.NoItems}>List Is Empty</div>
+            <div className={styles.NoItems}>List is empty</div>
           )}
         </AnimatePresence>
       </div>
