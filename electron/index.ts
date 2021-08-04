@@ -141,6 +141,11 @@ if (!singleInstanceLock) {
   app.quit();
 } else {
   app.on("second-instance", (_, argv) => {
+    if (!mainWindow) {
+      createWindow();
+    } else {
+      mainWindow.restore();
+    }
     logger("Push to file:", `Instance lock triggered`, "info");
     if (argv.length > 1) {
       // Only try this if there is an argv (might be redundant)
