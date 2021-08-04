@@ -22,9 +22,10 @@ const APP_HEIGHT = process.platform === "win32" ? 746 : 720;
 
 export let mainWindow: BrowserWindow | null = null;
 
+let tray = null;
+
 connectToWS();
 
-let tray = null;
 function createTray() {
   const icon = path.join(__dirname, "/assets/icon.png"); // required.
   const trayicon = nativeImage.createFromPath(icon);
@@ -33,19 +34,18 @@ function createTray() {
     {
       label: "Open Drive",
       click: () => {
+        /* eslint-disable */
         if (!mainWindow) {
-          /* eslint-disable */
           createWindow();
-          /* eslint-disable */
         } else {
-          mainWindow.focus();
+          mainWindow.restore();
         }
       },
     },
     {
       label: "Quit",
       click: () => {
-        app.quit();
+        app.quit(); // actually quit the app.
       },
     },
   ]);
