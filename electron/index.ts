@@ -22,7 +22,7 @@ const APP_HEIGHT = process.platform === "win32" ? 746 : 720;
 
 export let mainWindow: BrowserWindow | null = null;
 
-let tray = null;
+let tray: Tray | null = null;
 
 connectToWS();
 
@@ -49,6 +49,15 @@ function createTray() {
       },
     },
   ]);
+
+  tray.on("click", () => {
+    /* eslint-disable */
+    if (!mainWindow) {
+      createWindow();
+    } else {
+      mainWindow.restore();
+    }
+  });
 
   tray.setContextMenu(contextMenu);
 }
