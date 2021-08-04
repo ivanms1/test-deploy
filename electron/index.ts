@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from "electron";
+import { app, BrowserWindow, shell, nativeImage, Menu, Tray } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
 import serve from "electron-serve";
@@ -24,11 +24,44 @@ export let mainWindow: BrowserWindow | null = null;
 
 connectToWS();
 
+let tray = null;
+function createTray() {
+  const icon = path.join(__dirname, "/assets/icon.png"); // required.
+  const trayicon = nativeImage.createFromPath(icon);
+  tray = new Tray(trayicon.resize({ width: 24 }));
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Open Drive",
+      click: () => {
+        if (!mainWindow) {
+          /* eslint-disable */
+          createWindow();
+          /* eslint-disable */
+        } else {
+          mainWindow.focus();
+        }
+      },
+    },
+    {
+      label: "Quit",
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(contextMenu);
+}
+
 const createWindow = async (): Promise<void> => {
   try {
     await prepareDb();
 
     await createIpfs();
+
+    if (!tray) {
+      createTray();
+    }
 
     mainWindow = new BrowserWindow({
       height: APP_HEIGHT,
@@ -84,15 +117,18 @@ const createWindow = async (): Promise<void> => {
 };
 
 const singleInstanceLock = app.requestSingleInstanceLock();
+
 app.on("ready", () => {
   createWindow();
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
+  mainWindow = null;
+  if (process.platform === "darwin") {
+    app.dock.hide();
   }
 });
+
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
@@ -105,7 +141,7 @@ if (!singleInstanceLock) {
   app.quit();
 } else {
   app.on("second-instance", (_, argv) => {
-    logger("Push to file:", `Instance lock triggered`, "error");
+    logger("Push to file:", `Instance lock triggered`, "info");
     if (argv.length > 1) {
       // Only try this if there is an argv (might be redundant)
 
