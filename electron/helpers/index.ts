@@ -61,7 +61,7 @@ async function getFileIDfromPHash(argv: string) {
 export async function getURLFromArgv(argv) {
   try {
     const res = await getFileIDfromPHash(argv);
-    logger("Push to file:", `Direct link to file - SUCCESS: ${argv}`, "error");
+    logger("Push to file:", `Direct link to file - SUCCESS: ${argv}`, "info");
     return res;
   } catch {
     logger("Push to file:", `Direct link to file - FAILED: ${argv}`, "error");
