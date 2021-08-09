@@ -27,7 +27,7 @@ let tray: Tray | null = null;
 connectToWS();
 
 function createTray() {
-  const icon = path.join(__dirname, "/assets/icon.png"); // required.
+  const icon = path.join(__dirname, "/assets/icon.png");
   const trayicon = nativeImage.createFromPath(icon);
   tray = new Tray(trayicon.resize({ width: 24 }));
   const contextMenu = Menu.buildFromTemplate([
@@ -45,7 +45,7 @@ function createTray() {
     {
       label: "Quit",
       click: () => {
-        app.quit(); // actually quit the app.
+        app.quit();
       },
     },
   ]);
